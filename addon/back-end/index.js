@@ -3,7 +3,6 @@ const express = require("express");
 const https = require("https");
 const officeDevCerts = require("office-addin-dev-certs");
 const path = require("path");
-const serveStatic = require('serve-static')
 
 const start = async () => {
   const app = express();
@@ -13,6 +12,7 @@ const start = async () => {
   // dev only
   await officeDevCerts.ensureCertificatesAreInstalled();
   const ssl = await officeDevCerts.getHttpsServerOptions();
+  // dev only
 
   const server = await https.createServer(
     {
