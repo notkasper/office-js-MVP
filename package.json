@@ -6,7 +6,8 @@
   "scripts": {
     "dialog-dev": "cd dialogs && npm run dev",
     "addon-dev": "cd addon && npm run dev",
-    "dev": "concurrently \"npm run dialog-dev\" \"npm run addon-dev\""
+    "dev": "concurrently \"npm run dialog-dev\" \"npm run addon-dev\"",
+    "iall": "npm i && cd addon && npm i && cd ../dialogs && npm i"
   },
   "author": "",
   "license": "ISC",
