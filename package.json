@@ -1,0 +1,16 @@
+{
+  "name": "office-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dialog-dev": "cd dialogs && npm run dev",
+    "addon-dev": "cd addon && npm run dev",
+    "dev": "concurrently \"npm run dialog-dev\" \"npm run addon-dev\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^4.1.2"
+  }
+}
