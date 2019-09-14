@@ -5,6 +5,7 @@ import applicationStore from "../stores/application";
 import DialogButton from "./DialogButton";
 import ApiTest from "./ApiTest";
 import StoreTest from "./StoreTest";
+import ImageTest from "./ImageTest";
 
 const stores = {
   application: applicationStore
@@ -17,6 +18,7 @@ const App = class App extends React.Component {
         <DialogButton />
         <ApiTest />
         <StoreTest />
+        <ImageTest />
       </Provider>
     );
   }
