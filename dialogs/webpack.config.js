@@ -64,6 +64,7 @@ const config = {
     }
   },
   devServer: {
+    historyApiFallback: true,
     port: 8081,
     proxy: {
       "/api/**": {

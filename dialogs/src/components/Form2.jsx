@@ -15,15 +15,7 @@ class Form extends React.Component {
   render() {
     return (
       <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
-        <Stack horizontal tokens={{ childrenGap: 5, padding: 5 }}>
-          <TextField label="Test veld" />
-          <TextField label="Test veld" />
-        </Stack>
-        <Stack horizontal tokens={{ childrenGap: 5, padding: 5 }}>
-          <TextField label="Test veld" />
-          <TextField label="Test veld" />
-          <TextField label="Test veld" />
-        </Stack>
+        <Text>Form 2</Text>
         <Stack horizontal tokens={{ childrenGap: 5, padding: 5 }}>
           <TextField label="Test veld" />
           <TextField label="Test veld" />
