@@ -4,8 +4,7 @@ const fs = require("fs");
 (async () => {
   await officeDevCerts.ensureCertificatesAreInstalled();
   const ssl = await officeDevCerts.getHttpsServerOptions();
-  key = ssl.key.toString();
-  cert = ssl.cert.toString();
-  fs.writeFileSync("./key.txt", key);
-  fs.writeFileSync("./cert.txt", cert);
+  const { key, cert } = ssl;
+  fs.writeFileSync("./key.txt", key.toString());
+  fs.writeFileSync("./cert.txt", cert.toString());
 })();
