@@ -2,19 +2,19 @@ import React from "react";
 import { inject, observer } from "mobx-react";
 import { PrimaryButton, Text, Stack } from "office-ui-fabric-react";
 
-@inject("application")
+@inject("addonStore")
 @observer
 export default class Header extends React.Component {
   render() {
-    const { application } = this.props;
+    const { addonStore } = this.props;
     return (
       <Stack vertical>
         <Text>Counter using a mobx store</Text>
         <Stack horizontal>
-          <PrimaryButton onClick={application.incrementCounter}>
+          <PrimaryButton onClick={addonStore.incrementCounter}>
             Click me!
           </PrimaryButton>
-          <Text>{application.counter}</Text>
+          <Text>{addonStore.counter}</Text>
         </Stack>
       </Stack>
     );
