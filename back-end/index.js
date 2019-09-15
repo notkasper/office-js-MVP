@@ -2,7 +2,7 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const https = require("https");
 const path = require("path");
-const { getSslCert, getSslKey } = require("../../utils");
+const { getSslCert, getSslKey } = require("../utils");
 
 const start = async () => {
   const app = express();

@@ -2,7 +2,7 @@ const webpack = require("webpack");
 const path = require("path");
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { getSslCert, getSslKey } = require("../utils");
+const { getSslCert, getSslKey } = require("./utils");
 
 const config = {
   entry: "./front-end/index.js",
@@ -64,6 +64,7 @@ const config = {
     }
   },
   devServer: {
+    historyApiFallback: true,
     port: 8080,
     https: {
       key: getSslKey(),
