@@ -2,12 +2,12 @@ import React from "react";
 import { hot } from "react-hot-loader/root";
 import { Provider } from "mobx-react";
 import { BrowserRouter, Route } from "react-router-dom";
-import applicationStore from "../stores/application";
-import DialogButton from "./DialogButton";
-import ApiTest from "./ApiTest";
-import StoreTest from "./StoreTest";
-import ImageTest from "./ImageTest";
-import Form1 from "./dialogs/Form1";
+import applicationStore from "./stores/application";
+import DialogButton from "./components/DialogButton";
+import ApiTest from "./components/ApiTest";
+import StoreTest from "./components/StoreTest";
+import ImageTest from "./components/ImageTest";
+import Form1 from "./components/dialogs/Form1";
 
 const stores = {
   application: applicationStore
