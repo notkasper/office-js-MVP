@@ -2,7 +2,7 @@ const webpack = require("webpack");
 const path = require("path");
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const fs = require("fs");
+const { getSslCert, getSslKey } = require("../utils");
 
 const config = {
   entry: "./front-end/index.js",
@@ -48,7 +48,7 @@ const config = {
   plugins: [
     new LodashModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      template: "./index.html",
+      template: "./index.html"
     })
   ],
   optimization: {
@@ -65,12 +65,16 @@ const config = {
   },
   devServer: {
     port: 8080,
+    https: {
+      key: getSslKey(),
+      cert: getSslCert()
+    },
     proxy: {
       "/api/**": {
         target: "https://localhost:3000/",
         pathRewrite: { "^/api": "" },
         secure: false,
-        logLevel: "debug",
+        logLevel: "debug"
       }
     }
   }

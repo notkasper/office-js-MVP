@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"webpack-dev-server --mode development --hot --https\" \"nodemon ./back-end\""
+    "dev": "concurrently \"webpack-dev-server --mode development --hot\" \"nodemon ./back-end\""
   },
   "keywords": [],
   "author": "",
@@ -32,7 +32,6 @@
     "html-webpack-template": "^6.2.0",
     "jest": "^23.6.0",
     "lodash-webpack-plugin": "^0.11.5",
-    "office-addin-dev-certs": "^1.4.8",
     "react-hot-loader": "^4.12.11",
     "regenerator-runtime": "^0.12.1",
     "style-loader": "^0.23.0",

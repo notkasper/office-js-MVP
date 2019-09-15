@@ -1,28 +1,23 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const https = require("https");
-const officeDevCerts = require("office-addin-dev-certs");
 const path = require("path");
+const { getSslCert, getSslKey } = require("../../utils");
 
 const start = async () => {
   const app = express();
 
   app.use(bodyParser.urlencoded({ extended: false }));
 
-  // dev only
-  await officeDevCerts.ensureCertificatesAreInstalled();
-  const ssl = await officeDevCerts.getHttpsServerOptions();
-  // dev only
-
   const server = await https.createServer(
     {
-      key: ssl.key.toString(),
-      cert: ssl.cert.toString()
+      key: getSslKey(),
+      cert: getSslCert()
     },
     app
   );
 
-  app.use("/assets", express.static(path.join(__dirname, 'public')));
+  app.use("/assets", express.static(path.join(__dirname, "public")));
 
   app.get("/api/test", (req, res) => {
     console.log("/api/test");

@@ -7,7 +7,7 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "dev": "webpack-dev-server --mode development --hot --https",
+    "dev": "webpack-dev-server --mode development --hot",
     "build-dev": "webpack -d --mode development",
     "build-prod": "webpack -p --mode production"
   },

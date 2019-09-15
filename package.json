@@ -6,12 +6,13 @@
   "scripts": {
     "dialog-dev": "cd dialogs && npm run dev",
     "addon-dev": "cd addon && npm run dev",
-    "dev": "concurrently \"npm run dialog-dev\" \"npm run addon-dev\"",
+    "dev": "node ssl && concurrently \"npm run dialog-dev\" \"npm run addon-dev\"",
     "iall": "npm i && cd addon && npm i && cd ../dialogs && npm i"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^4.1.2"
+    "concurrently": "^4.1.2",
+    "office-addin-dev-certs": "^1.4.10"
   }
 }
