@@ -2,12 +2,15 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const https = require("https");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 const { getSslCert, getSslKey } = require("../utils");
 
 const start = async () => {
   const app = express();
 
   app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+  app.use(cookieParser());
 
   const server = await https.createServer(
     {
@@ -19,13 +22,18 @@ const start = async () => {
 
   app.use("/assets", express.static(path.join(__dirname, "public")));
 
-  app.get("/api/test", (req, res) => {
-    console.log("/api/test");
-    res.status(200).send({ message: "OK" });
-  });
   app.get("/test", (req, res) => {
     console.log("/test");
     res.status(200).send({ message: "OK" });
+  });
+
+  app.post("/signin", (req, res) => {
+    console.log(req.body);
+    if (req.body.username === "test" && req.body.password === "admin") {
+      res.status(200).send({ token: "pizzaboi" });
+      return;
+    }
+    res.status(400).send({ message: "Wrong log in" });
   });
 
   const port = 3000;
