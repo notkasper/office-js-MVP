@@ -2,7 +2,6 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const https = require("https");
 const path = require("path");
-const cookieParser = require("cookie-parser");
 const { getSslCert, getSslKey } = require("../utils");
 
 const start = async () => {
@@ -10,7 +9,6 @@ const start = async () => {
 
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
-  app.use(cookieParser());
 
   const server = await https.createServer(
     {
