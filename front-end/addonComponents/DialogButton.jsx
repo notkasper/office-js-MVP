@@ -4,10 +4,10 @@ import { PrimaryButton, Stack } from "office-ui-fabric-react";
 export default class DialogButton extends React.Component {
   openDialog = (dialogName, callback) => {
     console.log("Opening dialog...");
-    console.log(window.location.origin)
+    console.log(window.location.origin);
     Office.context.ui.displayDialogAsync(
       `${window.location.origin}/${dialogName}`,
-      { height: 64, width: 64, displayInIframe: true },
+      { height: 85, width: 85, displayInIframe: true },
       result => {
         if (result.status !== "succeeded") {
           console.error(

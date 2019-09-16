@@ -8,12 +8,10 @@ const start = async () => {
   const app = express();
 
   app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
 
   const server = await https.createServer(
-    {
-      key: getSslKey(),
-      cert: getSslCert()
-    },
+    { key: getSslKey(), cert: getSslCert() },
     app
   );
 
@@ -31,7 +29,6 @@ const start = async () => {
 
   app.put("/dialog", (req, res) => {
     console.log("/dialog");
-    console.log(req);
     res.status(201).send({ message: "CREATED", body: req.body });
   });
 

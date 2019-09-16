@@ -3,6 +3,7 @@ import React from "react";
 import { hot } from "react-hot-loader/root";
 import { Provider } from "mobx-react";
 import { BrowserRouter, Route } from "react-router-dom";
+import { initializeIcons } from "@uifabric/icons";
 
 /*===========================STORES============================*/
 import addonStore from "./stores/addon";
@@ -13,6 +14,8 @@ import Form1 from "./exampleDialog";
 
 /*===========================ADDON COMPONENTS==================*/
 import TestComponent from "./addonComponents/TestComponent";
+
+initializeIcons();
 
 const stores = {
   addonStore,
