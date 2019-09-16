@@ -14,11 +14,16 @@ export default class LoginPage extends React.Component {
   }
 
   componentDidMount() {
-    const { addonStore } = this.props;
-    if (addonStore.cookie) {
-    }
+    this.cookieCheck();
   }
 
+  cookieCheck() {
+    const { addonStore } = this.props;
+    if (Office.context.document.settings.get("token")) {
+      this.props.addonStore.setRoute("page_2");
+      console.log("i did it");
+    }
+  }
   updateUsername = event => {
     this.setState({ username: event.target.value });
   };
@@ -28,8 +33,6 @@ export default class LoginPage extends React.Component {
   };
 
   render() {
-    console.log(this.state.username);
-    console.log(this.state.password);
     const { addonStore } = this.props;
     return (
       <div>
@@ -43,11 +46,9 @@ export default class LoginPage extends React.Component {
         <PrimaryButton
           text="Login"
           onClick={() => {
-            addonStore.signIn(
-              this.state.username,
-              this.state.password,
-              () => {}
-            );
+            addonStore.signIn(this.state.username, this.state.password, () => {
+              this.cookieCheck();
+            });
           }}
           style={{ marginTop: "1rem" }}
         />

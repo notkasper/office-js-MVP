@@ -5,9 +5,9 @@ import { signIn as signInService } from "../services/application";
 class Store {
   @observable counter = 0;
 
-  @observable route = "home";
+  @observable route = "login";
 
-  @observable setRoute = (route) => (this.route = route);
+  @observable setRoute = route => (this.route = route);
 
   @action incrementCounter = () => (this.counter += 1);
 
