@@ -9,8 +9,6 @@ export default class TestComponents extends React.Component {
   render() {
     const { addonStore } = this.props;
     const route = addonStore.route;
-    console.log("PRINTING ROUTE: ");
-    console.log(route);
     switch (route) {
       case "login":
         return <LoginPage />;

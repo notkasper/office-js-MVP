@@ -20,8 +20,7 @@ export default class LoginPage extends React.Component {
   cookieCheck() {
     const { addonStore } = this.props;
     if (Office.context.document.settings.get("token")) {
-      this.props.addonStore.setRoute("page_2");
-      console.log("i did it");
+      this.props.addonStore.setRoute("home");
     }
   }
   updateUsername = event => {

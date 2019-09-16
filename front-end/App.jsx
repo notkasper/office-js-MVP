@@ -25,7 +25,7 @@ const App = class App extends React.Component {
     return (
       <Provider {...stores}>
         <BrowserRouter>
-          <Route exact path="/home" component={Addon} />
+          <Route exact path="/login" component={Addon} />
           <Route exact path="/form1" component={Form1} />
         </BrowserRouter>
       </Provider>

@@ -26,7 +26,6 @@ const start = async () => {
   });
 
   app.post("/signin", (req, res) => {
-    console.log(req.body);
     if (req.body.username === "test" && req.body.password === "admin") {
       res.status(200).send({ token: "pizzaboi" });
       return;
