@@ -2,7 +2,7 @@ import React from "react";
 import { PrimaryButton, Text, Stack } from "office-ui-fabric-react";
 import { inject, observer } from "mobx-react";
 
-@inject("application")
+@inject("addonStore")
 @observer
 export default class Header extends React.Component {
   constructor(props) {
@@ -13,8 +13,8 @@ export default class Header extends React.Component {
   }
 
   handleClick = () => {
-    const { application } = this.props;
-    application.testApi((error, response) => {
+    const { addonStore } = this.props;
+    addonStore.testApi((error, response) => {
       if (error) {
         console.error(error);
         return;
