@@ -14,10 +14,10 @@ export default class LoginPage extends React.Component {
   }
 
   componentDidMount() {
-    this.cookieCheck();
+    this.checkAuthenticated();
   }
 
-  cookieCheck() {
+  checkAuthenticated() {
     const { addonStore } = this.props;
     if (Office.context.document.settings.get("token")) {
       this.props.addonStore.setRoute("home");
@@ -30,6 +30,12 @@ export default class LoginPage extends React.Component {
   updatePassword = event => {
     this.setState({ password: event.target.value });
   };
+
+  handleSignIn = () => {
+    addonStore.signIn(this.state.username, this.state.password, () => {
+      this.checkAuthenticated();
+    });
+  }
 
   render() {
     const { addonStore } = this.props;
@@ -44,11 +50,7 @@ export default class LoginPage extends React.Component {
         />
         <PrimaryButton
           text="Login"
-          onClick={() => {
-            addonStore.signIn(this.state.username, this.state.password, () => {
-              this.cookieCheck();
-            });
-          }}
+          onClick={this.handleSignIn}
           style={{ marginTop: "1rem" }}
         />
       </div>
