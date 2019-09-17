@@ -32,6 +32,7 @@ export default class LoginPage extends React.Component {
   };
 
   handleSignIn = () => {
+    const { addonStore} = this.props;
     addonStore.signIn(this.state.username, this.state.password, () => {
       this.checkAuthenticated();
     });
