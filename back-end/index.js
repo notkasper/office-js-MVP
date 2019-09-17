@@ -17,16 +17,19 @@ const start = async () => {
 
   app.use("/assets", express.static(path.join(__dirname, "public")));
 
-  app.get("/api/test", (req, res) => {
-    console.log("/api/test");
-    res.status(200).send({ message: "OK" });
-  });
-
   app.get("/test", (req, res) => {
     console.log("/test");
     res.status(200).send({ message: "OK" });
   });
 
+  app.post("/signin", (req, res) => {
+    if (req.body.username === "test" && req.body.password === "admin") {
+      res.status(200).send({ token: "pizzaboi" });
+      return;
+    }
+    res.status(400).send({ message: "Wrong log in" });
+  });
+  
   app.put("/dialog", (req, res) => {
     console.log("/dialog");
     res.status(201).send({ message: "CREATED", body: req.body });

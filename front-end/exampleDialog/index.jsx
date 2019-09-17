@@ -88,7 +88,7 @@ export default class Form extends React.Component {
                 <Dropdown
                   placeholder="Selecteer een optie"
                   label="Functie"
-                  options={[{ key: 0, text: "Assistent procesmanager" }]}
+                  options={[{ key: 0, text: "Assistent procesmanager" },{ key: 0, text: "Assistent procesmanager" },{ key: 0, text: "Assistent procesmanager" },{ key: 0, text: "Assistent procesmanager" },{ key: 0, text: "Assistent procesmanager" }]}
                   styles={{ dropdown: { width: 300 } }}
                 ></Dropdown>
                 <Dropdown

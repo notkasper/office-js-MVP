@@ -1,5 +1,6 @@
 import React from "react";
 import TestComponent from "./TestComponent";
+import LoginPage from "./LoginPage";
 import { inject, observer } from "mobx-react";
 
 @inject("addonStore")
@@ -9,6 +10,8 @@ export default class TestComponents extends React.Component {
     const { addonStore } = this.props;
     const route = addonStore.route;
     switch (route) {
+      case "login":
+        return <LoginPage />;
       case "home":
         return <TestComponent />;
       case "page_2":
