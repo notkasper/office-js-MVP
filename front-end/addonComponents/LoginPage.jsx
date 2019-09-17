@@ -38,7 +38,6 @@ export default class LoginPage extends React.Component {
   }
 
   render() {
-    const { addonStore } = this.props;
     return (
       <div>
         <TextField label="Username" onChange={this.updateUsername} required />
