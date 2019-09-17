@@ -1,7 +1,8 @@
-import request from 'superagent'
+import request from "superagent";
 
-export const testApi = (callback) => {
+export const sendDialogForm = (body, callback) => {
   request
-    .get('/api/test')
+    .put("/api/dialog")
+    .send(body)
     .end((error, response) => callback(error, response));
-}
+};

@@ -11,10 +11,7 @@ const start = async () => {
   app.use(bodyParser.json());
 
   const server = await https.createServer(
-    {
-      key: getSslKey(),
-      cert: getSslCert()
-    },
+    { key: getSslKey(), cert: getSslCert() },
     app
   );
 
@@ -31,6 +28,11 @@ const start = async () => {
       return;
     }
     res.status(400).send({ message: "Wrong log in" });
+  });
+  
+  app.put("/dialog", (req, res) => {
+    console.log("/dialog");
+    res.status(201).send({ message: "CREATED", body: req.body });
   });
 
   const port = 3000;
