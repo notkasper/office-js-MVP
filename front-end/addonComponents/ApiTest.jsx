@@ -20,7 +20,6 @@ export default class Header extends React.Component {
         return;
       }
       const message = response.body.message;
-      console.log(`Response message: ${message}`);
       this.setState({ message: message });
     });
   };
