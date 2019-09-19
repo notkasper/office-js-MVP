@@ -20,7 +20,7 @@ export default class LoginPage extends React.Component {
   checkAuthenticated() {
     const { addonStore } = this.props;
     if (Office.context.document.settings.get("token")) {
-      this.props.addonStore.setRoute("home");
+      // this.props.addonStore.setRoute("home");
     }
   }
   updateUsername = event => {

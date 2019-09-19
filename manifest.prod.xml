@@ -19,7 +19,7 @@
     <Host Name="Workbook"/>
   </Hosts>  
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://localhost:3000/home"/>
+    <SourceLocation DefaultValue="https://localhost:3000/#home"/>
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
 </OfficeApp>

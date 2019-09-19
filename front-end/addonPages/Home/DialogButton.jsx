@@ -1,13 +1,14 @@
 import React from "react";
 import { PrimaryButton, Stack } from "office-ui-fabric-react";
 import { inject, observer } from "mobx-react";
+import { setLocation } from "../../utils";
 
 @inject("addonStore")
 @observer
 export default class DialogButton extends React.Component {
   openDialog = (dialogName, callback) => {
     Office.context.ui.displayDialogAsync(
-      `${window.location.origin}/${dialogName}`,
+      `${window.location.origin}/#${dialogName}`,
       { height: 85, width: 85, displayInIframe: true },
       result => {
         if (result.status !== "succeeded") {
@@ -40,8 +41,17 @@ export default class DialogButton extends React.Component {
     return (
       <Stack horizontal>
         <PrimaryButton onClick={this.openForm1}>Open Form1</PrimaryButton>
-        <PrimaryButton onClick={() => this.props.addonStore.setRoute("page_2")}>
+        <PrimaryButton onClick={() => {
+          setLocation("page_2");
+          console.log(window.location)
+        }}>
           Go to page 2
+        </PrimaryButton>
+        <PrimaryButton onClick={() => {
+          setLocation("home");
+          console.log(window.location)
+        }}>
+          Go to home
         </PrimaryButton>
       </Stack>
     );
