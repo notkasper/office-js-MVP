@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const config = require("./config");
 
 const getSslKey = () => {
   let key;
@@ -14,7 +15,7 @@ const getSslKey = () => {
 const getSslCert = () => {
   let cert;
   try {
-    fs.readFileSync(path.join(__dirname, "cert.txt"));
+    cert = fs.readFileSync(path.join(__dirname, "cert.txt"));
   } catch (error) {
     throw new Error(`Error while reading ssl cert from file: ${error}`);
   }
@@ -23,15 +24,26 @@ const getSslCert = () => {
 
 const getEnv = () => {
   const validEnvs = ["development, production"];
-  const env = process.argv[2];
-  if (!validEnvs.indexOf(env)) {
-    throw new Error(`Invalid env: ${env}\nenv must be one of: [${validEnvs}]`);
-  }
+  const env = process.argv[2] || "development";
+  console.error(`Invalid env: ${env}\nenv must be one of: [${validEnvs}]. Falling back to development`)
   return env;
+};
+
+const getPort = () => {
+  const env = getEnv();
+  switch (env) {
+    case "development":
+      return config.dev.port;
+    case "production":
+      return config.prod.port;
+    default:
+      throw new Error(`No port specified in config for mode: ${env}`);
+  }
 };
 
 module.exports = {
   getSslCert,
   getSslKey,
-  getEnv
+  getEnv,
+  getPort
 };
