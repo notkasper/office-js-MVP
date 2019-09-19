@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "node ssl && concurrently \"webpack-dev-server --mode development --hot\" \"nodemon ./back-end\"",
-    "prod": "webpack --mode production && node back-end production"
+    "build:prod": "webpack --mode production",
+    "start": "node back-end production"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +29,7 @@
     "core-js": "^3.2.1",
     "css-loader": "^1.0.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^4.2.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "html-webpack-template": "^6.2.0",

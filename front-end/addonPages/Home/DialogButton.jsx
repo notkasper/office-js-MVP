@@ -47,12 +47,6 @@ export default class DialogButton extends React.Component {
         }}>
           Go to page 2
         </PrimaryButton>
-        <PrimaryButton onClick={() => {
-          setLocation("home");
-          console.log(window.location)
-        }}>
-          Go to home
-        </PrimaryButton>
       </Stack>
     );
   }

@@ -23,20 +23,20 @@ const config = {
         use: ["style-loader", "css-loader"]
       },
       {
-        test: /\.svg$/,
+        test: /\.(png|svg|jpg|gif)$/,
         use: "file-loader"
       },
-      {
-        test: /\.png$/,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              mimetype: "image/png"
-            }
-          }
-        ]
-      }
+      // {
+      //   test: /\.png$/,
+      //   use: [
+      //     {
+      //       loader: "url-loader",
+      //       options: {
+      //         mimetype: "image/png"
+      //       }
+      //     }
+      //   ]
+      // }
     ]
   },
   resolve: {

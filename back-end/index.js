@@ -11,7 +11,6 @@ const start = async () => {
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use("/assets", express.static(path.join(__dirname, "public")));
 
   const server = await https.createServer(
     { key: getSslKey(), cert: getSslCert() },
@@ -36,8 +35,10 @@ const start = async () => {
     res.status(201).send({ message: "CREATED", body: req.body });
   });
 
-  if (!["production"].includes(env)) {
+  app.use("/", express.static(path.join(__dirname, "public")));
+  if (["production"].includes(env)) {
     console.log("Mounting * path as catch-all");
+    app.use("/", express.static(path.join(__dirname, "dist")));
     app.get('*', (req, res) => {
       console.log("Catch-all");
       res.sendFile(path.join(__dirname, "./dist/index.html"));

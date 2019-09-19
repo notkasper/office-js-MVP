@@ -1,5 +1,7 @@
 node_modules
-dist
 cert.txt
 key.txt
-dist
+back-end/dist/index.html
+back-end/dist/main.js
+back-end/dist/runtime.js
+back-end/dist/vendors.js
