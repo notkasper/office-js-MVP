@@ -17,12 +17,11 @@ const start = async () => {
     app
   );
 
-  app.get("/test", (req, res) => {
-    console.log("/test");
+  app.get("/api/test", (req, res) => {
     res.status(200).send({ message: "OK" });
   });
 
-  app.post("/signin", (req, res) => {
+  app.post("/api/signin", (req, res) => {
     if (req.body.username === "test" && req.body.password === "admin") {
       res.status(200).send({ token: "pizzaboi" });
       return;
@@ -30,8 +29,7 @@ const start = async () => {
     res.status(400).send({ message: "Wrong log in" });
   });
   
-  app.put("/dialog", (req, res) => {
-    console.log("/dialog");
+  app.put("/api/dialog", (req, res) => {
     res.status(201).send({ message: "CREATED", body: req.body });
   });
 

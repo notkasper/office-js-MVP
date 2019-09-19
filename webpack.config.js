@@ -71,8 +71,8 @@ const config = {
     },
     proxy: {
       "/api/**": {
-        target: "https://localhost:3000/",
-        pathRewrite: { "^/api": "" },
+        target: "https://localhost:3000",
+        // pathRewrite: { "^/api": "" },
         secure: false,
         logLevel: "debug"
       }
