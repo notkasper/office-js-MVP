@@ -12,7 +12,6 @@ const start = async () => {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
 
-  const app = express();
   const server = await https.createServer(
     { key: getSslKey(), cert: getSslCert() },
     app
