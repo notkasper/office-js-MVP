@@ -5,10 +5,6 @@ import { signIn as signInService } from "../services/application";
 class Store {
   @observable counter = 0;
 
-  @observable route = "login";
-
-  @observable setRoute = route => (this.route = route);
-
   @action incrementCounter = () => (this.counter += 1);
 
   @action testApi = callback => {

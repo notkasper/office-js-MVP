@@ -9,16 +9,14 @@ const start = async () => {
   console.log(`Process running with env: ${env}`);
   const app = express();
 
-  app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use("/assets", express.static(path.join(__dirname, "public")));
 
   const server = await https.createServer(
     { key: getSslKey(), cert: getSslCert() },
     app
   );
-
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use("/assets", express.static(path.join(__dirname, "public")));
 
   app.get("/test", (req, res) => {
     console.log("/test");
@@ -38,7 +36,7 @@ const start = async () => {
     res.status(201).send({ message: "CREATED", body: req.body });
   });
 
-  if (!["development"].includes(env)) {
+  if (!["production"].includes(env)) {
     console.log("Mounting * path as catch-all");
     app.get('*', (req, res) => {
       console.log("Catch-all");
