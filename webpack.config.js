@@ -3,12 +3,12 @@ const path = require("path");
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { getSslCert, getSslKey } = require("./utils");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = {
   entry: "./front-end/index.js",
-  mode: "development",
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "back-end/dist"),
     filename: "[name].js"
   },
   module: {
@@ -42,14 +42,12 @@ const config = {
   resolve: {
     extensions: [".js", ".jsx"]
   },
-  devServer: {
-    contentBase: "./dist"
-  },
   plugins: [
     new LodashModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: "./index.html"
-    })
+    }),
+    // new BundleAnalyzerPlugin()
   ],
   optimization: {
     runtimeChunk: "single",
@@ -64,6 +62,7 @@ const config = {
     }
   },
   devServer: {
+    contentBase: "./dist",
     historyApiFallback: true,
     port: 8080,
     https: {

@@ -11,7 +11,17 @@ const getSslCert = () => {
   return cert.toString();
 };
 
+const getEnv = () => {
+  const validEnvs = ["development, production"];
+  const env = process.argv[2];
+  if (!validEnvs.indexOf(env)) {
+    throw new Error(`Invalid env: ${env}\nenv must be one of: [${validEnvs}]`);
+  }
+  return env;
+};
+
 module.exports = {
   getSslCert,
-  getSslKey
+  getSslKey,
+  getEnv
 };
