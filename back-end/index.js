@@ -49,7 +49,7 @@ const start = async () => {
     });
   }
 
-  const port = getPort();
+  const port = process.env.PORT || getPort();
   server.listen(port, () => {
     console.log(`Example app listening on port ${port}!`);
   });
