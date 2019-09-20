@@ -23,9 +23,14 @@ const getSslCert = () => {
 };
 
 const getEnv = () => {
-  const validEnvs = ["development, production"];
-  const env = process.argv[2] || "development";
-  console.error(`Invalid env: ${env}\nenv must be one of: [${validEnvs}]. Falling back to development`)
+  const validEnvs = ["development", "staging", "production"];
+  let env = process.argv[2];
+  if (!validEnvs.includes(env)) {
+    console.error(
+      `Invalid env: ${env}\nenv must be one of: [${validEnvs}]. Falling back to development`
+    );
+    env = "development";
+  }
   return env;
 };
 
@@ -33,9 +38,11 @@ const getPort = () => {
   const env = getEnv();
   switch (env) {
     case "development":
-      return config.dev.port;
+      return config.development.port;
+    case "staging":
+      return config.staging.port;
     case "production":
-      return config.prod.port;
+      return config.production.port;
     default:
       throw new Error(`No port specified in config for mode: ${env}`);
   }

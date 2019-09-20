@@ -12,10 +12,17 @@ const start = async () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
-  const server = await https.createServer(
-    { key: getSslKey(), cert: getSslCert() },
-    app
-  );
+  let server;
+  if (["production"].includes(env)) {
+    /* Azure takes care of https in production */
+    server = await https.createServer(app);
+  } else {
+    /* For testing locally, use key and cert to achieve https */
+    server = await https.createServer(
+      { key: getSslKey(), cert: getSslCert() },
+      app
+    );
+  }
 
   app.get("/api/test", (req, res) => {
     res.status(200).send({ message: "OK" });
@@ -33,7 +40,7 @@ const start = async () => {
     res.status(201).send({ message: "CREATED", body: req.body });
   });
 
-  if (["production"].includes(env)) {
+  if (["production", "staging"].includes(env)) {
     console.log("Mounting * path as catch-all");
     app.use("/", express.static(path.join(__dirname, "dist")));
     app.get("*", (req, res) => {

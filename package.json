@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node ssl && concurrently \"webpack-dev-server --mode development --hot\" \"nodemon ./back-end\"",
     "build:prod": "webpack --mode production",
-    "start": "node back-end production"
+    "staging": "node back-end staging",
+    "prod": "node back-end production"
   },
   "keywords": [],
   "author": "",

@@ -5,10 +5,13 @@
 /* DONT READ DIRECTLY FROM THIS FILE, MAKE A FUNCTION IN UTILS.JS TO GET THESE VALUES! */
 /* DONT READ DIRECTLY FROM THIS FILE, MAKE A FUNCTION IN UTILS.JS TO GET THESE VALUES! */
 module.exports = {
-  dev: {
+  development: {
     port: 3000
   },
-  prod: {
+  production: {
+    port: 3000
+  },
+  staging: {
     port: 3000
   }
 }
