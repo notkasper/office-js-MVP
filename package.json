@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npm i && node ssl && concurrently \"webpack-dev-server --mode development --hot --config webpack.config.dev.js\" \"nodemon ./back-end\"",
+    "dev": "node ssl && concurrently \"webpack-dev-server --mode development --hot --config webpack.config.dev.js\" \"nodemon ./back-end\"",
     "build:prod": "webpack --mode production --config webpack.config.prod.js",
-    "staging": "npm i && node back-end staging",
-    "start": "npm i && node back-end production"
+    "staging": "node back-end staging",
+    "start": "node back-end production"
   },
   "keywords": [],
   "author": "",

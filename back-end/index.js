@@ -15,10 +15,7 @@ const start = async () => {
   app.use(bodyParser.urlencoded({ extended: false }));
 
   let server;
-  if (["production"].includes(env)) {
-    /* Azure takes care of https in production */
-    server = await http.createServer(app);
-  } else {
+  if (!["production"].includes(env)) {
     /* For testing locally, use key and cert to achieve https */
     server = await https.createServer(
       { key: getSslKey(), cert: getSslCert() },
@@ -51,9 +48,15 @@ const start = async () => {
     });
   }
 
-  server.listen(port, () => {
-    console.log(`Example app listening on port ${port}!`);
-  });
+  if (server) {
+    server.listen(port, () => {
+      console.log(`Example app listening on port ${port}!`);
+    });
+  } else {
+    app.listen(port, () => {
+      console.log(`Example app listening on port ${port}!!`);
+    });
+  }
 };
 
 start();
