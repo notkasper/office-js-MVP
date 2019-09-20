@@ -9,7 +9,7 @@ module.exports = {
     port: 3000
   },
   production: {
-    port: 80
+    port: 3000
   },
   staging: {
     port: 3000
