@@ -26,17 +26,6 @@ const config = {
         test: /\.(png|svg|jpg|gif)$/,
         use: "file-loader"
       },
-      // {
-      //   test: /\.png$/,
-      //   use: [
-      //     {
-      //       loader: "url-loader",
-      //       options: {
-      //         mimetype: "image/png"
-      //       }
-      //     }
-      //   ]
-      // }
     ]
   },
   resolve: {
@@ -58,23 +47,6 @@ const config = {
           name: "vendors",
           chunks: "all"
         }
-      }
-    }
-  },
-  devServer: {
-    contentBase: "./dist",
-    historyApiFallback: true,
-    port: 8080,
-    https: {
-      key: getSslKey(),
-      cert: getSslCert()
-    },
-    proxy: {
-      "/api/**": {
-        target: "https://localhost:3000",
-        // pathRewrite: { "^/api": "" },
-        secure: false,
-        logLevel: "debug"
       }
     }
   }
