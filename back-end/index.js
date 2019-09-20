@@ -6,7 +6,8 @@ const { getSslCert, getSslKey, getEnv, getPort } = require("../utils");
 
 const start = async () => {
   const env = getEnv();
-  console.log(`Process running with env: ${env}`);
+  const port = process.env.PORT || getPort();
+  console.log(`Process running with env: ${env} on port: ${port}`);
   const app = express();
 
   app.use(bodyParser.json());
@@ -49,7 +50,6 @@ const start = async () => {
     });
   }
 
-  const port = process.env.PORT || getPort();
   server.listen(port, () => {
     console.log(`Example app listening on port ${port}!`);
   });
