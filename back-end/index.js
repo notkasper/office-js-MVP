@@ -1,6 +1,7 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const https = require("https");
+const http = require("http");
 const path = require("path");
 const { getSslCert, getSslKey, getEnv, getPort } = require("../utils");
 
@@ -16,7 +17,7 @@ const start = async () => {
   let server;
   if (["production"].includes(env)) {
     /* Azure takes care of https in production */
-    server = await https.createServer(app);
+    server = await http.createServer(app);
   } else {
     /* For testing locally, use key and cert to achieve https */
     server = await https.createServer(
