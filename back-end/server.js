@@ -51,6 +51,7 @@ if (["development", "staging"].includes(env)) {
   /* Https on localhost using office-dev-certs */
   server = https.createServer({ key: getSslKey(), cert: getSslCert() }, app);
 } else {
+  /* Azure takes care of https on production, so this can run on http */
   server = http.createServer(app);
 }
 
