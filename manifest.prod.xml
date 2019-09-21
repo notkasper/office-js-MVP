@@ -65,14 +65,14 @@
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://localhost:3000/icon-16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://localhost:3000/icon-32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/icon-80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="https://duffy-addon.azurewebsites.net/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://duffy-addon.azurewebsites.net/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://duffy-addon.azurewebsites.net/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
         <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812" />
-        <bt:Url id="Commands.Url" DefaultValue="https://localhost:3000/commands.html" />
-        <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000#home" />
+        <bt:Url id="Commands.Url" DefaultValue="https://duffy-addon.azurewebsites.net/commands.html" />
+        <bt:Url id="Taskpane.Url" DefaultValue="hhttps://duffy-addon.azurewebsites.net#home" />
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Get started with your sample add-in!" />
