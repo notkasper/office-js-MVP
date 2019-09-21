@@ -6,11 +6,11 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Addon Template"/>
   <Description DefaultValue="A template to get started."/>
-  <IconUrl DefaultValue="https://duffy-addon.azurewebsites.net/icon-32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://duffy-addon.azurewebsites.net/icon-80.png"/>
+  <IconUrl DefaultValue="https://localhost:3000/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://localhost:3000/icon-80.png"/>
   <SupportUrl DefaultValue="https://www.nu.nl"/>
   <AppDomains>
-    <AppDomain>https://duffy-addon.azurewebsites.net</AppDomain>
+    <AppDomain>https://localhost:3000</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Presentation"/>
@@ -19,7 +19,7 @@
     <Host Name="Workbook"/>
   </Hosts>  
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://duffy-addon.azurewebsites.net/#home"/>
+    <SourceLocation DefaultValue="https://localhost:3000/#home"/>
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
 </OfficeApp>
