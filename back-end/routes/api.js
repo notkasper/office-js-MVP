@@ -18,7 +18,7 @@ router.post("/signin", (req, res) => {
   }
   const username = req.body.username;
   if (!username) {
-    res.send(400).send({ message: "Please provide a username" });
+    res.status(400).send({ message: "Please provide a username" });
   }
   const user = accounts[username];
   if (req.body.password === user.password) {
