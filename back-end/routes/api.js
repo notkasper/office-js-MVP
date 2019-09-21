@@ -17,6 +17,9 @@ router.post("/signin", (req, res) => {
     throw new Error(`Error while reading accounts from file: ${error}`);
   }
   const username = req.body.username;
+  if (!username) {
+    res.send(400).send({ message: "Please provide a username" });
+  }
   const user = accounts[username];
   if (req.body.password === user.password) {
     res.status(200).send();

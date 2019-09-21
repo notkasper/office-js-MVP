@@ -43,8 +43,7 @@ export default class DialogButton extends React.Component {
         <PrimaryButton onClick={this.openForm1}>Open Form1</PrimaryButton>
         <PrimaryButton
           onClick={() => {
-            localStorage.removeItem("Token");
-            setLocation("login");
+            setLocation("page_2");
             console.log(window.location);
           }}
         >
