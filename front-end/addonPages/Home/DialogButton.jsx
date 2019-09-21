@@ -41,10 +41,13 @@ export default class DialogButton extends React.Component {
     return (
       <Stack horizontal>
         <PrimaryButton onClick={this.openForm1}>Open Form1</PrimaryButton>
-        <PrimaryButton onClick={() => {
-          setLocation("page_2");
-          console.log(window.location)
-        }}>
+        <PrimaryButton
+          onClick={() => {
+            localStorage.removeItem("Token");
+            setLocation("login");
+            console.log(window.location);
+          }}
+        >
           Go to page 2
         </PrimaryButton>
       </Stack>
