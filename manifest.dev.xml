@@ -20,7 +20,7 @@
     <Host Name="Workbook"/>
   </Hosts>  
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://localhost:8080/#home"/>
+    <SourceLocation DefaultValue="https://localhost:8080/#login"/>
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">

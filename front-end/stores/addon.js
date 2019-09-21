@@ -13,10 +13,11 @@ class Store {
 
   @action signIn = (username, password, callback) => {
     signInService(username, password, (error, response) => {
-      Office.context.document.settings.set("token", response.body.token);
-      Office.context.document.settings.saveAsync(() => {
-        console.log(Office.context.document.settings.get("token"));
-      });
+      if (error) {
+        console.error("An error has occurred:" + error);
+      } else {
+        localStorage.setItem("Token", "auth");
+      }
       callback(error, response);
     });
   };
