@@ -16,10 +16,10 @@ router.post("/signin", (req, res) => {
   } catch (error) {
     throw new Error(`Error while reading accounts from file: ${error}`);
   }
-  let username;
+  const username = req.body.username;
   const user = accounts[username];
-  if (req.body.username === user && req.body.password === user.password) {
-    res.status(200).send({ token: "pizzaboi" });
+  if (req.body.password === user.password) {
+    res.status(200).send();
     return;
   }
   res.status(400).send({ message: "Wrong log in" });
