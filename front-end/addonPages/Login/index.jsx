@@ -1,6 +1,7 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
 import { TextField, PrimaryButton } from "office-ui-fabric-react";
+import { setLocation } from "../../utils";
 
 @inject("addonStore")
 @observer
@@ -18,9 +19,8 @@ export default class LoginPage extends React.Component {
   }
 
   checkAuthenticated() {
-    const { addonStore } = this.props;
-    if (Office.context.document.settings.get("token")) {
-      // this.props.addonStore.setRoute("home");
+    if (localStorage.getItem("Token") == "auth") {
+      setLocation("home");
     }
   }
   updateUsername = event => {
@@ -32,11 +32,11 @@ export default class LoginPage extends React.Component {
   };
 
   handleSignIn = () => {
-    const { addonStore} = this.props;
+    const { addonStore } = this.props;
     addonStore.signIn(this.state.username, this.state.password, () => {
       this.checkAuthenticated();
     });
-  }
+  };
 
   render() {
     return (
