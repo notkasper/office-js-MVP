@@ -1,8 +1,8 @@
 node_modules
 cert.txt
 key.txt
-back-end/dist/index.html
-back-end/dist/main.js
-back-end/dist/runtime.js
-back-end/dist/vendors.js
+back-end/dist/index*
+back-end/dist/main.*
+back-end/dist/runtime.*
+back-end/dist/vendors.*
 .vscode
