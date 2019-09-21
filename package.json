@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ssl && concurrently \"webpack-dev-server --mode development --hot --config webpack.config.dev.js\" \"nodemon ./back-end/server\"",
-    "build:prod": "webpack --mode production --config webpack.config.prod.js",
+    "dev": "node ssl && concurrently \"webpack-dev-server --config webpack.dev.js\" \"nodemon ./back-end/server\"",
+    "build:prod": "webpack --config webpack.prod.js",
     "staging": "node ./back-end/server staging",
     "start": "node ./back-end/server production"
   },
@@ -46,7 +46,7 @@
     "webpack-dev-middleware": "^3.7.0",
     "webpack-dev-server": "^3.1.14",
     "webpack-hot-middleware": "^2.25.0",
-    "webpack-merge": "^4.2.1"
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@uifabric/icons": "^7.2.1",

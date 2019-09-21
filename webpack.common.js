@@ -1,16 +1,8 @@
-const webpack = require("webpack");
-const path = require("path");
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { getSslCert, getSslKey } = require("./utils");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = {
   entry: "./front-end/index.js",
-  output: {
-    path: path.resolve(__dirname, "back-end/dist"),
-    filename: "[name].js"
-  },
   module: {
     rules: [
       {
@@ -36,7 +28,6 @@ const config = {
     new HtmlWebpackPlugin({
       template: "./index.html"
     }),
-    // new BundleAnalyzerPlugin()
   ],
   optimization: {
     runtimeChunk: "single",
@@ -49,7 +40,7 @@ const config = {
         }
       }
     }
-  }
+  },
 };
 
 module.exports = config;
