@@ -34,23 +34,8 @@ const getEnv = () => {
   return env;
 };
 
-const getPort = () => {
-  const env = getEnv();
-  switch (env) {
-    case "development":
-      return config.development.port;
-    case "staging":
-      return config.staging.port;
-    case "production":
-      return config.production.port;
-    default:
-      throw new Error(`No port specified in config for mode: ${env}`);
-  }
-};
-
 module.exports = {
   getSslCert,
   getSslKey,
-  getEnv,
-  getPort
+  getEnv
 };
