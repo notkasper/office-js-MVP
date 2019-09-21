@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const config = require("./config");
 
 const getSslKey = () => {
   let key;
