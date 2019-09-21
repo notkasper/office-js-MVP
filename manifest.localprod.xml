@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
+  <Id>05c2e1c9-3e1d-406e-9a91-e9ac64854143</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>OfficeApps</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="Addon Template"/>
+  <Description DefaultValue="A template to get started."/>
+  <IconUrl DefaultValue="https://localhost:3000/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://localhost:3000/icon-80.png"/>
+  <SupportUrl DefaultValue="https://www.nu.nl"/>
+  <AppDomains>
+    <AppDomain>https://localhost:3000</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Presentation"/>
+    <Host Name="Document"/>
+    <Host Name="Notebook"/>
+    <Host Name="Workbook"/>
+  </Hosts>  
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://localhost:3000/#home"/>
+  </DefaultSettings>
+  <Permissions>ReadWriteDocument</Permissions>
+</OfficeApp>

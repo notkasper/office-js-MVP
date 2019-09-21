@@ -2,7 +2,7 @@ const bodyParser = require("body-parser");
 const https = require("https");
 const http = require("http");
 const app = require("./app");
-// const { getSslCert, getSslKey, getEnv, getPort } = require("../utils");
+const { getSslCert, getSslKey, getEnv } = require("../utils");
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
@@ -21,8 +21,6 @@ const onError = error => {
   }
 
   const bind = typeof port === "string" ? `Pipe: ${port}` : `Port: ${port}`;
-
-  // handle specific listen errors with friendly messages
   switch (error.code) {
     case "EACCES":
       console.error(`${bind} requires elevated privileges`);
@@ -44,40 +42,18 @@ const onListening = server => {
   console.log(`Listening on: ${bind}`);
 };
 
-// const start = async () => {
-// let server;
-// if (!["production"].includes(env)) {
-//   /* For testing locally, use key and cert to achieve https */
-//   server = await https.createServer(
-//     { key: getSslKey(), cert: getSslCert() },
-//     app
-//   );
-// }
-
-// if (["production", "staging"].includes(env)) {
-//   console.log("Mounting * path as catch-all");
-//   app.use("/", express.static(path.join(__dirname, "dist")));
-//   app.get("*", (req, res) => {
-//     console.log("Catch-all");
-//     res.sendFile(path.join(__dirname, "./dist/index.html"));
-//   });
-// }
-
-// if (server) {
-//   server.listen(port, () => {
-//     console.log(`Example app listening on port ${port}!`);
-//   });
-// } else {
-//   app.listen(port, () => {
-//     console.log(`Example app listening on port ${port}!!`);
-//   });
-// }
-// };
-
 const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
-const server = http.createServer(app);
+let server;
+const env = getEnv();
+if (["development", "staging"].includes(env)) {
+  /* Https on localhost using office-dev-certs */
+  server = https.createServer({ key: getSslKey(), cert: getSslCert() }, app);
+} else {
+  server = http.createServer(app);
+}
+
 server.listen(port);
 server.on("error", onError);
 server.on("listening", () => onListening(server));
