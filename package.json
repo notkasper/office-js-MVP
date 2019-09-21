@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ssl && concurrently \"webpack-dev-server --mode development --hot --config webpack.config.dev.js\" \"nodemon ./back-end\"",
+    "dev": "node ssl && concurrently \"webpack-dev-server --mode development --hot --config webpack.config.dev.js\" \"nodemon ./back-end/server\"",
     "build:prod": "webpack --mode production --config webpack.config.prod.js",
-    "staging": "node back-end staging",
-    "start": "node back-end production"
+    "staging": "node ./back-end/server staging",
+    "start": "node ./back-end/server production"
   },
   "keywords": [],
   "author": "",
@@ -51,9 +51,11 @@
   "dependencies": {
     "@uifabric/icons": "^7.2.1",
     "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
     "https": "^1.0.0",
     "mobx": "^5.13.0",
     "mobx-react": "^6.1.3",
+    "morgan": "^1.9.1",
     "office-addin-dev-certs": "^1.4.10",
     "office-ui-fabric-react": "^7.25.1",
     "react": "^16.9.0",
