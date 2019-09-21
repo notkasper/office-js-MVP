@@ -9,11 +9,11 @@ import addonStore from "./stores/addon";
 import exampleFormStore from "./stores/exampleForm";
 
 /*===========================DIALOGS===========================*/
-import Form1 from "./exampleDialog";
+import Form1 from "./views/exampleDialog";
 
 /*===========================ADDON COMPONENTS==================*/
-import Addon from "./addonPages/Home";
-import LoginPage from "./addonPages/Login";
+import Addon from "./views/addonPages/Home";
+import LoginPage from "./views/addonPages/Login";
 
 /*===========================OTHER=============================*/
 import { setLocation } from "./utils";

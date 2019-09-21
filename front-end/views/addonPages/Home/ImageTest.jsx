@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, Stack } from "office-ui-fabric-react";
-import pizzaBoi from "../../assets/pizzaboi.jpg"
+import pizzaBoi from "../../../assets/pizzaBoi.jpg"
 
 export default class ImageTest extends React.Component {
   render() {

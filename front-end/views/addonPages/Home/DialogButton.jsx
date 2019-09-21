@@ -1,7 +1,7 @@
 import React from "react";
 import { PrimaryButton, Stack } from "office-ui-fabric-react";
 import { inject, observer } from "mobx-react";
-import { setLocation } from "../../utils";
+import { setLocation } from "../../../utils";
 
 @inject("addonStore")
 @observer
