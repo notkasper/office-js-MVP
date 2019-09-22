@@ -38,7 +38,7 @@ export default class DialogButton extends React.Component {
   };
 
   openLetterForm = () => {
-    this.openDialog("letter_form", 60, 67, (error, dialog) => {
+    this.openDialog("letter_form", 43, 67, (error, dialog) => {
       if (error) {
         return;
       }
