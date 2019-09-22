@@ -37,10 +37,15 @@ export default class DialogButton extends React.Component {
     });
   };
 
+  openLetterForm = () => {
+    this.openDialog("letter_form");
+  };
+
   render() {
     return (
       <Stack horizontal>
         <PrimaryButton onClick={this.openForm1}>Open Form1</PrimaryButton>
+        <PrimaryButton onClick={this.openLetterForm}>Open Letter Form</PrimaryButton>
         <PrimaryButton
           onClick={() => {
             setLocation("page_2");

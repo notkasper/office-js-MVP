@@ -7,9 +7,11 @@ import { initializeIcons } from "@uifabric/icons";
 /*===========================STORES============================*/
 import addonStore from "./stores/addon";
 import exampleFormStore from "./stores/exampleForm";
+import letterFormStore from "./stores/letterForm";
 
 /*===========================DIALOGS===========================*/
 import Form1 from "./views/exampleDialog";
+import LetterForm from "./views/letterForm";
 
 /*===========================ADDON COMPONENTS==================*/
 import Addon from "./views/addonPages/Home";
@@ -22,7 +24,8 @@ initializeIcons();
 
 const stores = {
   addonStore,
-  exampleFormStore
+  exampleFormStore,
+  letterFormStore
 };
 
 const App = class App extends React.Component {
@@ -61,6 +64,14 @@ const App = class App extends React.Component {
       /* DIALOGS */
       case "form1":
         return <Form1 />;
+      case "letter_form":
+        return <LetterForm />;
+      default:
+        return (
+          <div>
+            <p>{`Page: ${location} could not be found.`}</p>
+          </div>
+        );
     }
   };
 
