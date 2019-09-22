@@ -6,10 +6,10 @@ import { setLocation } from "../../../utils";
 @inject("addonStore")
 @observer
 export default class DialogButton extends React.Component {
-  openDialog = (dialogName, callback) => {
+  openDialog = (dialogName, width, height, callback) => {
     Office.context.ui.displayDialogAsync(
       `${window.location.origin}/#${dialogName}`,
-      { height: 85, width: 85, displayInIframe: true },
+      { height, width, displayInIframe: true },
       result => {
         if (result.status !== "succeeded") {
           console.error(
@@ -24,7 +24,7 @@ export default class DialogButton extends React.Component {
   };
 
   openForm1 = () => {
-    this.openDialog("form1", (error, dialog) => {
+    this.openDialog("form1", 85, 85, (error, dialog) => {
       if (error) {
         return;
       }
@@ -38,14 +38,31 @@ export default class DialogButton extends React.Component {
   };
 
   openLetterForm = () => {
-    this.openDialog("letter_form");
+    this.openDialog("letter_form", 60, 67, (error, dialog) => {
+      if (error) {
+        return;
+      }
+      dialog.addEventHandler(Office.EventType.DialogMessageReceived, arg => {
+        const message = JSON.parse(arg.message).messageType;
+        switch (message) {
+          case "closeDialog":
+            dialog.close();
+            break;
+          default:
+            console.error(`Received unhandled message from dialog: ${message}`);
+            return;
+        }
+      });
+    });
   };
 
   render() {
     return (
       <Stack horizontal>
         <PrimaryButton onClick={this.openForm1}>Open Form1</PrimaryButton>
-        <PrimaryButton onClick={this.openLetterForm}>Open Letter Form</PrimaryButton>
+        <PrimaryButton onClick={this.openLetterForm}>
+          Open Letter Form
+        </PrimaryButton>
         <PrimaryButton
           onClick={() => {
             setLocation("page_2");
