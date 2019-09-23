@@ -1,4 +1,8 @@
 node_modules
-dist
 cert.txt
 key.txt
+back-end/dist/index*
+back-end/dist/main.*
+back-end/dist/runtime.*
+back-end/dist/vendors.*
+.vscode
