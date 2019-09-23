@@ -1,6 +1,12 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
-import { Stack } from "office-ui-fabric-react";
+import {
+  Stack,
+  CompoundButton,
+  Pivot,
+  PivotItem,
+  Label
+} from "office-ui-fabric-react";
 import ApiTest from "./ApiTest";
 import DialogButton from "./DialogButton";
 import StoreTest from "./StoreTest";
@@ -9,14 +15,99 @@ import ImageTest from "./ImageTest";
 @inject("addonStore")
 @observer
 export default class TestComponents extends React.Component {
+  openDialog = (dialogName, width, height, callback) => {
+    Office.context.ui.displayDialogAsync(
+      `${window.location.origin}/#${dialogName}`,
+      { height, width, displayInIframe: true },
+      result => {
+        if (result.status !== "succeeded") {
+          console.error(
+            `Something went wrong while opening the dialog: ${result}`
+          );
+          callback(true);
+          return;
+        }
+        callback(false, result.value);
+      }
+    );
+  };
+
+  openLetterForm = () => {
+    this.openDialog("letter_form", 43, 67, (error, dialog) => {
+      if (error) {
+        return;
+      }
+      dialog.addEventHandler(Office.EventType.DialogMessageReceived, arg => {
+        const message = JSON.parse(arg.message).messageType;
+        switch (message) {
+          case "closeDialog":
+            dialog.close();
+            break;
+          default:
+            console.error(`Received unhandled message from dialog: ${message}`);
+            return;
+        }
+      });
+    });
+  };
+
+  renderActions = () => {
+    return (
+      <Stack vertical tokens={{ childrenGap: "5px" }}>
+        <CompoundButton
+          secondaryText="Maak een nieuwe brief"
+          onClick={this.openLetterForm}
+        >
+          Brief
+        </CompoundButton>
+        <CompoundButton secondaryText="Maak een nieuwe fax" disabled={true}>
+          Fax
+        </CompoundButton>
+        <CompoundButton secondaryText="Maak een nieuwe memo" disabled={true}>
+          Memo
+        </CompoundButton>
+        <CompoundButton secondaryText="Maak een nieuw rapport" disabled={true}>
+          Rapport
+        </CompoundButton>
+      </Stack>
+    );
+  };
+
+  openForm1 = () => {
+    this.openDialog("form1", 85, 85, (error, dialog) => {
+      if (error) {
+        return;
+      }
+      dialog.addEventHandler(
+        Office.EventType.DialogMessageReceived,
+        message => {
+          console.log(`Message received: ${message}`);
+        }
+      );
+    });
+  };
+
+  renderProfiles = () => {
+    return (
+      <Stack vertical tokens={{ childrenGap: "5px" }}>
+        <CompoundButton
+          secondaryText="Maak een nieuw profiel"
+          onClick={this.openForm1}
+        >
+          Profiel
+        </CompoundButton>
+      </Stack>
+    );
+  };
+
   render() {
     return (
-      <Stack vertical>
-        <DialogButton />
-        <ApiTest />
-        <StoreTest />
-        <ImageTest />
-      </Stack>
+      <div>
+        <Pivot styles={{ itemContainer: { marginTop: "8px" } }}>
+          <PivotItem headerText="Nieuw">{this.renderActions()}</PivotItem>
+          <PivotItem headerText="Profielen">{this.renderProfiles()}</PivotItem>
+        </Pivot>
+      </div>
     );
   }
 }
