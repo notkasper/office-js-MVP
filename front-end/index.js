@@ -5,13 +5,10 @@ import ReactDOM from "react-dom";
 import { initializeIcons } from "@uifabric/icons";
 import App from "./App";
 
-<<<<<<< HEAD
-Office.initialize = () => {
-  initializeIcons();
-=======
 Office.initialize = () => {};
+
 Office.onReady(() => {
   console.log("Office ready!");
->>>>>>> master
+  initializeIcons();
   ReactDOM.render(<App />, document.getElementById("root"));
 });

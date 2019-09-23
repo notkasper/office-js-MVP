@@ -2,11 +2,7 @@
 import React from "react";
 import { hot } from "react-hot-loader/root";
 import { Provider } from "mobx-react";
-<<<<<<< HEAD
 import { BrowserRouter, Route } from "react-router-dom";
-=======
-import { initializeIcons } from "@uifabric/icons";
->>>>>>> master
 
 /*===========================STORES============================*/
 import addonStore from "./stores/addon";

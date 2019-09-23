@@ -1,23 +1,49 @@
 import React from "react";
-import { Stack, List, PrimaryButton, Text } from "office-ui-fabric-react";
+import { inject, observer } from "mobx-react";
+import {
+  Stack,
+  DetailsList,
+  PrimaryButton,
+  Text
+} from "office-ui-fabric-react";
 
+const styles = {
+  list: {
+    minWidth: 300,
+    maxWidth: 300,
+    minHeight: 500,
+    maxHeight: 500
+  }
+};
+@inject("exampleFormStore")
+@observer
 export default class ProfileList extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
+    const { exampleFormStore: store } = this.props;
     return (
       <Stack vertical tokens={{ childrenGap: 5 }}>
-        <div style={{ paddingRight: 50 }}>
-          <Text variant="xLarge">Profielen</Text>
-          <div>
-            <List
-              items={[
-                { name: "Dennis den Hollander" },
-                { name: "Kasper Karelse" },
-                { name: "Leon Driessen" }
-              ]}
-              style={{ height: "400px" }}
-            ></List>
-          </div>
-        </div>
+        <Text variant="xLarge">Profielen</Text>
+        <DetailsList
+          checkboxVisibility={2}
+          columns={[
+            {
+              key: "profile",
+              name: "Profiel",
+              fieldName: "profiel",
+              minWidth: 200,
+              maxWidth: 200,
+              isResizable: false
+            }
+          ]}
+          items={store.profile_items.map(item => ({
+            profiel: item.formal_name
+          }))}
+          styles={{ root: styles.list }}
+        ></DetailsList>
         <PrimaryButton text="Nieuw profiel"></PrimaryButton>
         <PrimaryButton text="Kopie"></PrimaryButton>
         <PrimaryButton text="Wissen"></PrimaryButton>
