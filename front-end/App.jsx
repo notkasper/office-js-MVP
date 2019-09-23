@@ -2,7 +2,6 @@
 import React from "react";
 import { hot } from "react-hot-loader/root";
 import { Provider } from "mobx-react";
-import { BrowserRouter, Route } from "react-router-dom";
 
 /*===========================STORES============================*/
 import addonStore from "./stores/addon";
