@@ -101,8 +101,8 @@ export default class Form extends React.Component {
                     { key: 3, text: "Assistent procesmanager" },
                     { key: 4, text: "Assistent procesmanager" }
                   ]}
-                  onChange={(event, data) => {
-                    this.setState({ work_function: data.text });
+                  onChange={(event, option) => {
+                    this.setState({ work_function: option.text });
                   }}
                   styles={{ dropdown: { width: 300 } }}
                 ></Dropdown>
@@ -111,8 +111,8 @@ export default class Form extends React.Component {
                   label="Afdeling"
                   options={[{ key: 0, text: "CZ directie" }]}
                   value={this.state.department}
-                  onChange={(event, data) => {
-                    this.setState({ department: data.text });
+                  onChange={(event, option) => {
+                    this.setState({ department: option.text });
                   }}
                   styles={{ dropdown: { width: 300 } }}
                 ></Dropdown>
@@ -120,8 +120,8 @@ export default class Form extends React.Component {
                   placeholder="Selecteer een optie"
                   label="Vestiging"
                   value={this.state.establishment}
-                  onChange={(event, data) => {
-                    this.setState({ establishment: data.text });
+                  onChange={(event, option) => {
+                    this.setState({ establishment: option.text });
                   }}
                   options={[{ key: 0, text: "Factuuradres Haarlem CA" }]}
                   styles={{ dropdown: { width: 300 } }}
