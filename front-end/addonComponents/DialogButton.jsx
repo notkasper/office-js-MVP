@@ -8,7 +8,7 @@ export default class DialogButton extends React.Component {
   openDialog = (dialogName, callback) => {
     Office.context.ui.displayDialogAsync(
       `${window.location.origin}/${dialogName}`,
-      { height: 85, width: 85, displayInIframe: true },
+      { height: 75, width: 75, displayInIframe: true },
       result => {
         if (result.status !== "succeeded") {
           console.error(

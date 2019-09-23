@@ -7,16 +7,13 @@ export default class ProfileList extends React.Component {
       <Stack vertical tokens={{ childrenGap: 5 }}>
         <div style={{ paddingRight: 50 }}>
           <Text variant="xLarge">Profielen</Text>
-          <div
-            data-is-scrollable="true"
-            style={{
-              overflow: "auto",
-              maxHeight: "500px",
-              marginTop: "20px"
-            }}
-          >
+          <div>
             <List
-              items={[{ name: "Foo" }, { name: "Bar" }]}
+              items={[
+                { name: "Dennis den Hollander" },
+                { name: "Kasper Karelse" },
+                { name: "Leon Driessen" }
+              ]}
               style={{ height: "400px" }}
             ></List>
           </div>

@@ -5,7 +5,8 @@ import {
   Stack,
   TextField,
   PrimaryButton,
-  Dropdown
+  Dropdown,
+  Checkbox
 } from "office-ui-fabric-react";
 import ProfileList from "./ProfileList";
 
@@ -49,7 +50,7 @@ export default class Form extends React.Component {
                   onChange={event =>
                     this.setState({ firstname: event.target.value })
                   }
-                  styles={{ root: { minWidth: "220px" } }}
+                  styles={{ root: { minWidth: 300 } }}
                 />
                 <TextField
                   label="Naam (informeel)"
@@ -57,7 +58,7 @@ export default class Form extends React.Component {
                   onChange={event =>
                     this.setState({ surname: event.target.value })
                   }
-                  styles={{ root: { minWidth: "220px" } }}
+                  styles={{ root: { minWidth: 300 } }}
                 />
                 <TextField
                   label="Persoonlijk telefoonnummer (10 cijfers)"
@@ -65,7 +66,7 @@ export default class Form extends React.Component {
                   onChange={event =>
                     this.setState({ address: event.target.value })
                   }
-                  styles={{ root: { minWidth: "220px" } }}
+                  styles={{ root: { minWidth: 300 } }}
                 />
                 <TextField
                   label="Persoonlijk mobielnummer (10 cijfers)"
@@ -73,7 +74,7 @@ export default class Form extends React.Component {
                   onChange={event =>
                     this.setState({ house_number: event.target.value })
                   }
-                  styles={{ root: { minWidth: "220px" } }}
+                  styles={{ root: { minWidth: 300 } }}
                 />
               </Stack>
               <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
@@ -83,7 +84,7 @@ export default class Form extends React.Component {
                   onChange={event =>
                     this.setState({ city: event.target.value })
                   }
-                  styles={{ root: { minWidth: "220px" } }}
+                  styles={{ root: { minWidth: 300 } }}
                 />
                 <Dropdown
                   placeholder="Selecteer een optie"
@@ -103,6 +104,47 @@ export default class Form extends React.Component {
                   options={[{ key: 0, text: "Factuuradres Haarlem CA" }]}
                   styles={{ dropdown: { width: 300 } }}
                 ></Dropdown>
+              </Stack>
+            </Stack>
+            <Stack horizontal tokens={{ childrenGap: 5, padding: 5 }}>
+              <Checkbox label="Outlook ondertekening genereren" />
+            </Stack>
+            <Stack horizontal tokens={{ childrenGap: 5 }}>
+              <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
+                <TextField
+                  label="Extra tekst (bijv. Vragen?)"
+                  value={this.state.address}
+                  onChange={event =>
+                    this.setState({ address: event.target.value })
+                  }
+                  styles={{ root: { minWidth: 300 } }}
+                />
+                <TextField
+                  label="WhatsApp"
+                  value={this.state.address}
+                  onChange={event =>
+                    this.setState({ address: event.target.value })
+                  }
+                  styles={{ root: { minWidth: 300 } }}
+                />
+              </Stack>
+              <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
+                <TextField
+                  label="Werkdagen"
+                  value={this.state.address}
+                  onChange={event =>
+                    this.setState({ address: event.target.value })
+                  }
+                  styles={{ root: { minWidth: 300 } }}
+                />
+                <TextField
+                  label="Openingstijden"
+                  value={this.state.address}
+                  onChange={event =>
+                    this.setState({ address: event.target.value })
+                  }
+                  styles={{ root: { minWidth: 300 } }}
+                />
               </Stack>
             </Stack>
             <PrimaryButton
