@@ -1,5 +1,6 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
+import { Stack } from "office-ui-fabric-react";
 import ApiTest from "./ApiTest";
 import DialogButton from "./DialogButton";
 import StoreTest from "./StoreTest";
@@ -10,12 +11,12 @@ import ImageTest from "./ImageTest";
 export default class TestComponents extends React.Component {
   render() {
     return (
-      <div>
+      <Stack vertical>
         <DialogButton />
         <ApiTest />
         <StoreTest />
         <ImageTest />
-      </div>
+      </Stack>
     );
   }
 }

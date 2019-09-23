@@ -58,7 +58,7 @@ export default class DialogButton extends React.Component {
 
   render() {
     return (
-      <Stack horizontal>
+      <Stack vertical styles={{root: {maxWidth: "200px"}}} tokens={{childrenGap: ".3rem"}}>
         <PrimaryButton onClick={this.openForm1}>Open Form1</PrimaryButton>
         <PrimaryButton onClick={this.openLetterForm}>
           Open Letter Form
