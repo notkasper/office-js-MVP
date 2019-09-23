@@ -5,8 +5,9 @@ import {
   CompoundButton,
   Pivot,
   PivotItem,
-  Label
+  Image
 } from "office-ui-fabric-react";
+import dotOfficeImage from "../../../assets/DotOffice.png"
 import ApiTest from "./ApiTest";
 import DialogButton from "./DialogButton";
 import StoreTest from "./StoreTest";
@@ -107,6 +108,7 @@ export default class TestComponents extends React.Component {
           <PivotItem headerText="Nieuw">{this.renderActions()}</PivotItem>
           <PivotItem headerText="Profielen">{this.renderProfiles()}</PivotItem>
         </Pivot>
+        <Image src={dotOfficeImage} alt="DotOffice" width="128px" styles={{root: {position: "absolute", bottom: 0, right: "50px"}}} />
       </div>
     );
   }
