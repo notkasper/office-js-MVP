@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@uifabric/icons": "^7.2.1",
+    "@uifabric/styling": "^7.6.2",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
     "https": "^1.0.0",
@@ -60,6 +61,7 @@
     "office-ui-fabric-react": "^7.25.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-router-dom": "^5.0.1",
     "superagent": "^5.1.0"
   }
 }
