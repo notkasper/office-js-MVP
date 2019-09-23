@@ -33,7 +33,6 @@ export default class Form extends React.Component {
         <Dropdown
           label="Verzendoptie"
           options={letterFormStore.sendOptions}
-          disabled
         />
         <TextField label="Adres" multiline rows={6} resizable={false} />
         <DatePicker placeholder="Selecteer datum" label="Kies een datum" />
@@ -63,7 +62,6 @@ export default class Form extends React.Component {
         </Stack>
         <Dropdown
           label="Groetregel"
-          disabled
           options={letterFormStore.greetings}
         />
         <TextField
@@ -75,7 +73,6 @@ export default class Form extends React.Component {
         <Dropdown
           label="Ondertekenaar"
           options={letterFormStore.signatures}
-          disabled={true}
         />
         <TextField label="Bijlage(n)" multiline rows={8} resizable={false} />
       </Stack>
