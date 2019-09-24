@@ -33,9 +33,8 @@ export default class Form extends React.Component {
         <Dropdown
           label="Verzendoptie"
           options={letterFormStore.sendOptions}
-          disabled
         />
-        <TextField label="Adres" multiline rows={6} />
+        <TextField label="Adres" multiline rows={6} resizable={false} />
         <DatePicker placeholder="Selecteer datum" label="Kies een datum" />
         <Dropdown
           label="Contactpersoon"
@@ -52,7 +51,6 @@ export default class Form extends React.Component {
     const { letterFormStore } = this.props;
     return (
       <Stack vertical styles={{ root: { width: 400 } }}>
-        <TextField label="Bijlage(n)" multiline rows={2} />
         <Stack horizontal tokens={{ childrenGap: "1em" }}>
           <Dropdown
             label="Aanhef"
@@ -64,32 +62,19 @@ export default class Form extends React.Component {
         </Stack>
         <Dropdown
           label="Groetregel"
-          disabled
           options={letterFormStore.greetings}
         />
-        <TextField label="Groetregel toevoeging" multiline rows={2} />
+        <TextField
+          label="Groetregel toevoeging"
+          multiline
+          rows={2}
+          resizable={false}
+        />
         <Dropdown
           label="Ondertekenaar"
           options={letterFormStore.signatures}
-          disabled={true}
         />
-        <Stack horizontal tokens={{ childrenGap: "1em" }}>
-          <Dropdown
-            label="Samenwerkingsverband (logo's)"
-            options={letterFormStore.signatures}
-            disabled={true}
-            styles={{ root: { width: 250 } }}
-          />
-          <DefaultButton
-            text="Aangepast"
-            styles={{ root: { marginTop: "2em" } }}
-          />
-        </Stack>
-        <Stack styles={{ root: { paddingTop: ".5em" } }}>
-          <Stack.Item align="end">
-            <Checkbox label="Incl. voettekst" />
-          </Stack.Item>
-        </Stack>
+        <TextField label="Bijlage(n)" multiline rows={8} resizable={false} />
       </Stack>
     );
   };
@@ -118,10 +103,16 @@ export default class Form extends React.Component {
     return (
       <Stack vertical tokens={{ childrenGap: ".3em" }}>
         <Separator />
-        <Stack styles={{ root: { paddingTop: ".5em" } }}>
+        <Stack>
           <Stack.Item align="end">
-            <DefaultButton text="OK" />
-            <DefaultButton text="Annuleren" onClick={this.closeDialog} />
+            <Stack horizontal tokens={{ childrenGap: "8px" }}>
+              <DefaultButton text="OK" />
+              <DefaultButton
+                text="Annuleren"
+                onClick={this.closeDialog}
+                styles={{ paddingLeft: "30px" }}
+              />
+            </Stack>
           </Stack.Item>
         </Stack>
       </Stack>

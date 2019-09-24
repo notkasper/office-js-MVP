@@ -2,7 +2,6 @@
 import React from "react";
 import { hot } from "react-hot-loader/root";
 import { Provider } from "mobx-react";
-import { initializeIcons } from "@uifabric/icons";
 
 /*===========================STORES============================*/
 import addonStore from "./stores/addon";
@@ -19,8 +18,6 @@ import LoginPage from "./views/addonPages/Login";
 
 /*===========================OTHER=============================*/
 import { setLocation } from "./utils";
-
-initializeIcons();
 
 const stores = {
   addonStore,
