@@ -7,7 +7,7 @@ import {
   PivotItem,
   Image
 } from "office-ui-fabric-react";
-import dotOfficeImage from "../../../assets/do365-160.png"
+import dotOfficeImage from "../../../assets/do365Docs-160.png"
 
 @inject("addonStore")
 @observer
