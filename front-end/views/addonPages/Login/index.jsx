@@ -31,6 +31,13 @@ export default class LoginPage extends React.Component {
     this.setState({ password: event.target.value });
   };
 
+  enterPressed = event => {
+    console.log(event.key);
+    if (event.key === "Enter") {
+      this.handleSignIn();
+    }
+  };
+
   handleSignIn = () => {
     const { addonStore } = this.props;
     addonStore.signIn(this.state.username, this.state.password, () => {
@@ -45,6 +52,7 @@ export default class LoginPage extends React.Component {
         <TextField
           label="Password"
           onChange={this.updatePassword}
+          onKeyPress={this.enterPressed}
           type="password"
           required
         />
