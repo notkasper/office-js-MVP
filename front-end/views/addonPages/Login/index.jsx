@@ -32,7 +32,6 @@ export default class LoginPage extends React.Component {
   };
 
   enterPressed = event => {
-    console.log(event.key);
     if (event.key === "Enter") {
       this.handleSignIn();
     }
