@@ -46,7 +46,7 @@ const handle = (req, res) => {
     return;
   }
   const authenticationContext = new AuthenticationContext(authorityUrl);
-  authenticationContext.acquireTokenWithAuthorizationCode(req.query.code, redirectUri, resource, sampleParameters.clientId, sampleParameters.clientSecret, (err, response) => {
+  authenticationContext.acquireTokenWithAuthorizationCode(req.query.code, redirectUri, resource, sampleParameters.clientId, sampleParameters.clientSecret, (error, response) => {
     if (error) {
       const message = `error: ${error.message}\nresponse: ${JSON.stringify(response)}`;
       res.status(500).send(message);
