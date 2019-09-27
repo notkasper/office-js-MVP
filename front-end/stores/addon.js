@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 import { testApi as testApiService } from "../services/application";
-import { signIn as signInService } from "../services/application";
+import { oauth as oauthService } from "../services/application";
 
 class Store {
   @observable counter = 0;
@@ -9,6 +9,10 @@ class Store {
 
   @action testApi = callback => {
     testApiService(callback);
+  };
+
+  @action authorize = callback => {
+    oauthService(callback);
   };
 }
 

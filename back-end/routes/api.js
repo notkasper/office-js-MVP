@@ -32,4 +32,8 @@ router.put("/dialog", (req, res) => {
   res.status(201).send({ message: "CREATED", body: req.body });
 });
 
+router.post("/oauth", (req, res) => {
+  res.status(200).send();
+})
+
 module.exports = router;

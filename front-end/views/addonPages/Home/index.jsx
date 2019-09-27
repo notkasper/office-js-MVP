@@ -7,7 +7,7 @@ import {
   PivotItem,
   Image
 } from "office-ui-fabric-react";
-import dotOfficeImage from "../../../assets/do365Docs-160.png"
+import dotOfficeImage from "../../../assets/do365Docs-160.png";
 
 @inject("addonStore")
 @observer
@@ -48,6 +48,14 @@ export default class TestComponents extends React.Component {
     });
   };
 
+  handleAuthorize = () => {
+    console.log("authorize pls");
+    const { addonStore } = this.props;
+    addonStore.authorize((error, response) => {
+      console.log(error, response);
+    });
+  };
+
   renderActions = () => {
     return (
       <Stack vertical tokens={{ childrenGap: "5px" }}>
@@ -65,6 +73,12 @@ export default class TestComponents extends React.Component {
         </CompoundButton>
         <CompoundButton secondaryText="Maak een nieuw rapport" disabled={true}>
           Rapport
+        </CompoundButton>
+        <CompoundButton
+          secondaryText="TESTESTESTEST"
+          onClick={this.handleAuthorize}
+        >
+          AUTH DEV
         </CompoundButton>
       </Stack>
     );
@@ -104,7 +118,12 @@ export default class TestComponents extends React.Component {
           <PivotItem headerText="Nieuw">{this.renderActions()}</PivotItem>
           <PivotItem headerText="Profielen">{this.renderProfiles()}</PivotItem>
         </Pivot>
-        <Image src={dotOfficeImage} alt="DotOffice" width="128px" styles={{root: {position: "absolute", bottom: 0, right: "50px"}}} />
+        <Image
+          src={dotOfficeImage}
+          alt="DotOffice"
+          width="128px"
+          styles={{ root: { position: "absolute", bottom: 0, right: "50px" } }}
+        />
       </div>
     );
   }
