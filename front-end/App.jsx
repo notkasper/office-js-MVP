@@ -14,7 +14,6 @@ import LetterForm from "./views/letterForm";
 
 /*===========================ADDON COMPONENTS==================*/
 import Addon from "./views/addonPages/Home";
-import LoginPage from "./views/addonPages/Login";
 
 /*===========================OTHER=============================*/
 import { setLocation } from "./utils";
@@ -56,8 +55,6 @@ const App = class App extends React.Component {
             <button onClick={() => setLocation("home")}>Go back</button>
           </div>
         );
-      case "login":
-        return <LoginPage />;
       /* DIALOGS */
       case "form1":
         return <Form1 />;

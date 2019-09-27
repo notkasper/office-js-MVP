@@ -49,6 +49,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "@microsoft/microsoft-graph-client": "^2.0.0",
     "@uifabric/icons": "^7.2.1",
     "@uifabric/styling": "^7.6.2",
     "body-parser": "^1.19.0",

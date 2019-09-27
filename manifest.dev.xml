@@ -14,13 +14,10 @@
     <AppDomain>https://localhost:3000</AppDomain>
   </AppDomains>
   <Hosts>
-    <Host Name="Presentation"/>
     <Host Name="Document"/>
-    <Host Name="Notebook"/>
-    <Host Name="Workbook"/>
   </Hosts>  
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://localhost:8080/#login"/>
+    <SourceLocation DefaultValue="https://localhost:8080/#home"/>
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
@@ -73,7 +70,7 @@
       <bt:Urls>
         <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812" />
         <bt:Url id="Commands.Url" DefaultValue="https://localhost:8080/commands.html" />
-        <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:8080#login" />
+        <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:8080#home" />
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Get started with your sample add-in!" />
