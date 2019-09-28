@@ -10,7 +10,7 @@ const config = {
 
 const authorityUrl = `${config.authorityHostUrl}/${config.tenant}`;
 // WARNING: GET THIS FROM CONFIG IN PROD AND USE NGROK
-const redirectUri = "https://localhost:3000/getAccessToken";
+const redirectUri = "https://www.nu.nl";
 const resource = "https://graph.microsoft.com/";
 
 const templateAuthzUrl = `https://login.windows.net/${config.tenant}/oauth2/authorize?response_type=code&client_id=<client_id>&redirect_uri=<redirect_uri>&state=<state>&resource=<resource>`;
