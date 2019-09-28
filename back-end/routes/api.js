@@ -13,7 +13,7 @@ router.put("/dialog", (req, res) => {
   res.status(201).send({ message: "CREATED", body: req.body });
 });
 
-router.post("/oauth", auth.start);
+router.get("/oauth", auth.start);
 
 router.get("/getAccessToken", auth.handle);
 

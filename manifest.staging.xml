@@ -11,6 +11,7 @@
   <SupportUrl DefaultValue="https://www.nu.nl"/>
   <AppDomains>
     <AppDomain>https://localhost:3000</AppDomain>
+    <AppDomain>https://login.windows.net</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Document"/>

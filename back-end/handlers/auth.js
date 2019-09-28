@@ -37,14 +37,11 @@ const start = (req, res) => {
     const authorizationUrl = createAuthorizationUrl(token);
 
     console.log(authorizationUrl);
-    res.redirect(authorizationUrl);
+    res.send({ url: authorizationUrl });
   });
 };
 
 const handle = (req, res) => {
-  console.log("HANDLE IT");
-  console.log("HANDLE IT");
-  console.log("HANDLE IT");
   // if (req.cookies.authstate !== req.query.state) {
   //   res.status(500).send("error: state does not match");
   //   return;
@@ -57,7 +54,6 @@ const handle = (req, res) => {
     config.clientId,
     config.clientSecret,
     (error, response) => {
-      console.log("HERE2");
       if (error) {
         const message = `error: ${error.message}\nresponse: ${JSON.stringify(
           response
@@ -65,6 +61,7 @@ const handle = (req, res) => {
         res.status(500).send(message);
         return;
       }
+      // WHEN THE CLIENT RECEIVES THIS IN THE DIALOG, THE DIALOG CAN BE CLOSED
       res.status(200).send({ response: JSON.stringify(response) });
       // Later, if the access token is expired it can be refreshed.
       // authenticationContext.acquireTokenWithRefreshToken(response.refreshToken, sampleParameters.clientId, sampleParameters.clientSecret, resource, function(refreshErr, refreshResponse) {

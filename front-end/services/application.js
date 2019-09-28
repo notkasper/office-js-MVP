@@ -5,5 +5,5 @@ export const testApi = (callback = () => {}) => {
 };
 
 export const oauth = (callback = () => {}) => {
-  request.post("/api/oauth").end((error, response) => callback(error, response));
+  request.get("/api/oauth").end((error, response) => callback(error, response));
 };

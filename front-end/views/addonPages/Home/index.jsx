@@ -52,7 +52,7 @@ export default class TestComponents extends React.Component {
     console.log("authorize pls");
     const { addonStore } = this.props;
     addonStore.authorize((error, response) => {
-      console.log(error, response);
+      console.log("Done with that");
     });
   };
 
