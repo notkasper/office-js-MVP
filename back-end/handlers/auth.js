@@ -5,12 +5,12 @@ const config = {
   tenant: "0abccceb-93ba-4767-9038-76722263a6ee",
   authorityHostUrl: "https://login.windows.net",
   clientId: "f8e43d80-b4ca-4322-b6c7-84e39742e4d4",
-  clientSecret: ""
+  clientSecret: "ikNAuuI_jC/xGsyAGJ?Lei5/IeytV232"
 };
 
 const authorityUrl = `${config.authorityHostUrl}/${config.tenant}`;
 // WARNING: GET THIS FROM CONFIG IN PROD AND USE NGROK
-const redirectUri = "https://www.nu.nl";
+const redirectUri = "https://98190056.ngrok.io/api/getAccessToken";
 const resource = "https://graph.microsoft.com/";
 
 const templateAuthzUrl = `https://login.windows.net/${config.tenant}/oauth2/authorize?response_type=code&client_id=<client_id>&redirect_uri=<redirect_uri>&state=<state>&resource=<resource>`;
@@ -36,24 +36,26 @@ const start = (req, res) => {
     res.cookie("authstate", token);
     const authorizationUrl = createAuthorizationUrl(token);
 
-    console.log(authorizationUrl)
+    console.log(authorizationUrl);
     res.redirect(authorizationUrl);
-});
+  });
 };
 
 const handle = (req, res) => {
-  if (req.cookies.authstate !== req.query.state) {
-    res.status(500).send("error: state does not match");
-    return;
-  }
+  console.log("HANDLE IT");
+  console.log("HANDLE IT");
+  console.log("HANDLE IT");
+  // if (req.cookies.authstate !== req.query.state) {
+  //   res.status(500).send("error: state does not match");
+  //   return;
+  // }
   const authenticationContext = new AuthenticationContext(authorityUrl);
-  console.log("HERE!");
   authenticationContext.acquireTokenWithAuthorizationCode(
     req.query.code,
     redirectUri,
     resource,
-    sampleParameters.clientId,
-    sampleParameters.clientSecret,
+    config.clientId,
+    config.clientSecret,
     (error, response) => {
       console.log("HERE2");
       if (error) {
@@ -63,6 +65,7 @@ const handle = (req, res) => {
         res.status(500).send(message);
         return;
       }
+      res.status(200).send({ response: JSON.stringify(response) });
       // Later, if the access token is expired it can be refreshed.
       // authenticationContext.acquireTokenWithRefreshToken(response.refreshToken, sampleParameters.clientId, sampleParameters.clientSecret, resource, function(refreshErr, refreshResponse) {
       //   if (refreshErr) {
