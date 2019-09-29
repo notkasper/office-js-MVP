@@ -17,6 +17,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api", api);
 
 app.use("/", express.static(path.join(__dirname, "dist")));
+app.use("/api", express.static(path.join(__dirname, "dist")));
 
 if (["production", "staging"].includes(env)) {
   console.log("Mounting * path as catch-all");

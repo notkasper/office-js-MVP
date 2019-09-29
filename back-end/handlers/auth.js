@@ -55,7 +55,6 @@ const acquireTokenWithAuthorizationCode = (req, res) => {
         res.status(500).send(message);
         return;
       }
-      // MAKE THIS GENERIC
       res
         .status(200)
         .redirect(
