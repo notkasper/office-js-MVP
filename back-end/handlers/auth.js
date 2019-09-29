@@ -56,7 +56,9 @@ const acquireTokenWithAuthorizationCode = (req, res) => {
         return;
       }
       // WHEN THE CLIENT RECEIVES THIS IN THE DIALOG, THE DIALOG CAN BE CLOSED
-      res.status(200).send({ response: JSON.stringify(response) });
+      require("fs").writeFileSync("./auth.json", JSON.stringify(response));
+      // MAKE THIS GENERIC
+      res.status(200).redirect("https://localhost:8080#authorized");
     }
   );
 };

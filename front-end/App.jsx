@@ -11,6 +11,7 @@ import letterFormStore from "./stores/letterForm";
 /*===========================DIALOGS===========================*/
 import Form1 from "./views/exampleDialog";
 import LetterForm from "./views/letterForm";
+import AuthorizedDialog from "./views/authorizedDialog";
 
 /*===========================ADDON COMPONENTS==================*/
 import Addon from "./views/addonPages/Home";
@@ -60,6 +61,8 @@ const App = class App extends React.Component {
         return <Form1 />;
       case "letter_form":
         return <LetterForm />;
+      case "authorized":
+        return <AuthorizedDialog />;
       default:
         return (
           <div>
