@@ -15,6 +15,7 @@ import AuthorizedDialog from "./views/authorizedDialog";
 
 /*===========================ADDON COMPONENTS==================*/
 import Addon from "./views/addonPages/Home";
+import Login from "./views/addonPages/Login";
 
 /*===========================OTHER=============================*/
 import { setLocation } from "./utils";
@@ -50,6 +51,8 @@ const App = class App extends React.Component {
       /* ADDON PANEL*/
       case "home":
         return <Addon />;
+      case "login":
+        return <Login />;
       case "page_2":
         return (
           <div>

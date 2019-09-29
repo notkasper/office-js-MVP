@@ -12,6 +12,10 @@ import dotOfficeImage from "../../../assets/do365Docs-160.png";
 @inject("addonStore")
 @observer
 export default class TestComponents extends React.Component {
+  componentDidMount() {
+    this.authorize();
+  }
+
   openDialog = (dialogName, width, height, callback) => {
     Office.context.ui.displayDialogAsync(
       `${window.location.origin}/#${dialogName}`,
@@ -50,7 +54,7 @@ export default class TestComponents extends React.Component {
     });
   };
 
-  handleAuthorize = () => {
+  authorize = () => {
     const { addonStore } = this.props;
     addonStore.authorize();
   };
@@ -72,12 +76,6 @@ export default class TestComponents extends React.Component {
         </CompoundButton>
         <CompoundButton secondaryText="Maak een nieuw rapport" disabled={true}>
           Rapport
-        </CompoundButton>
-        <CompoundButton
-          secondaryText="TESTESTESTEST"
-          onClick={this.handleAuthorize}
-        >
-          AUTH DEV
         </CompoundButton>
       </Stack>
     );
