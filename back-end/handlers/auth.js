@@ -10,7 +10,6 @@ const config = {
 };
 
 const authorityUrl = `${config.authorityHostUrl}/${config.tenant}`;
-// WARNING: GET THIS FROM CONFIG IN PROD AND USE NGROK
 const redirectUri = getRedirectUrl();
 const resource = "https://graph.microsoft.com/";
 
