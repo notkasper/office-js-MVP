@@ -1,7 +1,8 @@
-const fs = require("fs");
-const path = require("path");
 const express = require("express");
-const auth = require("../handlers/auth");
+const {
+  acquireTokenWithAuthorizationCode,
+  getAuthorizationUrl
+} = require("../handlers/auth");
 
 const router = express.Router();
 
@@ -13,9 +14,8 @@ router.put("/dialog", (req, res) => {
   res.status(201).send({ message: "CREATED", body: req.body });
 });
 
-router.get("/oauth", auth.start);
+router.get("/oauth", getAuthorizationUrl);
 
-router.get("/getAccessToken", auth.handle);
-
+router.get("/getAccessToken", acquireTokenWithAuthorizationCode);
 
 module.exports = router;

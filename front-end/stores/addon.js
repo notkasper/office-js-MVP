@@ -25,7 +25,12 @@ class Store {
       console.log(url);
       Office.context.ui.displayDialogAsync(
         url,
-        { width: 50, height: 50, displayInIframe: true },
+        {
+          width: 50,
+          height: 50,
+          displayInIframe: false,
+          promptBeforeOpen: false
+        },
         result => {
           if (result.status !== "succeeded") {
             console.error(
@@ -38,7 +43,18 @@ class Store {
           dialog.addEventHandler(
             Office.EventType.DialogEventReceived,
             something => {
-              console.log(`something: ${something}`);
+              console.log(`something: ${JSON > stringify(something)}`);
+            }
+          );
+          dialog.addEventHandler(
+            Office.EventType.DialogMessageReceived,
+            foo => {
+              const message = JSON.parse(foo.message);
+              switch (message.messageType) {
+                case "dialogClosed":
+                  console.log("received dialogClosed command!");
+                  dialog.close();
+              }
             }
           );
         }

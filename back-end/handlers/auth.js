@@ -1,4 +1,5 @@
 const { AuthenticationContext } = require("adal-node");
+const request = require("superagent");
 const crypto = require("crypto");
 
 const config = {
@@ -10,7 +11,7 @@ const config = {
 
 const authorityUrl = `${config.authorityHostUrl}/${config.tenant}`;
 // WARNING: GET THIS FROM CONFIG IN PROD AND USE NGROK
-const redirectUri = "https://98190056.ngrok.io/api/getAccessToken";
+const redirectUri = "https://eff3111b.ngrok.io/api/getAccessToken";
 const resource = "https://graph.microsoft.com/";
 
 const templateAuthzUrl = `https://login.windows.net/${config.tenant}/oauth2/authorize?response_type=code&client_id=<client_id>&redirect_uri=<redirect_uri>&state=<state>&resource=<resource>`;
@@ -26,26 +27,19 @@ const createAuthorizationUrl = state => {
   return authorizationUrl;
 };
 
-const start = (req, res) => {
-  crypto.randomBytes(48, (error, buffer) => {
+const getAuthorizationUrl = (req, res) => {
+  crypto.randomBytes(48, async (error, buffer) => {
     const token = buffer
       .toString("base64")
       .replace(/\//g, "_")
       .replace(/\+/g, "-");
 
-    res.cookie("authstate", token);
     const authorizationUrl = createAuthorizationUrl(token);
-
-    console.log(authorizationUrl);
-    res.send({ url: authorizationUrl });
+    res.status(200).send({ url: authorizationUrl });
   });
 };
 
-const handle = (req, res) => {
-  // if (req.cookies.authstate !== req.query.state) {
-  //   res.status(500).send("error: state does not match");
-  //   return;
-  // }
+const acquireTokenWithAuthorizationCode = (req, res) => {
   const authenticationContext = new AuthenticationContext(authorityUrl);
   authenticationContext.acquireTokenWithAuthorizationCode(
     req.query.code,
@@ -63,20 +57,33 @@ const handle = (req, res) => {
       }
       // WHEN THE CLIENT RECEIVES THIS IN THE DIALOG, THE DIALOG CAN BE CLOSED
       res.status(200).send({ response: JSON.stringify(response) });
-      // Later, if the access token is expired it can be refreshed.
-      // authenticationContext.acquireTokenWithRefreshToken(response.refreshToken, sampleParameters.clientId, sampleParameters.clientSecret, resource, function(refreshErr, refreshResponse) {
-      //   if (refreshErr) {
-      //     message += 'refreshError: ' + refreshErr.message + '\n';
-      //   }
-      //   message += 'refreshResponse: ' + JSON.stringify(refreshResponse);
+    }
+  );
+};
 
-      //   res.send(message);
-      // });
+const acquireTokenWithRefreshToken = (req, res) => {
+  // WIP: DOES NOT WORK CURRENTLY
+  const {
+    body: { refresh_token: refreshToken }
+  } = req;
+  authenticationContext.acquireTokenWithRefreshToken(
+    refreshToken,
+    config.clientId,
+    config.clientSecret,
+    resource,
+    (error, response) => {
+      if (error) {
+        console.error(
+          `Error while refreshing token: ${error}\nresponse: ${response}`
+        );
+      }
+      res.send({ response });
     }
   );
 };
 
 module.exports = {
-  start,
-  handle
+  getAuthorizationUrl,
+  acquireTokenWithAuthorizationCode,
+  acquireTokenWithRefreshToken
 };
