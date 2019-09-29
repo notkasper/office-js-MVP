@@ -11,6 +11,7 @@ export default class Auth extends React.Component {
       loading: false
     };
   }
+
   handleClick = () => {
     const { addonStore } = this.props;
     this.setState({ loading: true });

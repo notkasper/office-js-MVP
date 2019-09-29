@@ -12,6 +12,10 @@ class Store {
     return jsCookie.get("refresh_token");
   };
 
+  @action checkAuthorized = () => {
+    return this.getAccesstoken() && this.getRefreshToken();
+  };
+
   @action listenToCookieChanges = (callback = () => {}) => {
     const accessToken = this.getAccesstoken();
     const refreshToken = this.getRefreshToken();
