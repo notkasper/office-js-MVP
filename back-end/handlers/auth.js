@@ -1,5 +1,6 @@
 const { AuthenticationContext } = require("adal-node");
 const crypto = require("crypto");
+const { getRedirectUrl, getAppBaseUrl } = require("../../utils");
 
 const config = {
   tenant: "0abccceb-93ba-4767-9038-76722263a6ee",
@@ -10,7 +11,7 @@ const config = {
 
 const authorityUrl = `${config.authorityHostUrl}/${config.tenant}`;
 // WARNING: GET THIS FROM CONFIG IN PROD AND USE NGROK
-const redirectUri = "https://eff3111b.ngrok.io/api/getAccessToken";
+const redirectUri = getRedirectUrl();
 const resource = "https://graph.microsoft.com/";
 
 const templateAuthzUrl = `https://login.windows.net/${config.tenant}/oauth2/authorize?response_type=code&client_id=<client_id>&redirect_uri=<redirect_uri>&state=<state>&resource=<resource>`;
@@ -58,7 +59,9 @@ const acquireTokenWithAuthorizationCode = (req, res) => {
       res
         .status(200)
         .redirect(
-          `https://localhost:8080#authorized/${response.accessToken}/${response.refreshToken}`
+          `${getAppBaseUrl()}#authorized/${response.accessToken}/${
+            response.refreshToken
+          }`
         );
     }
   );
