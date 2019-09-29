@@ -1,5 +1,4 @@
 const { AuthenticationContext } = require("adal-node");
-const request = require("superagent");
 const crypto = require("crypto");
 
 const config = {
@@ -56,9 +55,13 @@ const acquireTokenWithAuthorizationCode = (req, res) => {
         return;
       }
       // WHEN THE CLIENT RECEIVES THIS IN THE DIALOG, THE DIALOG CAN BE CLOSED
-      require("fs").writeFileSync("./auth.json", JSON.stringify(response));
+      console.log(JSON.stringify(response));
       // MAKE THIS GENERIC
-      res.status(200).redirect("https://localhost:8080#authorized");
+      res
+        .status(200)
+        .redirect(
+          `https://localhost:8080#authorized/${response.accessToken}/${response.refreshToken}`
+        );
     }
   );
 };

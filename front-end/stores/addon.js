@@ -40,7 +40,7 @@ class Store {
           }
           const dialog = result.value;
           dialog.addEventHandler(
-            Office.EventType.DialogEventReceived,
+            Office.EventType.DialogMessageReceived,
             message => {
               console.error(`something: ${JSON > stringify(message)}`);
             }
