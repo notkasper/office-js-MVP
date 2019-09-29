@@ -1,12 +1,29 @@
 import { observable, action } from "mobx";
-import request from "superagent";
+import jsCookie from "js-cookie";
 import { testApi as testApiService } from "../services/application";
 import { oauth as oauthService } from "../services/application";
 
 class Store {
-  @observable counter = 0;
+  @action getAccesstoken = () => {
+    return jsCookie.get("access_token");
+  };
 
-  @action incrementCounter = () => (this.counter += 1);
+  @action getRefreshToken = () => {
+    return jsCookie.get("refresh_token");
+  };
+
+  @action listenToCookieChanges = (callback = () => {}) => {
+    const accessToken = this.getAccesstoken();
+    const refreshToken = this.getRefreshToken();
+    var interval = setInterval(() => {
+      const newAccessToken = this.getAccesstoken();
+      const newRefreshToken = this.getRefreshToken();
+      if (accessToken !== newAccessToken || refreshToken !== newRefreshToken) {
+        clearInterval(interval);
+        callback();
+      }
+    }, 100);
+  };
 
   @action testApi = (callback = () => {}) => {
     testApiService(callback);

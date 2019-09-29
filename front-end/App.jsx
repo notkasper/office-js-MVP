@@ -26,6 +26,10 @@ const stores = {
   letterFormStore
 };
 
+addonStore.listenToCookieChanges(() => {
+  setLocation("home");
+});
+
 const App = class App extends React.Component {
   constructor(props) {
     super(props);
