@@ -19,7 +19,9 @@ export default class TestComponents extends React.Component {
       result => {
         if (result.status !== "succeeded") {
           console.error(
-            `Something went wrong while opening the dialog: ${result}`
+            `Something went wrong while opening the dialog: ${JSON.stringify(
+              result
+            )}`
           );
           callback(true);
           return;

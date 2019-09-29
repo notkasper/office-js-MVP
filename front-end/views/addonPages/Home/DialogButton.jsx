@@ -13,7 +13,9 @@ export default class DialogButton extends React.Component {
       result => {
         if (result.status !== "succeeded") {
           console.error(
-            `Something went wrong while opening the dialog: ${result}`
+            `Something went wrong while opening the dialog: ${JSON.stringify(
+              result
+            )}`
           );
           callback(true);
           return;
@@ -58,7 +60,11 @@ export default class DialogButton extends React.Component {
 
   render() {
     return (
-      <Stack vertical styles={{root: {maxWidth: "200px"}}} tokens={{childrenGap: ".3rem"}}>
+      <Stack
+        vertical
+        styles={{ root: { maxWidth: "200px" } }}
+        tokens={{ childrenGap: ".3rem" }}
+      >
         <PrimaryButton onClick={this.openForm1}>Open Form1</PrimaryButton>
         <PrimaryButton onClick={this.openLetterForm}>
           Open Letter Form
