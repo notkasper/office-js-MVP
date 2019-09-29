@@ -43,14 +43,6 @@ const App = class App extends React.Component {
     };
     window.onhashchange = handleHashChange;
     handleHashChange();
-    const authorized = addonStore.checkAuthorized();
-    if (authorized) {
-      setLocation("home");
-      return;
-    }
-    addonStore.listenToCookieChanges(() => {
-      setLocation("home");
-    });
   }
 
   /* NOTE: all content shown in a DIALOG does NOT HAVE ACCESS to any data that has been set/retrieved in the addon e.g. MOBX STORES*/

@@ -1,4 +1,5 @@
 import React from "react";
+import { setLocation } from "../../../utils";
 import { PrimaryButton, Text, Stack } from "office-ui-fabric-react";
 import { inject, observer } from "mobx-react";
 
@@ -10,6 +11,18 @@ export default class Auth extends React.Component {
     this.state = {
       loading: false
     };
+  }
+
+  componentDidMount() {
+    const { addonStore } = this.props;
+    const authorized = addonStore.checkAuthorized();
+    if (authorized) {
+      setLocation("home");
+      return;
+    }
+    addonStore.listenToCookieChanges(() => {
+      setLocation("home");
+    });
   }
 
   handleClick = () => {
