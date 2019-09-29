@@ -54,8 +54,6 @@ const acquireTokenWithAuthorizationCode = (req, res) => {
         res.status(500).send(message);
         return;
       }
-      // WHEN THE CLIENT RECEIVES THIS IN THE DIALOG, THE DIALOG CAN BE CLOSED
-      console.log(JSON.stringify(response));
       // MAKE THIS GENERIC
       res
         .status(200)

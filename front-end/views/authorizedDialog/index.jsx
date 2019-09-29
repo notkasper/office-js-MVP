@@ -10,7 +10,6 @@ export default class AuthorizedDialog extends React.Component {
       const refreshToken = hash[2];
       jsCookie.set("access_token", accessToken);
       jsCookie.set("refresh_token", refreshToken);
-      console.log(window.location.origin)
       window.close();
     } catch (error) {
       console.error(

@@ -8,11 +8,11 @@ class Store {
 
   @action incrementCounter = () => (this.counter += 1);
 
-  @action testApi = callback => {
+  @action testApi = (callback = () => {}) => {
     testApiService(callback);
   };
 
-  @action authorize = callback => {
+  @action authorize = (callback = () => {}) => {
     oauthService((error, response) => {
       callback(error, response);
       if (error) {
