@@ -22,7 +22,6 @@ class Store {
       const {
         body: { url }
       } = response;
-      console.log(url);
       Office.context.ui.displayDialogAsync(
         url,
         {
@@ -42,19 +41,8 @@ class Store {
           const dialog = result.value;
           dialog.addEventHandler(
             Office.EventType.DialogEventReceived,
-            something => {
-              console.log(`something: ${JSON > stringify(something)}`);
-            }
-          );
-          dialog.addEventHandler(
-            Office.EventType.DialogMessageReceived,
-            foo => {
-              const message = JSON.parse(foo.message);
-              switch (message.messageType) {
-                case "dialogClosed":
-                  console.log("received dialogClosed command!");
-                  dialog.close();
-              }
+            message => {
+              console.error(`something: ${JSON > stringify(message)}`);
             }
           );
         }

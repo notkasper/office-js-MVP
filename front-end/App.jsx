@@ -71,7 +71,6 @@ const App = class App extends React.Component {
 
   render() {
     const { location } = this.state;
-    console.log(`Render app on location: ${location}`);
     return <Provider {...stores}>{this.getComponent(location)}</Provider>;
   }
 };
