@@ -1,7 +1,7 @@
 module.exports = {
   redirectUrl: {
-    development: "https://eff3111b.ngrok.io/api/getAccessToken",
-    staging: "https://eff3111b.ngrok.io/api/getAccessToken",
+    development: "https://4c4bd0e3.ngrok.io/api/getAccessToken",
+    staging: "http://4c4bd0e3.ngrok.io/api/getAccessToken",
     production: "https://duffy-addon.azurewebsites.net/api/getAccesssToken"
   },
   appBaseUrl: {
