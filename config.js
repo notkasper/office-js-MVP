@@ -8,5 +8,10 @@ module.exports = {
     development: "https://localhost:8080",
     staging: "https://localhost:3000",
     production: "https://duffy-addon.azurewebsites.net"
+  },
+  database: {
+    development: "duffy-server.database.windows.net",
+    staging: "duffy-server.database.windows.net",
+    production: "duffy-server.database.windows.net"
   }
 }

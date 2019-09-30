@@ -52,10 +52,21 @@ const getAppBaseUrl = () => {
   return url;
 };
 
+const getDatabaseUrl = () => {
+  const env = getEnv();
+  const url = config.database[env];
+  if (!url) {
+    throw new Error(`Could not find database url for env: ${env}`);
+  }
+  return url;
+};
+
+
 module.exports = {
   getSslCert,
   getSslKey,
   getEnv,
   getRedirectUrl,
-  getAppBaseUrl
+  getAppBaseUrl,
+  getDatabaseUrl
 };
