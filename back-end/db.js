@@ -18,7 +18,11 @@ const connect = async () => {
       }
     });
   } catch (error) {
-    console.error(`Error while connecting to mssql: ${error}`);
+    console.error(
+      `Error while connecting to mssql: ${JSON.stringify(
+        error
+      )}\nDid you add the IP to the database server firewall?`
+    );
     return;
   }
   console.log("Connected to database.");
