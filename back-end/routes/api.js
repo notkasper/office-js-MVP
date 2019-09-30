@@ -28,7 +28,7 @@ router.post("/signin", (req, res) => {
   res.status(400).send({ message: "Wrong log in" });
 });
 
-router.put("/dialog", (req, res) => {
+router.put("/profile", (req, res) => {
   res.status(201).send({ message: "CREATED", body: req.body });
 });
 

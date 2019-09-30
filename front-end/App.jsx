@@ -5,7 +5,7 @@ import { Provider } from "mobx-react";
 
 /*===========================STORES============================*/
 import addonStore from "./stores/addon";
-import exampleFormStore from "./stores/exampleForm";
+import exampleFormStore from "./stores/profile";
 import letterFormStore from "./stores/letterForm";
 
 /*===========================DIALOGS===========================*/

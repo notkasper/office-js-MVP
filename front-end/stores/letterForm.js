@@ -1,5 +1,4 @@
 import { observable, action } from "mobx";
-import {} from "../services/exampleForm";
 
 class LetterFormStore {
   @observable sendOptions = [
@@ -22,17 +21,15 @@ class LetterFormStore {
 
   @observable salutations = [
     { key: "mvr", text: "Mvr." },
-    { key: "dhr", text: "Dhr." },
+    { key: "dhr", text: "Dhr." }
   ];
 
   @observable signatures = [
     { key: "mvr", text: "Mvr." },
-    { key: "dhr", text: "Dhr." },
+    { key: "dhr", text: "Dhr." }
   ];
 
-  @observable greetings = [
-    { key: "mvg", text: "Met vriendelijke groet" },
-  ];
+  @observable greetings = [{ key: "mvg", text: "Met vriendelijke groet" }];
 }
 
 const letterFormStore = new LetterFormStore();

@@ -11,10 +11,21 @@ const styles = {
   list: {
     minWidth: 300,
     maxWidth: 300,
-    minHeight: 500,
-    maxHeight: 500
+    minHeight: "25rem",
+    maxHeight: "25rem"
   }
 };
+
+const profileListColumns = [
+  {
+    key: "profile",
+    name: "Profiel",
+    fieldName: "profiel",
+    minWidth: 200,
+    maxWidth: 200,
+    isResizable: false
+  }
+];
 @inject("exampleFormStore")
 @observer
 export default class ProfileList extends React.Component {
@@ -24,21 +35,13 @@ export default class ProfileList extends React.Component {
 
   render() {
     const { exampleFormStore: store } = this.props;
+
     return (
       <Stack vertical tokens={{ childrenGap: 5 }}>
         <Text variant="xLarge">Profielen</Text>
         <DetailsList
           checkboxVisibility={2}
-          columns={[
-            {
-              key: "profile",
-              name: "Profiel",
-              fieldName: "profiel",
-              minWidth: 200,
-              maxWidth: 200,
-              isResizable: false
-            }
-          ]}
+          columns={profileListColumns}
           items={store.profile_items.map(item => ({
             profiel: item.formal_name
           }))}
