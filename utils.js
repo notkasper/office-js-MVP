@@ -54,13 +54,39 @@ const getAppBaseUrl = () => {
 
 const getDatabaseUrl = () => {
   const env = getEnv();
-  const url = config.database[env];
+  const url = config.databaseUrl[env];
   if (!url) {
     throw new Error(`Could not find database url for env: ${env}`);
   }
   return url;
 };
 
+const getDatabaseUser = () => {
+  const env = getEnv();
+  const url = config.databaseUser[env];
+  if (!url) {
+    throw new Error(`Could not find database user for env: ${env}`);
+  }
+  return url;
+};
+
+const getDatabasePassword = () => {
+  const env = getEnv();
+  const url = config.databasePassword[env];
+  if (!url) {
+    throw new Error(`Could not find database password for env: ${env}`);
+  }
+  return url;
+};
+
+const getDatabaseName = () => {
+  const env = getEnv();
+  const url = config.databaseName[env];
+  if (!url) {
+    throw new Error(`Could not find database name for env: ${env}`);
+  }
+  return url;
+};
 
 module.exports = {
   getSslCert,
@@ -68,5 +94,8 @@ module.exports = {
   getEnv,
   getRedirectUrl,
   getAppBaseUrl,
-  getDatabaseUrl
+  getDatabaseUrl,
+  getDatabaseUser,
+  getDatabasePassword,
+  getDatabaseName
 };

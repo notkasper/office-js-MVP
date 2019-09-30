@@ -1,13 +1,18 @@
 const mssql = require("mssql");
-const { getDatabaseUrl } = require("../utils");
+const {
+  getDatabaseUrl,
+  getDatabaseUser,
+  getDatabasePassword,
+  getDatabaseName
+} = require("../utils");
 
 const connect = async () => {
   try {
     await mssql.connect({
-      user: "duffy",
-      password: "#HamKaas123",
+      user: getDatabaseUser(),
+      password: getDatabasePassword(),
       server: getDatabaseUrl(),
-      database: "Duffy-Database",
+      database: getDatabaseName(),
       options: {
         encrypt: true
       }
