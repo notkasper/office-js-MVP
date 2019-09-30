@@ -8,7 +8,6 @@ class ExampleFormStore {
   @action incrementCounter = () => (this.counter += 1);
 
   @action sendDialogForm = (body, callback) => {
-    console.log("Incoming:", body);
     this.profile_items.push(body);
     dialogFormService(body, callback);
   };

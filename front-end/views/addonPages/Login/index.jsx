@@ -1,66 +1,48 @@
 import React from "react";
-import { inject, observer } from "mobx-react";
-import { TextField, PrimaryButton } from "office-ui-fabric-react";
 import { setLocation } from "../../../utils";
+import { PrimaryButton, Text, Stack } from "office-ui-fabric-react";
+import { inject, observer } from "mobx-react";
 
 @inject("addonStore")
 @observer
-export default class LoginPage extends React.Component {
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: ""
+      loading: false
     };
   }
 
   componentDidMount() {
-    this.checkAuthenticated();
-  }
-
-  checkAuthenticated() {
-    if (localStorage.getItem("Token") == "auth") {
-      setLocation("home");
-    }
-  }
-  updateUsername = event => {
-    this.setState({ username: event.target.value });
-  };
-
-  updatePassword = event => {
-    this.setState({ password: event.target.value });
-  };
-
-  enterPressed = event => {
-    if (event.key === "Enter") {
-      this.handleSignIn();
-    }
-  };
-
-  handleSignIn = () => {
     const { addonStore } = this.props;
-    addonStore.signIn(this.state.username, this.state.password, () => {
-      this.checkAuthenticated();
+    const authorized = addonStore.checkAuthorized();
+    if (authorized) {
+      setLocation("home");
+      return;
+    }
+    addonStore.listenToCookieChanges(() => {
+      setLocation("home");
     });
+  }
+
+  handleClick = () => {
+    const { addonStore } = this.props;
+    this.setState({ loading: true });
+    addonStore.authorize();
   };
 
   render() {
+    const { loading } = this.state;
     return (
-      <div>
-        <TextField label="Username" onChange={this.updateUsername} required />
-        <TextField
-          label="Password"
-          onChange={this.updatePassword}
-          onKeyPress={this.enterPressed}
-          type="password"
-          required
-        />
+      <Stack tokens={{ childrenGap: "16px" }}>
+        <Text vertical>Log in om de addon te gebruiken</Text>
         <PrimaryButton
-          text="Login"
-          onClick={this.handleSignIn}
-          style={{ marginTop: "1rem" }}
+          styles={{ root: { height: "3em" } }}
+          text="Inloggen"
+          onClick={this.handleClick}
+          disabled={loading}
         />
-      </div>
+      </Stack>
     );
   }
 }

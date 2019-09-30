@@ -11,10 +11,11 @@ import letterFormStore from "./stores/letterForm";
 /*===========================DIALOGS===========================*/
 import Form1 from "./views/exampleDialog";
 import LetterForm from "./views/letterForm";
+import AuthorizedDialog from "./views/authorizedDialog";
 
 /*===========================ADDON COMPONENTS==================*/
 import Addon from "./views/addonPages/Home";
-import LoginPage from "./views/addonPages/Login";
+import Login from "./views/addonPages/Login";
 
 /*===========================OTHER=============================*/
 import { setLocation } from "./utils";
@@ -50,19 +51,21 @@ const App = class App extends React.Component {
       /* ADDON PANEL*/
       case "home":
         return <Addon />;
+      case "login":
+        return <Login />;
       case "page_2":
         return (
           <div>
             <button onClick={() => setLocation("home")}>Go back</button>
           </div>
         );
-      case "login":
-        return <LoginPage />;
       /* DIALOGS */
       case "form1":
         return <Form1 />;
       case "letter_form":
         return <LetterForm />;
+      case "authorized":
+        return <AuthorizedDialog />;
       default:
         return (
           <div>
@@ -74,7 +77,6 @@ const App = class App extends React.Component {
 
   render() {
     const { location } = this.state;
-    console.log(`Render app on location: ${location}`);
     return <Provider {...stores}>{this.getComponent(location)}</Provider>;
   }
 };
