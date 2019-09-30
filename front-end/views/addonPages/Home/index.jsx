@@ -7,15 +7,11 @@ import {
   PivotItem,
   Image
 } from "office-ui-fabric-react";
-import dotOfficeImage from "../../../assets/DotOffice.png"
-import ApiTest from "./ApiTest";
-import DialogButton from "./DialogButton";
-import StoreTest from "./StoreTest";
-import ImageTest from "./ImageTest";
+import dotOfficeImage from "../../../assets/do365Docs-160.png";
 
 @inject("addonStore")
 @observer
-export default class TestComponents extends React.Component {
+export default class Home extends React.Component {
   openDialog = (dialogName, width, height, callback) => {
     Office.context.ui.displayDialogAsync(
       `${window.location.origin}/#${dialogName}`,
@@ -23,7 +19,9 @@ export default class TestComponents extends React.Component {
       result => {
         if (result.status !== "succeeded") {
           console.error(
-            `Something went wrong while opening the dialog: ${result}`
+            `Something went wrong while opening the dialog: ${JSON.stringify(
+              result
+            )}`
           );
           callback(true);
           return;
@@ -50,6 +48,11 @@ export default class TestComponents extends React.Component {
         }
       });
     });
+  };
+
+  authorize = () => {
+    const { addonStore } = this.props;
+    addonStore.authorize();
   };
 
   renderActions = () => {
@@ -108,7 +111,12 @@ export default class TestComponents extends React.Component {
           <PivotItem headerText="Nieuw">{this.renderActions()}</PivotItem>
           <PivotItem headerText="Profielen">{this.renderProfiles()}</PivotItem>
         </Pivot>
-        <Image src={dotOfficeImage} alt="DotOffice" width="128px" styles={{root: {position: "absolute", bottom: 0, right: "50px"}}} />
+        <Image
+          src={dotOfficeImage}
+          alt="DotOffice"
+          width="128px"
+          styles={{ root: { position: "absolute", bottom: 0, right: "50px" } }}
+        />
       </div>
     );
   }

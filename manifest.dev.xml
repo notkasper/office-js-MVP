@@ -4,7 +4,7 @@
   <Version>1.0.0.0</Version>
   <ProviderName>OfficeApps</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Addon Template"/>
+  <DisplayName DefaultValue="Klantnaam"/>
   <Description DefaultValue="A template to get started."/>
   <IconUrl DefaultValue="https://localhost:3000/icon-32.png"/>
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/icon-80.png"/>
@@ -12,12 +12,10 @@
   <AppDomains>
     <AppDomain>https://localhost:8080</AppDomain>
     <AppDomain>https://localhost:3000</AppDomain>
+    <AppDomain>https://login.windows.net</AppDomain>
   </AppDomains>
   <Hosts>
-    <Host Name="Presentation"/>
     <Host Name="Document"/>
-    <Host Name="Notebook"/>
-    <Host Name="Workbook"/>
   </Hosts>  
   <DefaultSettings>
     <SourceLocation DefaultValue="https://localhost:8080/#login"/>
