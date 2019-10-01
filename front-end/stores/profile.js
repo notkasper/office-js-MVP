@@ -1,12 +1,18 @@
 import { observable, action } from "mobx";
-import { createProfile as profileService } from "../services/profile";
+import { createProfile, retrieveProfiles } from "../services/profile";
 
 class ProfileStore {
   @observable profile_items = [];
 
+  @action retrieveProfileList = callback => {
+    retrieveProfiles((error, response) => {
+      this.profile_items = response.body;
+    });
+  };
+
   @action sendDialogForm = (body, callback) => {
     this.profile_items.push(body);
-    profileService(body, callback);
+    createProfile(body, callback);
   };
 }
 

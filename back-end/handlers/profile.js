@@ -17,18 +17,14 @@ const createProfile = (req, res) => {
   let profiles;
   try {
     profiles = fs.readFileSync(path.join(__dirname, "../db/profiles.json"));
-  } catch (error) {
-    throw new Error(error);
-  }
 
-  const manipulative = JSON.parse(profiles);
-  const id = uuid();
-  manipulative.push({ uuid: id, ...req.body });
+    const profileJSON = JSON.parse(profiles);
+    const id = uuid();
+    profileJSON.push({ uuid: id, ...req.body });
 
-  try {
     fs.writeFileSync(
       path.join(__dirname, "../db/profiles.json"),
-      JSON.stringify(manipulative)
+      JSON.stringify(profileJSON)
     );
   } catch (error) {
     throw new Error(error);

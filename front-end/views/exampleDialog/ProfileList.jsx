@@ -42,10 +42,14 @@ export default class ProfileList extends React.Component {
         <DetailsList
           checkboxVisibility={2}
           columns={profileListColumns}
+          styles={{ root: styles.list }}
+          onItemContextMenu={(item, index, event) => {
+            console.log(item);
+            console.log(index);
+          }}
           items={store.profile_items.map(item => ({
             profiel: item.formal_name
           }))}
-          styles={{ root: styles.list }}
         ></DetailsList>
         <PrimaryButton text="Nieuw profiel"></PrimaryButton>
         <PrimaryButton text="Kopie"></PrimaryButton>

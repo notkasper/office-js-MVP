@@ -32,6 +32,11 @@ export default class Form extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { exampleFormStore: store } = this.props;
+    store.retrieveProfileList(() => {});
+  }
+
   handleFormData(data) {
     const { exampleFormStore: store } = this.props;
     store.sendDialogForm(data, () => {});
