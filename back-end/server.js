@@ -56,7 +56,7 @@ if (["development", "staging"].includes(env)) {
   server = http.createServer(app);
 }
 
-db.connect();
+// db.connect();
 
 server.listen(port);
 server.on("error", onError);
