@@ -61,6 +61,3 @@ db.connect();
 server.listen(port);
 server.on("error", onError);
 server.on("listening", () => onListening(server));
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
