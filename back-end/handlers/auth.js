@@ -54,7 +54,6 @@ const acquireTokenWithAuthorizationCode = (req, res) => {
         res.status(500).send(message);
         return;
       }
-      // const html = `<html><head><script>window.location.href="${getAppBaseUrl()}#authorized"</script></head></html>`;
       res
         .status(200)
         .redirect(
