@@ -54,13 +54,8 @@ const acquireTokenWithAuthorizationCode = (req, res) => {
         res.status(500).send(message);
         return;
       }
-      res
-        .status(200)
-        .redirect(
-          `${getAppBaseUrl()}#authorized/${response.accessToken}/${
-            response.refreshToken
-          }`
-        );
+      const html = `<html><head><script>window.location.href="${getAppBaseUrl()}#authorized"</script></head></html>`;
+      res.status(200).send(html);
     }
   );
 };
