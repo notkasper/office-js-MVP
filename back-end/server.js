@@ -1,4 +1,3 @@
-const bodyParser = require("body-parser");
 const https = require("https");
 const http = require("http");
 const db = require("./db");
