@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const { getUserDetails } = require("../msgraph");
+const msgraph = require("../msgraph");
 
 module.exports = async (req, res) => {
   const accessToken = _.get(req, "cookies.access_token");
@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
 
   let userDetails;
   try {
-    userDetails = await getUserDetails(accessToken);
+    userDetails = await msgraph.getUserDetails(accessToken);
   } catch (error) {
     res.status(500).send({ message: error });
     return;
