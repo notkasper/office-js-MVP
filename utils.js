@@ -34,11 +34,11 @@ const getEnv = () => {
   return env;
 };
 
-const getRedirectUrl = () => {
+const getRedirectBaseUrl = () => {
   const env = getEnv();
-  const url = config.redirectUrl[env];
+  const url = config.redirectBaseUrl[env];
   if (!url) {
-    throw new Error(`Could not find redirect url for env: ${env}`);
+    throw new Error(`Could not find redirect base url for env: ${env}`);
   }
   return url;
 };
@@ -92,7 +92,7 @@ module.exports = {
   getSslCert,
   getSslKey,
   getEnv,
-  getRedirectUrl,
+  getRedirectBaseUrl,
   getAppBaseUrl,
   getDatabaseUrl,
   getDatabaseUser,
