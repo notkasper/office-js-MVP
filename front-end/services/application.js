@@ -7,3 +7,8 @@ export const testApi = callback => {
 export const oauth = callback => {
   request.get("/api/oauth").end((error, response) => callback(error, response));
 };
+
+export const getProfile = callback => {
+  request.get("/api/getProfile").end((error, response) => callback(error, response));
+};
+

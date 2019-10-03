@@ -12,6 +12,11 @@ import dotOfficeImage from "../../../assets/do365Docs-160.png";
 @inject("addonStore")
 @observer
 export default class Home extends React.Component {
+  componentDidMount() {
+    const { addonStore } = this.props;
+    addonStore.getProfile();
+  }
+
   openDialog = (dialogName, width, height, callback) => {
     Office.context.ui.displayDialogAsync(
       `${window.location.origin}/#${dialogName}`,
