@@ -3,7 +3,7 @@ import jsCookie from "js-cookie";
 import {
   testApi as testApiService,
   oauth as oauthService,
-  getProfile as getProfileService
+  getUserDetails as getUserDetailsService
 } from "../services/application";
 
 class Store {
@@ -38,8 +38,8 @@ class Store {
     testApiService(callback);
   };
 
-  @action getProfile = (callback = () => {}) => {
-    getProfileService((error, response) => {
+  @action getUserDetails = (callback = () => {}) => {
+    getUserDetailsService((error, response) => {
       if (error) {
         console.error(error);
         callback(error, response);

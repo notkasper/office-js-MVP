@@ -14,7 +14,7 @@ import dotOfficeImage from "../../../assets/do365Docs-160.png";
 export default class Home extends React.Component {
   componentDidMount() {
     const { addonStore } = this.props;
-    addonStore.getProfile();
+    addonStore.getUserDetails();
   }
 
   openDialog = (dialogName, width, height, callback) => {

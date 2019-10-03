@@ -3,7 +3,7 @@ const {
   acquireTokenWithAuthorizationCode,
   getAuthorizationUrl
 } = require("../handlers/auth");
-const getProfile = require("../handlers/getProfile");
+const getUserDetails = require("../handlers/getUserDetails");
 
 const router = express.Router();
 
@@ -18,6 +18,6 @@ router.put("/dialog", (req, res) => {
 router.get("/oauth", getAuthorizationUrl);
 router.get("/getAccessToken", acquireTokenWithAuthorizationCode);
 
-router.get("/getProfile", getProfile);
+router.get("/getUserDetails", getUserDetails);
 
 module.exports = router;
