@@ -28,6 +28,12 @@ const connect = async () => {
   console.log("Connected to database.");
 };
 
+const performQuery = async (query) => {
+  const result = await mssql.query(query);
+  return result;
+}
+
 module.exports = {
-  connect
+  connect,
+  performQuery
 };

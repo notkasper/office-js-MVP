@@ -15,6 +15,7 @@ export default class Home extends React.Component {
   componentDidMount() {
     const { addonStore } = this.props;
     addonStore.getUserDetails();
+    addonStore.putProfile();
   }
 
   openDialog = (dialogName, width, height, callback) => {

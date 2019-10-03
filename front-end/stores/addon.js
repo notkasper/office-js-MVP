@@ -3,7 +3,8 @@ import jsCookie from "js-cookie";
 import {
   testApi as testApiService,
   oauth as oauthService,
-  getUserDetails as getUserDetailsService
+  getUserDetails as getUserDetailsService,
+  putProfile as putProfileService
 } from "../services/application";
 
 class Store {
@@ -36,6 +37,17 @@ class Store {
 
   @action testApi = (callback = () => {}) => {
     testApiService(callback);
+  };
+
+  @action putProfile = (callback = () => {}) => {
+    putProfileService((error, response) => {
+      if (error) {
+        console.error(error);
+        callback(error, response);
+        return;
+      }
+      console.log(`Put profile succes: ${response.body}`);
+    });
   };
 
   @action getUserDetails = (callback = () => {}) => {
