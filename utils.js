@@ -36,9 +36,9 @@ const getEnv = () => {
 
 const getRedirectBaseUrl = () => {
   const env = getEnv();
-  const url = config.redirectBaseUrl[env];
+  const url = config.redirectUrl[env];
   if (!url) {
-    throw new Error(`Could not find redirect base url for env: ${env}`);
+    throw new Error(`Could not find redirect url for env: ${env}`);
   }
   return url;
 };

@@ -1,7 +1,7 @@
 module.exports = {
-  redirectBaseUrl: {
-    development: "https://breezy-grasshopper-55.localtunnel.me",
-    staging: "https://6e0b93f6.ngrok.io",
+  redirectUrl: {
+    development: "https://6e0b93f6.ngrok.io",
+    staging: "https://6e0b93f6.ngrok.i",
     production: "https://duffy-addon.azurewebsites.net"
   },
   appBaseUrl: {
