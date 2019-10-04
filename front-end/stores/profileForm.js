@@ -5,15 +5,14 @@ class ProfileFormStore {
   @observable profiles = [];
 
   @action putProfile = (profile, callback = () => {}) => {
-    this.profiles.push(profile);
     putProfileService(profile, (error, response) => {
       if (error) {
         console.error(error);
         callback(error, response);
         return;
       }
-      console.log(`Put profile succes: ${response.body}`);
-      callback(error, response)
+      this.profiles.push(profile);
+      callback(error, response);
     });
   };
 }
