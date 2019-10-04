@@ -39,8 +39,38 @@ export default class Home extends React.Component {
       var body = context.document.body;
 
       // Queue a command to insert text in to the beginning of the body.
-      data.foreach(value => body.insertText(value, word.insertText.start));
-      //body.insertText(data, Word.InsertLocation.start);
+
+      var adressParagraph = body.insertParagraph(data.adres, "start");
+      adressParagraph.styleBuiltIn = "Heading1";
+      var onderwerpParagraph = body.insertParagraph(
+        "Onderwerp " + data.onderwerp,
+        "end"
+      );
+      onderwerpParagraph.styleBuiltIn = "Normal";
+      body.insertBreak(Word.BreakType.line, "end");
+      var naamParagraph = body.insertParagraph(
+        data.aanhef + " " + data.naam + ",",
+        "end"
+      );
+      naamParagraph.styleBuiltIn = "Normal";
+      var textBody = body.insertParagraph("voeg hier uw text toe", "end");
+      textBody.styleBuiltIn = "Normal";
+      body.insertBreak(Word.BreakType.line, "end");
+      var groetParagraaf = body.insertParagraph(data.groetregel, "end");
+      groetParagraaf.styleBuiltIn = "Normal";
+      if (data.toevoeging !== "") {
+        var toevoegParagraaf = body.insertParagraph(data.toevoeging, "end");
+        toevoegParagraaf.styleBuiltIn = "Normal";
+      }
+      //body.insertBreak(Word.BreakType.line, "end");
+      var ondertekenParagraaf = body.insertParagraph(
+        data.ondertekenaar + data.contactpersoon,
+        "end"
+      );
+      ondertekenParagraaf.styleBuiltIn = "Normal";
+      body.insertBreak(Word.BreakType.line, "end");
+      var bijlageParagraaf = body.insertParagraph(data.bijlage, "end");
+      bijlageParagraaf.styleBuiltIn = "Normal";
 
       // Synchronize the document state by executing the queued commands,
       // and return a promise to indicate task completion.
@@ -61,7 +91,8 @@ export default class Home extends React.Component {
       }
       dialog.addEventHandler(Office.EventType.DialogMessageReceived, arg => {
         const { messageType, data } = JSON.parse(arg.message);
-        console.log(data);
+        console.log(data.onderwerp);
+        console.log("ja dit is de ouder");
         switch (messageType) {
           case "closeDialog":
             dialog.close();

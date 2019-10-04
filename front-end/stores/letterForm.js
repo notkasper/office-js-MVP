@@ -17,7 +17,8 @@ class LetterFormStore {
     { key: "grape", text: "Grape" },
     { key: "broccoli", text: "Broccoli" },
     { key: "carrot", text: "Carrot" },
-    { key: "lettuce", text: "Lettuce" }
+    { key: "lettuce", text: "Lettuce" },
+    { key: "jan koeken", text: "Jan Koeken" }
   ];
 
   @observable salutations = [

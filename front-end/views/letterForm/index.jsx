@@ -18,16 +18,17 @@ export default class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      onderwerp: "",
-      ondertekenaar: "",
-      bijlage: "",
-      datum: "",
-      contactpersoon: "",
-      aanhef: "",
-      naam: "",
-      groetregel: "",
+      onderwerp: "Brief",
+      ondertekenaar: "Dhr. ",
+      bijlage:
+        "You spend hours trying to figure out the solution to the hints for the TraC trip and really want to know if your answer was correct? You want to know if you have been the first to guess the location right? Then come to the Location Reveal! You will get first hand information about where CognAC is going between the 23rd of April - 1st of May and get a first glance at the planned activities during the trip. Bring your lunch and let the TraC spark your Wanderlust!",
+      datum: "4 oktober 2019",
+      contactpersoon: "Jan Koeken",
+      aanhef: "Beste ",
+      naam: "Francious",
+      groetregel: "Hartelijke groet, ",
       toevoeging: "",
-      adres: "",
+      adres: "Vincent van Goghlaan 64 5246 GB  Rosmalen",
       kenmerk: ""
     };
   }
@@ -55,6 +56,7 @@ export default class Form extends React.Component {
   };
 
   writeInDocument = () => {
+    console.log("suppose to be writing");
     Office.context.ui.messageParent(
       JSON.stringify({ messageType: "text", data: this.state })
     );
@@ -73,10 +75,12 @@ export default class Form extends React.Component {
         <Dropdown
           label="Ondertekenaar"
           id="ondertekenaar"
+          placeholder={this.state.ondertekenaar}
           options={letterFormStore.signatures}
           onChange={this.dropDownOnChange}
         />
         <TextField
+          value={this.state.bijlage}
           label="Bijlage(n)"
           id="bijlage"
           onChange={this.textFieldOnChange}
@@ -88,6 +92,7 @@ export default class Form extends React.Component {
         <Dropdown
           label="Contactpersoon"
           id="contactpersoon"
+          placeholder={this.state.contactpersoon}
           options={letterFormStore.contacts}
           onChange={this.dropDownOnChange}
           disabled
@@ -105,10 +110,12 @@ export default class Form extends React.Component {
             label="Aanhef"
             id="aanhef"
             options={letterFormStore.salutations}
+            placeholder={this.state.aanhef}
             onChange={this.dropDownOnChange}
             styles={{ root: { width: 200 } }}
           />
           <TextField
+            value={this.state.naam}
             label="Naam"
             id="naam"
             styles={{ root: { width: 200 } }}
@@ -118,6 +125,7 @@ export default class Form extends React.Component {
         <Dropdown
           label="Groetregel"
           id="groetregel"
+          placeholder={this.state.groetregel}
           options={letterFormStore.greetings}
           onChange={this.dropDownOnChange}
         />
@@ -127,6 +135,7 @@ export default class Form extends React.Component {
           multiline
           rows={2}
           resizable={false}
+          value={this.state.toevoeging}
           onChange={this.textFieldOnChange}
         />
         <TextField
@@ -135,6 +144,7 @@ export default class Form extends React.Component {
           multiline
           rows={6}
           resizable={false}
+          value={this.state.adres}
           onChange={this.textFieldOnChange}
         />
         <TextField
