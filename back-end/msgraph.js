@@ -1,4 +1,4 @@
-require("isomorphic-fetch");
+require("isomorphic-fetch"); // Pollyfill required by microsoft graph client
 const { Client } = require("@microsoft/microsoft-graph-client");
 
 const getUserDetails = async accessToken => {
