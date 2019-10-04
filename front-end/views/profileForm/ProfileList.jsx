@@ -39,7 +39,7 @@ export default class ProfileList extends React.Component {
               isResizable: false
             }
           ]}
-          items={profileFormStore.profile_items.map(item => ({
+          items={profileFormStore.profiles.map(item => ({
             profiel: item.formal_name
           }))}
           styles={{ root: styles.list }}

@@ -3,19 +3,20 @@ import { putProfile as putProfileService } from "../services/profileForm";
 
 class ProfileFormStore {
   @observable counter = 0;
-  @observable profile_items = [];
+  @observable profiles = [];
 
   @action incrementCounter = () => (this.counter += 1);
 
-  @action putProfile = (body, callback = () => {}) => {
-    this.profile_items.push(body);
-    putProfileService((error, response) => {
+  @action putProfile = (profile, callback = () => {}) => {
+    this.profiles.push(profile);
+    putProfileService(profile, (error, response) => {
       if (error) {
         console.error(error);
         callback(error, response);
         return;
       }
       console.log(`Put profile succes: ${response.body}`);
+      callback(error, response)
     });
   };
 }
