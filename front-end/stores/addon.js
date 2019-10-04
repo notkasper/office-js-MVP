@@ -3,7 +3,8 @@ import jsCookie from "js-cookie";
 import {
   testApi as testApiService,
   oauth as oauthService,
-  getUserDetails as getUserDetailsService
+  getUserDetails as getUserDetailsService,
+  putProfile as putProfileService
 } from "../services/application";
 
 class Store {

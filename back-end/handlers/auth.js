@@ -1,6 +1,6 @@
 const { AuthenticationContext } = require("adal-node");
 const crypto = require("crypto");
-const { getAppBaseUrl, getRedirectBaseUrl } = require("../../utils");
+const { getRedirectBaseUrl, getAppBaseUrl } = require("../../utils");
 
 const config = {
   tenant: "0abccceb-93ba-4767-9038-76722263a6ee",

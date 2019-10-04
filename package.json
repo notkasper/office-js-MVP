@@ -69,6 +69,7 @@
     "office-ui-fabric-react": "^7.25.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "superagent": "^5.1.0"
+    "superagent": "^5.1.0",
+    "uuid": "^3.3.3"
   }
 }

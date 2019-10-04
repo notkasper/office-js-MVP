@@ -4,6 +4,7 @@ const {
   getAuthorizationUrl
 } = require("../handlers/auth");
 const getUserDetails = require("../handlers/getUserDetails");
+const putProfile = require("../handlers/putProfile");
 
 const router = express.Router();
 
@@ -16,6 +17,7 @@ router.put("/dialog", (req, res) => {
 });
 
 router.get("/oauth", getAuthorizationUrl);
+router.put("/profile", putProfile);
 router.get("/getAccessToken", acquireTokenWithAuthorizationCode);
 
 router.get("/getUserDetails", getUserDetails);

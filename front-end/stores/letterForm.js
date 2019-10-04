@@ -1,5 +1,4 @@
 import { observable, action } from "mobx";
-import {} from "../services/exampleForm";
 
 class LetterFormStore {
   @observable sendOptions = [
