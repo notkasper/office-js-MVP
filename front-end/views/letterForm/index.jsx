@@ -56,7 +56,6 @@ export default class Form extends React.Component {
   };
 
   writeInDocument = () => {
-    console.log("suppose to be writing");
     Office.context.ui.messageParent(
       JSON.stringify({ messageType: "text", data: this.state })
     );

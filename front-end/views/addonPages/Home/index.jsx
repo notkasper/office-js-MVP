@@ -34,23 +34,23 @@ export default class Home extends React.Component {
 
   generateText = (dialog, data) => {
     // Run a batch operation against the Word object model.
-    Word.run(function(context) {
+    Word.run(context => {
       // Create a proxy object for the document body.
-      var body = context.document.body;
+      const body = context.document.body;
 
       // Queue a command to insert text in to the beginning of the body.
 
-      var adressParagraph = body.insertParagraph(data.adres, "start");
+      const adressParagraph = body.insertParagraph(data.adres, "start");
       adressParagraph.styleBuiltIn = "Heading9";
-      var onderwerpParagraph = body.insertParagraph(data.onderwerp, "end");
+      const onderwerpParagraph = body.insertParagraph(data.onderwerp, "end");
       onderwerpParagraph.font.set({
         italic: false,
         bold: true,
         size: 13
       });
       body.insertBreak(Word.BreakType.line, "end");
-      var naamParagraph = body.insertParagraph(
-        data.aanhef + " " + data.naam + ",",
+      const naamParagraph = body.insertParagraph(
+        `${data.aanhef} ${data.naam},`,
         "end"
       );
       naamParagraph.font.set({
@@ -58,28 +58,28 @@ export default class Home extends React.Component {
         bold: false,
         size: 12
       });
-      var textBody = body.insertParagraph("voeg hier uw text toe", "end");
+      const textBody = body.insertParagraph("voeg hier uw text toe", "end");
       textBody.styleBuiltIn = "NoSpacing";
       body.insertBreak(Word.BreakType.line, "end");
-      var groetParagraaf = body.insertParagraph(data.groetregel, "end");
+      const groetParagraaf = body.insertParagraph(data.groetregel, "end");
       groetParagraaf.styleBuiltIn = "Normal";
-      if (data.toevoeging !== "") {
-        var toevoegParagraaf = body.insertParagraph(data.toevoeging, "end");
+      if (data.toevoeging.length) {
+        const toevoegParagraaf = body.insertParagraph(data.toevoeging, "end");
         toevoegParagraaf.styleBuiltIn = "Normal";
       }
       //body.insertBreak(Word.BreakType.line, "end");
-      var ondertekenParagraaf = body.insertParagraph(
+      const ondertekenParagraaf = body.insertParagraph(
         data.ondertekenaar + data.contactpersoon,
         "end"
       );
       ondertekenParagraaf.styleBuiltIn = "Normal";
       body.insertBreak(Word.BreakType.line, "end");
-      var bijlageTitle = body.insertParagraph("Bijlage(n):", "end");
+      const bijlageTitle = body.insertParagraph("Bijlage(n):", "end");
       bijlageTitle.font.set({
         bold: true,
         size: 12
       });
-      var bijlageParagraaf = body.insertParagraph(data.bijlage, "end");
+      const bijlageParagraaf = body.insertParagraph(data.bijlage, "end");
       bijlageParagraaf.styleBuiltIn = "Normal";
 
       // Synchronize the document state by executing the queued commands,
@@ -101,8 +101,6 @@ export default class Home extends React.Component {
       }
       dialog.addEventHandler(Office.EventType.DialogMessageReceived, arg => {
         const { messageType, data } = JSON.parse(arg.message);
-        console.log(data.onderwerp);
-        console.log("ja dit is de ouder");
         switch (messageType) {
           case "closeDialog":
             dialog.close();
