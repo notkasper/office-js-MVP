@@ -38,7 +38,7 @@ export default class Login extends React.Component {
         <Text vertical>Log in om de addon te gebruiken</Text>
         <PrimaryButton
           styles={{ root: { height: "3em" } }}
-          text="Inloggen"
+          text="Autoriseren"
           onClick={this.handleClick}
           disabled={loading}
         />

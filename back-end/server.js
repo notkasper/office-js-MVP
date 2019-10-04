@@ -1,7 +1,6 @@
-const bodyParser = require("body-parser");
 const https = require("https");
-const ngrok = require("ngrok");
 const http = require("http");
+const db = require("./db");
 const app = require("./app");
 const { getSslCert, getSslKey, getEnv } = require("../utils");
 
@@ -56,9 +55,8 @@ if (["development", "staging"].includes(env)) {
   server = http.createServer(app);
 }
 
+db.connect();
+
 server.listen(port);
 server.on("error", onError);
 server.on("listening", () => onListening(server));
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));

@@ -34,7 +34,7 @@ const getEnv = () => {
   return env;
 };
 
-const getRedirectUrl = () => {
+const getRedirectBaseUrl = () => {
   const env = getEnv();
   const url = config.redirectUrl[env];
   if (!url) {
@@ -52,10 +52,50 @@ const getAppBaseUrl = () => {
   return url;
 };
 
+const getDatabaseUrl = () => {
+  const env = getEnv();
+  const url = config.databaseUrl[env];
+  if (!url) {
+    throw new Error(`Could not find database url for env: ${env}`);
+  }
+  return url;
+};
+
+const getDatabaseUser = () => {
+  const env = getEnv();
+  const url = config.databaseUser[env];
+  if (!url) {
+    throw new Error(`Could not find database user for env: ${env}`);
+  }
+  return url;
+};
+
+const getDatabasePassword = () => {
+  const env = getEnv();
+  const url = config.databasePassword[env];
+  if (!url) {
+    throw new Error(`Could not find database password for env: ${env}`);
+  }
+  return url;
+};
+
+const getDatabaseName = () => {
+  const env = getEnv();
+  const url = config.databaseName[env];
+  if (!url) {
+    throw new Error(`Could not find database name for env: ${env}`);
+  }
+  return url;
+};
+
 module.exports = {
   getSslCert,
   getSslKey,
   getEnv,
-  getRedirectUrl,
-  getAppBaseUrl
+  getRedirectBaseUrl,
+  getAppBaseUrl,
+  getDatabaseUrl,
+  getDatabaseUser,
+  getDatabasePassword,
+  getDatabaseName
 };

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
-  <Id>05c2e1c9-3e1d-406e-9a91-e9ac64854143</Id>
+  <Id>05c2e1c9-3e1d-406e-9a91-e9ac64854145</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>OfficeApps</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
@@ -75,7 +75,7 @@
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Get started with your sample add-in!" />
         <bt:String id="CommandsGroup.Label" DefaultValue="Commands Group" />
-        <bt:String id="TaskpaneButton.Label" DefaultValue="Show Taskpane" />
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Show Taskpane prod" />
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="GetStarted.Description" DefaultValue="Loaded succesfully." />
