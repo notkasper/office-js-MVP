@@ -39,17 +39,6 @@ class Store {
     testApiService(callback);
   };
 
-  @action putProfile = (callback = () => {}) => {
-    putProfileService((error, response) => {
-      if (error) {
-        console.error(error);
-        callback(error, response);
-        return;
-      }
-      console.log(`Put profile succes: ${response.body}`);
-    });
-  };
-
   @action getUserDetails = (callback = () => {}) => {
     getUserDetailsService((error, response) => {
       if (error) {

@@ -12,7 +12,4 @@ export const getUserDetails = callback => {
   request.get("/api/getUserDetails").end((error, response) => callback(error, response));
 };
 
-export const putProfile = callback => {
-  request.put("/api/profile").end((error, response) => callback(error, response));
-};
 

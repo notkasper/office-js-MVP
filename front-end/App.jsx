@@ -5,11 +5,11 @@ import { Provider } from "mobx-react";
 
 /*===========================STORES============================*/
 import addonStore from "./stores/addon";
-import exampleFormStore from "./stores/exampleForm";
+import profileFormStore from "./stores/profileForm";
 import letterFormStore from "./stores/letterForm";
 
 /*===========================DIALOGS===========================*/
-import Form1 from "./views/exampleDialog";
+import ProfileForm from "./views/profileForm";
 import LetterForm from "./views/letterForm";
 import AuthorizedDialog from "./views/authorizedDialog";
 
@@ -22,7 +22,7 @@ import { setLocation } from "./utils";
 
 const stores = {
   addonStore,
-  exampleFormStore,
+  profileFormStore,
   letterFormStore
 };
 
@@ -60,8 +60,8 @@ const App = class App extends React.Component {
           </div>
         );
       /* DIALOGS */
-      case "form1":
-        return <Form1 />;
+      case "profile_form":
+        return <ProfileForm />;
       case "letter_form":
         return <LetterForm />;
       case "authorized":

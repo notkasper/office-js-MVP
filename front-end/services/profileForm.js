@@ -1,8 +1,8 @@
 import request from "superagent";
 
-export const sendDialogForm = (body, callback) => {
+export const putProfile = (body, callback) => {
   request
-    .put("/api/dialog")
+    .put("/api/profile")
     .send(body)
     .end((error, response) => callback(error, response));
 };

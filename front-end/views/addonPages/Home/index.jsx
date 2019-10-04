@@ -15,7 +15,6 @@ export default class Home extends React.Component {
   componentDidMount() {
     const { addonStore } = this.props;
     addonStore.getUserDetails();
-    addonStore.putProfile();
   }
 
   openDialog = (dialogName, width, height, callback) => {
@@ -83,8 +82,8 @@ export default class Home extends React.Component {
     );
   };
 
-  openForm1 = () => {
-    this.openDialog("form1", 85, 85, (error, dialog) => {
+  openProfileForm = () => {
+    this.openDialog("profile_form", 85, 85, (error, dialog) => {
       if (error) {
         return;
       }
@@ -102,7 +101,7 @@ export default class Home extends React.Component {
       <Stack vertical tokens={{ childrenGap: "5px" }}>
         <CompoundButton
           secondaryText="Maak een nieuw profiel"
-          onClick={this.openForm1}
+          onClick={this.openProfileForm}
         >
           Profiel
         </CompoundButton>

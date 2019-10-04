@@ -15,7 +15,7 @@ const styles = {
     maxHeight: 500
   }
 };
-@inject("exampleFormStore")
+@inject("profileFormStore")
 @observer
 export default class ProfileList extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ export default class ProfileList extends React.Component {
   }
 
   render() {
-    const { exampleFormStore: store } = this.props;
+    const { profileFormStore } = this.props;
     return (
       <Stack vertical tokens={{ childrenGap: 5 }}>
         <Text variant="xLarge">Profielen</Text>
@@ -39,7 +39,7 @@ export default class ProfileList extends React.Component {
               isResizable: false
             }
           ]}
-          items={store.profile_items.map(item => ({
+          items={profileFormStore.profile_items.map(item => ({
             profiel: item.formal_name
           }))}
           styles={{ root: styles.list }}
