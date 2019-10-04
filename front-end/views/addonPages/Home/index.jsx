@@ -5,7 +5,8 @@ import {
   CompoundButton,
   Pivot,
   PivotItem,
-  Image
+  Image,
+  textAreaProperties
 } from "office-ui-fabric-react";
 import dotOfficeImage from "../../../assets/do365Docs-160.png";
 
@@ -36,19 +37,85 @@ export default class Home extends React.Component {
     );
   };
 
+  generateText = (dialog, data) => {
+    // Run a batch operation against the Word object model.
+    Word.run(context => {
+      // Create a proxy object for the document body.
+      const body = context.document.body;
+
+      // Queue a command to insert text in to the beginning of the body.
+
+      const adressParagraph = body.insertParagraph(data.adres, "start");
+      adressParagraph.styleBuiltIn = "Heading9";
+      const onderwerpParagraph = body.insertParagraph(data.onderwerp, "end");
+      onderwerpParagraph.font.set({
+        italic: false,
+        bold: true,
+        size: 13
+      });
+      body.insertBreak(Word.BreakType.line, "end");
+      const naamParagraph = body.insertParagraph(
+        `${data.aanhef} ${data.naam},`,
+        "end"
+      );
+      naamParagraph.font.set({
+        italic: false,
+        bold: false,
+        size: 12
+      });
+      const textBody = body.insertParagraph("voeg hier uw text toe", "end");
+      textBody.styleBuiltIn = "NoSpacing";
+      body.insertBreak(Word.BreakType.line, "end");
+      const groetParagraaf = body.insertParagraph(data.groetregel, "end");
+      groetParagraaf.styleBuiltIn = "Normal";
+      if (data.toevoeging.length) {
+        const toevoegParagraaf = body.insertParagraph(data.toevoeging, "end");
+        toevoegParagraaf.styleBuiltIn = "Normal";
+      }
+      const ondertekenParagraaf = body.insertParagraph(
+        data.ondertekenaar + data.contactpersoon,
+        "end"
+      );
+      ondertekenParagraaf.styleBuiltIn = "Normal";
+      body.insertBreak(Word.BreakType.line, "end");
+      const bijlageTitle = body.insertParagraph("Bijlage(n):", "end");
+      bijlageTitle.font.set({
+        bold: true,
+        size: 12
+      });
+      const bijlageParagraaf = body.insertParagraph(data.bijlage, "end");
+      bijlageParagraaf.styleBuiltIn = "Normal";
+
+      // Synchronize the document state by executing the queued commands,
+      // and return a promise to indicate task completion.
+      return context.sync().then(() => {
+        dialog.close();
+      });
+    }).catch(error => {
+      console.log("Error: " + JSON.stringify(error));
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
+  };
   openLetterForm = () => {
-    this.openDialog("letter_form", 43, 67, (error, dialog) => {
+    this.openDialog("letter_form", 70, 70, (error, dialog) => {
       if (error) {
         return;
       }
       dialog.addEventHandler(Office.EventType.DialogMessageReceived, arg => {
-        const message = JSON.parse(arg.message).messageType;
-        switch (message) {
+        const { messageType, data } = JSON.parse(arg.message);
+        switch (messageType) {
           case "closeDialog":
             dialog.close();
             break;
+          case "text":
+            this.generateText(dialog, data);
+            break;
           default:
-            console.error(`Received unhandled message from dialog: ${message}`);
+            console.error(
+              `Received unhandled message from dialog: ${messageType}`
+            );
             return;
         }
       });

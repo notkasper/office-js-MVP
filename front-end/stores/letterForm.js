@@ -16,21 +16,26 @@ class LetterFormStore {
     { key: "grape", text: "Grape" },
     { key: "broccoli", text: "Broccoli" },
     { key: "carrot", text: "Carrot" },
-    { key: "lettuce", text: "Lettuce" }
+    { key: "lettuce", text: "Lettuce" },
+    { key: "jan koeken", text: "Jan Koeken" }
   ];
 
   @observable salutations = [
-    { key: "mvr", text: "Mvr." },
-    { key: "dhr", text: "Dhr." },
+    { key: "mvr", text: "Geachte mevrouw" },
+    { key: "dhr", text: "Geachte heer" },
+    { key: "informal", text: "Beste" }
   ];
 
   @observable signatures = [
     { key: "mvr", text: "Mvr." },
-    { key: "dhr", text: "Dhr." },
+    { key: "dhr", text: "Dhr." }
   ];
 
   @observable greetings = [
-    { key: "mvg", text: "Met vriendelijke groet" },
+    { key: "mvg", text: "Met vriendelijke groet," },
+    { key: "mvgn", text: "Met vriendelijke groeten," },
+    { key: "informal", text: "Hartelijke groet, " },
+    { key: "formal", text: "Hoogachtend, " }
   ];
 }
 
