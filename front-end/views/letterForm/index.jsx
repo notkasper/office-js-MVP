@@ -46,7 +46,7 @@ export default class Form extends React.Component {
     const { id } = event.target;
     const newStateBody = {};
     newStateBody[id] = option.text;
-    this.setState(newStateBody);
+    this.setState({ id: option.text });
   };
 
   closeDialog = () => {

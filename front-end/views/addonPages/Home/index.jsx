@@ -67,7 +67,6 @@ export default class Home extends React.Component {
         const toevoegParagraaf = body.insertParagraph(data.toevoeging, "end");
         toevoegParagraaf.styleBuiltIn = "Normal";
       }
-      //body.insertBreak(Word.BreakType.line, "end");
       const ondertekenParagraaf = body.insertParagraph(
         data.ondertekenaar + data.contactpersoon,
         "end"
@@ -84,10 +83,10 @@ export default class Home extends React.Component {
 
       // Synchronize the document state by executing the queued commands,
       // and return a promise to indicate task completion.
-      return context.sync().then(function() {
+      return context.sync().then(() => {
         dialog.close();
       });
-    }).catch(function(error) {
+    }).catch(error => {
       console.log("Error: " + JSON.stringify(error));
       if (error instanceof OfficeExtension.Error) {
         console.log("Debug info: " + JSON.stringify(error.debugInfo));
