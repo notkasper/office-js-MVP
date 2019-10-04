@@ -17,8 +17,36 @@ import {
 export default class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      onderwerp: "",
+      ondertekenaar: "",
+      bijlage: "",
+      datum: "",
+      contactpersoon: "",
+      aanhef: "",
+      naam: "",
+      groetregel: "",
+      toevoeging: "",
+      adres: "",
+      kenmerk: ""
+    };
   }
+
+  textFieldOnChange = event => {
+    const {
+      target: { id, value }
+    } = event;
+    const newStateBody = {};
+    newStateBody[id] = value;
+    this.setState(newStateBody);
+  };
+
+  dropDownOnChange = (event, option) => {
+    const { id } = event.target;
+    const newStateBody = {};
+    newStateBody[id] = option.text;
+    this.setState(newStateBody);
+  };
 
   closeDialog = () => {
     Office.context.ui.messageParent(
@@ -26,23 +54,44 @@ export default class Form extends React.Component {
     );
   };
 
+  writeInDocument = () => {
+    Office.context.ui.messageParent(
+      JSON.stringify({ messageType: "text", data: this.state })
+    );
+  };
+
   renderLeftPanel = () => {
     const { letterFormStore } = this.props;
     return (
       <Stack vertical styles={{ root: { width: 400 } }}>
-        <Dropdown
-          label="Verzendoptie"
-          options={letterFormStore.sendOptions}
+        <TextField
+          value={this.state.onderwerp}
+          label="Onderwerp"
+          id="onderwerp"
+          onChange={this.textFieldOnChange}
         />
-        <TextField label="Adres" multiline rows={6} resizable={false} />
+        <Dropdown
+          label="Ondertekenaar"
+          id="ondertekenaar"
+          options={letterFormStore.signatures}
+          onChange={this.dropDownOnChange}
+        />
+        <TextField
+          label="Bijlage(n)"
+          id="bijlage"
+          onChange={this.textFieldOnChange}
+          multiline
+          rows={8}
+          resizable={false}
+        />
         <DatePicker placeholder="Selecteer datum" label="Kies een datum" />
         <Dropdown
           label="Contactpersoon"
+          id="contactpersoon"
           options={letterFormStore.contacts}
+          onChange={this.dropDownOnChange}
           disabled
         />
-        <TextField label="Ons kenmerk" />
-        <TextField label="Onderwerp" />
       </Stack>
     );
   };
@@ -54,27 +103,45 @@ export default class Form extends React.Component {
         <Stack horizontal tokens={{ childrenGap: "1em" }}>
           <Dropdown
             label="Aanhef"
+            id="aanhef"
             options={letterFormStore.salutations}
-            disabled={true}
-            styles={{ root: { width: 100 } }}
+            onChange={this.dropDownOnChange}
+            styles={{ root: { width: 200 } }}
           />
-          <TextField label="Naam" styles={{ root: { width: 250 } }} />
+          <TextField
+            label="Naam"
+            id="naam"
+            styles={{ root: { width: 200 } }}
+            onChange={this.textFieldOnChange}
+          />
         </Stack>
         <Dropdown
           label="Groetregel"
+          id="groetregel"
           options={letterFormStore.greetings}
+          onChange={this.dropDownOnChange}
         />
         <TextField
           label="Groetregel toevoeging"
+          id="toevoeging"
           multiline
           rows={2}
           resizable={false}
+          onChange={this.textFieldOnChange}
         />
-        <Dropdown
-          label="Ondertekenaar"
-          options={letterFormStore.signatures}
+        <TextField
+          label="Adres"
+          id="adres"
+          multiline
+          rows={6}
+          resizable={false}
+          onChange={this.textFieldOnChange}
         />
-        <TextField label="Bijlage(n)" multiline rows={8} resizable={false} />
+        <TextField
+          label="Ons kenmerk"
+          id="kenmerk"
+          onChange={this.textFieldOnChange}
+        />
       </Stack>
     );
   };
@@ -106,7 +173,7 @@ export default class Form extends React.Component {
         <Stack>
           <Stack.Item align="end">
             <Stack horizontal tokens={{ childrenGap: "8px" }}>
-              <DefaultButton text="OK" />
+              <DefaultButton text="OK" onClick={this.writeInDocument} />
               <DefaultButton
                 text="Annuleren"
                 onClick={this.closeDialog}

@@ -5,7 +5,8 @@ import {
   CompoundButton,
   Pivot,
   PivotItem,
-  Image
+  Image,
+  textAreaProperties
 } from "office-ui-fabric-react";
 import dotOfficeImage from "../../../assets/do365Docs-160.png";
 
@@ -31,19 +32,47 @@ export default class Home extends React.Component {
     );
   };
 
+  generateText = (dialog, data) => {
+    // Run a batch operation against the Word object model.
+    Word.run(function(context) {
+      // Create a proxy object for the document body.
+      var body = context.document.body;
+
+      // Queue a command to insert text in to the beginning of the body.
+      data.foreach(value => body.insertText(value, word.insertText.start));
+      //body.insertText(data, Word.InsertLocation.start);
+
+      // Synchronize the document state by executing the queued commands,
+      // and return a promise to indicate task completion.
+      return context.sync().then(function() {
+        dialog.close();
+      });
+    }).catch(function(error) {
+      console.log("Error: " + JSON.stringify(error));
+      if (error instanceof OfficeExtension.Error) {
+        console.log("Debug info: " + JSON.stringify(error.debugInfo));
+      }
+    });
+  };
   openLetterForm = () => {
-    this.openDialog("letter_form", 43, 67, (error, dialog) => {
+    this.openDialog("letter_form", 70, 70, (error, dialog) => {
       if (error) {
         return;
       }
       dialog.addEventHandler(Office.EventType.DialogMessageReceived, arg => {
-        const message = JSON.parse(arg.message).messageType;
-        switch (message) {
+        const { messageType, data } = JSON.parse(arg.message);
+        console.log(data);
+        switch (messageType) {
           case "closeDialog":
             dialog.close();
             break;
+          case "text":
+            this.generateText(dialog, data);
+            break;
           default:
-            console.error(`Received unhandled message from dialog: ${message}`);
+            console.error(
+              `Received unhandled message from dialog: ${messageType}`
+            );
             return;
         }
       });
