@@ -11,5 +11,3 @@ export const oauth = callback => {
 export const getUserDetails = callback => {
   request.get("/api/getUserDetails").end((error, response) => callback(error, response));
 };
-
-
