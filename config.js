@@ -6,7 +6,7 @@ module.exports = {
   },
   appBaseUrl: {
     development: "https://localhost:8080",
-    staging: "https://localhost:3000",
+    staging: "https://duffy-addon-staging.azurewebsites.net",
     production: "https://duffy-addon.azurewebsites.net"
   },
   databaseUrl: {
