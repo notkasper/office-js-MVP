@@ -41,20 +41,25 @@ export default class Home extends React.Component {
       // Queue a command to insert text in to the beginning of the body.
 
       var adressParagraph = body.insertParagraph(data.adres, "start");
-      adressParagraph.styleBuiltIn = "Heading1";
-      var onderwerpParagraph = body.insertParagraph(
-        "Onderwerp " + data.onderwerp,
-        "end"
-      );
-      onderwerpParagraph.styleBuiltIn = "Normal";
+      adressParagraph.styleBuiltIn = "Heading9";
+      var onderwerpParagraph = body.insertParagraph(data.onderwerp, "end");
+      onderwerpParagraph.font.set({
+        italic: false,
+        bold: true,
+        size: 13
+      });
       body.insertBreak(Word.BreakType.line, "end");
       var naamParagraph = body.insertParagraph(
         data.aanhef + " " + data.naam + ",",
         "end"
       );
-      naamParagraph.styleBuiltIn = "Normal";
+      naamParagraph.font.set({
+        italic: false,
+        bold: false,
+        size: 12
+      });
       var textBody = body.insertParagraph("voeg hier uw text toe", "end");
-      textBody.styleBuiltIn = "Normal";
+      textBody.styleBuiltIn = "NoSpacing";
       body.insertBreak(Word.BreakType.line, "end");
       var groetParagraaf = body.insertParagraph(data.groetregel, "end");
       groetParagraaf.styleBuiltIn = "Normal";
@@ -69,6 +74,11 @@ export default class Home extends React.Component {
       );
       ondertekenParagraaf.styleBuiltIn = "Normal";
       body.insertBreak(Word.BreakType.line, "end");
+      var bijlageTitle = body.insertParagraph("Bijlage(n):", "end");
+      bijlageTitle.font.set({
+        bold: true,
+        size: 12
+      });
       var bijlageParagraaf = body.insertParagraph(data.bijlage, "end");
       bijlageParagraaf.styleBuiltIn = "Normal";
 
