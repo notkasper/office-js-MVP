@@ -47,7 +47,7 @@ app.set("port", port);
 
 let server;
 const env = getEnv();
-if (["development", "staging"].includes(env)) {
+if (env === "development") {
   /* Https on localhost using office-dev-certs */
   server = https.createServer({ key: getSslKey(), cert: getSslCert() }, app);
 } else {
