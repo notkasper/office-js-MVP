@@ -11,11 +11,11 @@ class Store {
   @observable profile = null;
 
   @action getAccesstoken = () => {
-    return jsCookie.get("access_token");
+    return jsCookie.get("accessToken");
   };
 
   @action getRefreshToken = () => {
-    return jsCookie.get("refresh_token");
+    return jsCookie.get("refreshToken");
   };
 
   @action checkAuthorized = () => {
