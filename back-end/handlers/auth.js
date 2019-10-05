@@ -54,43 +54,40 @@ const acquireTokenWithAuthorizationCode = (req, res) => {
         res.status(500).send(message);
         return;
       }
-      res
-        .status(200)
-        .redirect(
-          `${getAppBaseUrl()}#authorized/${response.accessToken}/${
-            response.refreshToken
-          }`
-        );
+      const { accessToken, refreshToken } = response;
+      res.redirect(
+        `${getAppBaseUrl()}#authorized/${accessToken}/${refreshToken}`
+      );
     }
   );
 };
 
-const acquireTokenWithRefreshToken = (req, res) => {
-  // WIP: DOES NOT WORK CURRENTLY
-  const {
-    body: { refresh_token: refreshToken }
-  } = req;
-  authenticationContext.acquireTokenWithRefreshToken(
-    refreshToken,
-    config.clientId,
-    config.clientSecret,
-    resource,
-    (error, response) => {
-      if (error) {
-        console.error(
-          `Error while refreshing token: ${error}\nresponse: ${response}`
-        );
-      }
-      const { accessToken, refreshToken } = response;
-      res.cookie("accessToken", accessToken, { maxAge: 3600, httpOnly: true });
-      res.cookie("refreshToken", refreshToken, { httpOnly: true });
-      res.end();
-    }
-  );
-};
+// const acquireTokenWithRefreshToken = (req, res) => {
+//   // WIP: DOES NOT WORK CURRENTLY
+//   const {
+//     body: { refresh_token: refreshToken }
+//   } = req;
+//   authenticationContext.acquireTokenWithRefreshToken(
+//     refreshToken,
+//     config.clientId,
+//     config.clientSecret,
+//     resource,
+//     (error, response) => {
+//       if (error) {
+//         console.error(
+//           `Error while refreshing token: ${error}\nresponse: ${response}`
+//         );
+//       }
+//       const { accessToken, refreshToken } = response;
+//       res.cookie("accessToken", accessToken, { maxAge: 3600, httpOnly: true });
+//       res.cookie("refreshToken", refreshToken, { httpOnly: true });
+//       res.end();
+//     }
+//   );
+// };
 
 module.exports = {
   getAuthorizationUrl,
-  acquireTokenWithAuthorizationCode,
-  acquireTokenWithRefreshToken
+  acquireTokenWithAuthorizationCode
+  // acquireTokenWithRefreshToken
 };

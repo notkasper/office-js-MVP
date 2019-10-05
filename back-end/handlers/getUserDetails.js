@@ -5,6 +5,7 @@ module.exports = async (req, res) => {
   const accessToken = _.get(req, "cookies.access_token");
   if (!accessToken) {
     res.status(400).send({ message: "Please provide access token." });
+    return;
   }
 
   let userDetails;
