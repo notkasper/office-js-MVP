@@ -98,6 +98,7 @@ export default class Home extends React.Component {
       }
     });
   };
+
   openLetterForm = () => {
     this.openDialog("letter_form", 70, 70, (error, dialog) => {
       if (error) {

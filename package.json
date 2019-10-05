@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ssl && concurrently \"node ./localtunnel.js\" \"webpack-dev-server --config webpack.dev.js\" \"nodemon ./back-end/server\"",
+    "dev": "node ssl && concurrently \"webpack-dev-server --config webpack.dev.js\" \"nodemon ./back-end/server\"",
     "build:prod": "webpack --config webpack.prod.js",
     "staging": "node ./back-end/server staging",
     "start": "node ./back-end/server production"
