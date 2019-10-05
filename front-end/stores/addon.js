@@ -28,11 +28,13 @@ class Store {
     var interval = setInterval(() => {
       const newAccessToken = this.getAccesstoken();
       const newRefreshToken = this.getRefreshToken();
+      console.log(`old: ${accessToken}\n\n ${refreshToken}`)
+      console.log(`new: ${newAccessToken}\n\n ${newRefreshToken}`)
       if (accessToken !== newAccessToken || refreshToken !== newRefreshToken) {
         clearInterval(interval);
         callback();
       }
-    }, 100);
+    }, 500);
   };
 
   @action testApi = (callback = () => {}) => {
