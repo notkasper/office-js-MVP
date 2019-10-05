@@ -3,6 +3,7 @@ const {
   acquireTokenWithAuthorizationCode,
   getAuthorizationUrl
 } = require("../handlers/auth");
+const { getEnv } = require("../../utils");
 const getUserDetails = require("../handlers/getUserDetails");
 const putProfile = require("../handlers/putProfile");
 
@@ -21,5 +22,9 @@ router.put("/profile", putProfile);
 router.get("/getAccessToken", acquireTokenWithAuthorizationCode);
 
 router.get("/getUserDetails", getUserDetails);
+router.get("/env", (req, res) => {
+  const env = getEnv();
+  res.status(200).send({ env });
+});
 
 module.exports = router;

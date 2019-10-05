@@ -24,7 +24,7 @@ const getSslCert = () => {
 
 const getEnv = () => {
   const validEnvs = ["development", "staging", "production"];
-  let env = process.argv[2];
+  let env = process.env.ENV;
   if (!validEnvs.includes(env)) {
     console.error(
       `Invalid env: ${env}\nenv must be one of: [${validEnvs}]. Falling back to development`
