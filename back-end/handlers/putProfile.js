@@ -4,7 +4,7 @@ const msgraph = require("../msgraph");
 const { performQuery } = require("../db");
 
 module.exports = async (req, res) => {
-  const accessToken = _.get(req, "cookies.access_token");
+  const accessToken = _.get(req, "cookies.accessToken");
   if (!accessToken) {
     res.status(400).send({ message: "Access token niet meegestuurd." });
   }

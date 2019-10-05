@@ -2,7 +2,7 @@ const _ = require("lodash");
 const msgraph = require("../msgraph");
 
 module.exports = async (req, res) => {
-  const accessToken = _.get(req, "cookies.access_token");
+  const accessToken = _.get(req, "cookies.accessToken");
   if (!accessToken) {
     res.status(400).send({ message: "Please provide access token." });
     return;
