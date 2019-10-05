@@ -89,7 +89,7 @@ const authMiddleware = async (req, res, next) => {
   const accessToken = _.get(req, "cookies.accessToken");
   const refreshToken = _.get(req, "cookies.refreshToken");
   if (!accessToken && !refreshToken) {
-    res.status(400).send({
+    res.status(401).send({
       message:
         "Geen access token of refresh token meegestuurd. Autoriseer opnieuw of neem contact op met support."
     });
