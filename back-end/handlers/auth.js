@@ -81,7 +81,10 @@ const acquireTokenWithRefreshToken = (req, res) => {
           `Error while refreshing token: ${error}\nresponse: ${response}`
         );
       }
-      res.send({ response });
+      const { accessToken, refreshToken } = response;
+      res.cookie("accessToken", accessToken, { maxAge: 3600, httpOnly: true });
+      res.cookie("refreshToken", refreshToken, { httpOnly: true });
+      res.end();
     }
   );
 };
