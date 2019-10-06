@@ -1,5 +1,6 @@
 const { AuthenticationContext } = require("adal-node");
 const crypto = require("crypto");
+const _ = require("lodash");
 const { getRedirectBaseUrl, getAppBaseUrl } = require("../../utils");
 
 const config = {
@@ -54,40 +55,79 @@ const acquireTokenWithAuthorizationCode = (req, res) => {
         res.status(500).send(message);
         return;
       }
-      const { accessToken, refreshToken } = response;
+      const { accessToken, refreshToken, expiresIn } = response;
       res.redirect(
-        `${getAppBaseUrl()}#authorized/${accessToken}/${refreshToken}`
+        `${getAppBaseUrl()}#authorized/${accessToken}/${refreshToken}/${expiresIn}`
       );
     }
   );
 };
 
-// const acquireTokenWithRefreshToken = (req, res) => {
-//   // WIP: DOES NOT WORK CURRENTLY
-//   const {
-//     body: { refresh_token: refreshToken }
-//   } = req;
-//   authenticationContext.acquireTokenWithRefreshToken(
-//     refreshToken,
-//     config.clientId,
-//     config.clientSecret,
-//     resource,
-//     (error, response) => {
-//       if (error) {
-//         console.error(
-//           `Error while refreshing token: ${error}\nresponse: ${response}`
-//         );
-//       }
-//       const { accessToken, refreshToken } = response;
-//       res.cookie("accessToken", accessToken, { maxAge: 3600, httpOnly: true });
-//       res.cookie("refreshToken", refreshToken, { httpOnly: true });
-//       res.end();
-//     }
-//   );
-// };
+const acquireTokenWithRefreshToken = refreshToken => {
+  return new Promise((resolve, reject) => {
+    const authenticationContext = new AuthenticationContext(authorityUrl);
+    authenticationContext.acquireTokenWithRefreshToken(
+      refreshToken,
+      config.clientId,
+      config.clientSecret,
+      resource,
+      (error, response) => {
+        if (error) {
+          console.error(
+            `Error while refreshing token: ${error}\nresponse: ${response}`
+          );
+          reject(error);
+          return;
+        }
+        resolve(response);
+      }
+    );
+  });
+};
+
+const authMiddleware = async (req, res, next) => {
+  const accessToken = _.get(req, "cookies.accessToken");
+  const refreshToken = _.get(req, "cookies.refreshToken");
+  if (!accessToken && !refreshToken) {
+    res.status(401).send({
+      message:
+        "Geen access token of refresh token meegestuurd. Autoriseer opnieuw of neem contact op met support."
+    });
+    return;
+  }
+  if (!accessToken && refreshToken) {
+    let response;
+    try {
+      response = await acquireTokenWithRefreshToken(refreshToken);
+    } catch (error) {
+      console.error(
+        `Error while attempting to get new token with refresh token: ${error}`
+      );
+      res.status(500).send({
+        message:
+          "Er is iets mis gegaan tijdens het aanvragen van een nieuwe access token. Autoriseer opnieuw of neem contact op met support."
+      });
+      return;
+    }
+    const {
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+      expiresIn // in seconds
+    } = response;
+    req.cookies.accessToken = newAccessToken;
+    req.cookies.refreshToken = newRefreshToken;
+    res.cookie("accessToken", newAccessToken, {
+      maxAge: expiresIn * 1000 // in milliseconds
+    });
+    res.cookie("refreshToken", newRefreshToken, {
+      maxAge: 60 * 60 * 24 * 365 * 20 // in milliseconds
+    });
+  }
+  next();
+};
 
 module.exports = {
   getAuthorizationUrl,
-  acquireTokenWithAuthorizationCode
-  // acquireTokenWithRefreshToken
+  acquireTokenWithAuthorizationCode,
+  authMiddleware
 };
