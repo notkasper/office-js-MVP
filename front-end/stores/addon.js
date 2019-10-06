@@ -19,7 +19,7 @@ class Store {
   };
 
   @action checkAuthorized = () => {
-    return this.getAccesstoken() && this.getRefreshToken();
+    return this.getAccesstoken() || this.getRefreshToken();
   };
 
   @action listenToCookieChanges = (callback = () => {}) => {
