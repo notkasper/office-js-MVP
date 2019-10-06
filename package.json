@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ssl && concurrently \"node ./localtunnel.js\" \"webpack-dev-server --config webpack.dev.js\" \"nodemon ./back-end/server\"",
+    "dev": "node ssl && concurrently \"webpack-dev-server --config webpack.dev.js\" \"nodemon ./back-end/server\"",
     "build:prod": "webpack --config webpack.prod.js",
-    "staging": "node ./back-end/server staging",
-    "start": "node ./back-end/server production"
+    "start": "node ./back-end/server"
   },
   "keywords": [],
   "author": "",
@@ -49,6 +48,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "@microsoft/microsoft-graph-client": "^2.0.0",
     "@uifabric/icons": "^7.2.1",
     "@uifabric/styling": "^7.6.2",
     "adal-node": "^0.2.1",
@@ -56,7 +56,9 @@
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "https": "^1.0.0",
+    "isomorphic-fetch": "^2.2.1",
     "js-cookie": "^2.2.1",
+    "lodash": "^4.17.15",
     "mobx": "^5.13.0",
     "mobx-react": "^6.1.3",
     "morgan": "^1.9.1",
@@ -66,6 +68,7 @@
     "office-ui-fabric-react": "^7.25.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "superagent": "^5.1.0"
+    "superagent": "^5.1.0",
+    "uuid": "^3.3.3"
   }
 }

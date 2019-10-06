@@ -24,7 +24,7 @@ const getSslCert = () => {
 
 const getEnv = () => {
   const validEnvs = ["development", "staging", "production"];
-  let env = process.argv[2];
+  let env = process.env.ENV;
   if (!validEnvs.includes(env)) {
     console.error(
       `Invalid env: ${env}\nenv must be one of: [${validEnvs}]. Falling back to development`
@@ -36,7 +36,7 @@ const getEnv = () => {
 
 const getRedirectBaseUrl = () => {
   const env = getEnv();
-  const url = config.redirectUrl[env];
+  const url = config.redirectBaseUrl[env];
   if (!url) {
     throw new Error(`Could not find redirect url for env: ${env}`);
   }

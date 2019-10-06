@@ -10,7 +10,7 @@ import {
 } from "office-ui-fabric-react";
 import ProfileList from "./ProfileList";
 
-@inject("exampleFormStore")
+@inject("profileFormStore")
 @observer
 export default class Form extends React.Component {
   constructor(props) {
@@ -33,8 +33,8 @@ export default class Form extends React.Component {
   }
 
   handleFormData(data) {
-    const { exampleFormStore: store } = this.props;
-    store.sendDialogForm(data, () => {});
+    const { profileFormStore } = this.props;
+    profileFormStore.putProfile(data, () => {});
   }
 
   render() {

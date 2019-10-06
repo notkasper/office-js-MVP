@@ -1,19 +1,25 @@
 import { observable, action } from "mobx";
 import jsCookie from "js-cookie";
-import { testApi as testApiService } from "../services/application";
-import { oauth as oauthService } from "../services/application";
+import {
+  testApi as testApiService,
+  oauth as oauthService,
+  getUserDetails as getUserDetailsService,
+  putProfile as putProfileService
+} from "../services/application";
 
 class Store {
+  @observable profile = null;
+
   @action getAccesstoken = () => {
-    return jsCookie.get("access_token");
+    return jsCookie.get("accessToken");
   };
 
   @action getRefreshToken = () => {
-    return jsCookie.get("refresh_token");
+    return jsCookie.get("refreshToken");
   };
 
   @action checkAuthorized = () => {
-    return this.getAccesstoken() && this.getRefreshToken();
+    return this.getAccesstoken() || this.getRefreshToken();
   };
 
   @action listenToCookieChanges = (callback = () => {}) => {
@@ -31,6 +37,18 @@ class Store {
 
   @action testApi = (callback = () => {}) => {
     testApiService(callback);
+  };
+
+  @action getUserDetails = (callback = () => {}) => {
+    getUserDetailsService((error, response) => {
+      if (error) {
+        console.error(error);
+        callback(error, response);
+        return;
+      }
+      this.profile = response.body;
+      console.log(`Retrieved profile: ${JSON.stringify(this.profile)}`);
+    });
   };
 
   @action authorize = (callback = () => {}) => {
