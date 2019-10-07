@@ -18,20 +18,16 @@ const connect = async () => {
       }
     });
   } catch (error) {
-    console.error(
-      `Error while connecting to mssql: ${JSON.stringify(
-        error
-      )}\nDid you add the IP to the database server firewall?`
-    );
+    console.error(`Error while connecting to mssql: ${error}`);
     return;
   }
   console.log("Connected to database.");
 };
 
-const performQuery = async (query) => {
+const performQuery = async query => {
   const result = await mssql.query(query);
   return result;
-}
+};
 
 module.exports = {
   connect,
