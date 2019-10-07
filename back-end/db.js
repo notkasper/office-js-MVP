@@ -46,7 +46,7 @@ const connect = async () => {
     });
 
     // sync
-    await Profile.sync({force: true});
+    await Profile.sync();
   } catch (error) {
     console.error(
       `Error while connecting to mssql: ${error}\nDid you add the IP to the database server firewall?`
