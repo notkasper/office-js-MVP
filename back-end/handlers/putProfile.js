@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const uuidv4 = require("uuid/v4");
 const msgraph = require("../msgraph");
-const { performQuery } = require("../db");
+const { getConnection } = require("../db");
 
 module.exports = async (req, res) => {
   const accessToken = _.get(req, "cookies.accessToken");
@@ -35,34 +35,19 @@ module.exports = async (req, res) => {
     extra_text
   } = _.get(req, "body");
   try {
-    await performQuery(`INSERT INTO profiles 
-      (
-        id,
-        creator,
-        formal_name,
-        informal_name,
-        phone_number,
-        mobile_number,
-        email,
-        work_function,
-        department,
-        establishment,
-        extra_text
-      ) 
-        VALUES 
-      (
-        '${id}',
-        '${creator}',
-        '${formal_name}',
-        '${informal_name}',
-        '${phone_number}',
-        '${mobile_number}',
-        '${email}',
-        '${work_function}',
-        '${department}',
-        '${establishment}',
-        '${extra_text}'
-      )`);
+    await getConnection().models.profile.create({
+      id,
+      creator,
+      formal_name,
+      informal_name,
+      phone_number,
+      mobile_number,
+      email,
+      work_function,
+      department,
+      establishment,
+      extra_text
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send({
