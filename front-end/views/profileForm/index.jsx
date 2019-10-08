@@ -10,7 +10,8 @@ import {
   Checkbox,
   Dialog,
   DialogFooter,
-  DefaultButton
+  DefaultButton,
+  Separator
 } from "office-ui-fabric-react";
 import queryString from "query-string";
 
@@ -103,6 +104,14 @@ export default class Form extends React.Component {
     });
   };
 
+  closePrompt = () => {
+    this.setState({ showDeletePrompt: false });
+  };
+
+  closeDialog = () => {
+    Office.context.ui.messageParent(JSON.stringify({ messageType: "close" }));
+  };
+
   renderHeader = () => {
     const { editing, action } = this.state;
     const showHeaderButtons = !editing && action === "view";
@@ -127,10 +136,6 @@ export default class Form extends React.Component {
         ) : null}
       </Stack>
     );
-  };
-
-  closePrompt = () => {
-    this.setState({ showDeletePrompt: false });
   };
 
   renderDeleteDialog = () => {
@@ -301,15 +306,33 @@ export default class Form extends React.Component {
               />
             </Stack>
           </Stack>
-          {editing ? (
-            <PrimaryButton
-              text="Aanpassingen opslaan"
-              onClick={this.saveEdit}
-            />
-          ) : null}
-          {action === "create" ? (
-            <PrimaryButton text="Opslaan" onClick={this.createProfile} />
-          ) : null}
+
+          <Stack vertical tokens={{ childrenGap: ".3em" }}>
+            <Separator />
+            <Stack>
+              <Stack.Item align="end">
+                <Stack horizontal tokens={{ childrenGap: "8px" }}>
+                  {editing ? (
+                    <PrimaryButton
+                      text="Aanpassingen opslaan"
+                      onClick={this.saveEdit}
+                    />
+                  ) : null}
+                  {action === "create" ? (
+                    <PrimaryButton
+                      text="Opslaan"
+                      onClick={this.createProfile}
+                    />
+                  ) : null}
+                  <DefaultButton
+                    text="Annuleren"
+                    onClick={this.closeDialog}
+                    styles={{ paddingLeft: "30px" }}
+                  />
+                </Stack>
+              </Stack.Item>
+            </Stack>
+          </Stack>
         </Stack>
       </div>
     );

@@ -67,6 +67,9 @@ export default class Profiles extends React.Component {
               dialog.close();
               this.handleProfileDeleted();
               break;
+            case "close":
+              dialog.close();
+              break;
             default:
               console.error(
                 `Received unhandled message from dialog: ${messageType}`
@@ -84,7 +87,9 @@ export default class Profiles extends React.Component {
       case "formal_name":
         return (
           <Stack horizontal tokens={{ childrenGap: "9rem" }}>
-            <Text>{item.formal_name}</Text>
+            <Text styles={{ root: { minWidth: "3.5rem" } }}>
+              {item.formal_name.substring(0, 20)}
+            </Text>
             <ActionButton
               iconProps={{ iconName: "ListMirrored" }}
               onClick={() => this.openProfileDialog("view", item.id)}
@@ -103,7 +108,7 @@ export default class Profiles extends React.Component {
     return (
       <div style={{ padding: "0 .5rem" }}>
         <Stack horizontal horizontalAlign="space-between">
-          <Text styles={{ root: { marginTop: "10px" } }}>{`${profiles.length} ${
+          <Text styles={{ root: { marginTop: "10px", paddingLeft: ".3rem" } }}>{`${profiles.length} ${
             profiles.length === 1 ? "profiel" : "profielen"
           } gevonden`}</Text>
           <ActionButton
@@ -116,7 +121,7 @@ export default class Profiles extends React.Component {
         <DetailsList
           items={profiles}
           columns={[
-            { key: "profile", name: "Profiel", fieldName: "formal_name" }
+            { key: "profile", name: "Profielen", fieldName: "formal_name" }
           ]}
           onRenderItemColumn={this.renderItemColumn}
           checkboxVisibility={2} // 2 = hidden
