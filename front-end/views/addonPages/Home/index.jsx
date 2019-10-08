@@ -18,25 +18,6 @@ export default class Home extends React.Component {
     addonStore.getUserDetails();
   }
 
-  openDialog = (dialogName, width, height, callback) => {
-    Office.context.ui.displayDialogAsync(
-      `${window.location.origin}/#${dialogName}`,
-      { height, width, displayInIframe: true },
-      result => {
-        if (result.status !== "succeeded") {
-          console.error(
-            `Something went wrong while opening the dialog: ${JSON.stringify(
-              result
-            )}`
-          );
-          callback(true);
-          return;
-        }
-        callback(false, result.value);
-      }
-    );
-  };
-
   generateText = (dialog, data) => {
     // Run a batch operation against the Word object model.
     Word.run(context => {
@@ -93,27 +74,40 @@ export default class Home extends React.Component {
   };
 
   openLetterForm = () => {
-    this.openDialog("letter_form", 43, 50, (error, dialog) => {
-      if (error) {
-        return;
-      }
-      dialog.addEventHandler(Office.EventType.DialogMessageReceived, arg => {
-        const { messageType, data } = JSON.parse(arg.message);
-        switch (messageType) {
-          case "closeDialog":
-            dialog.close();
-            break;
-          case "text":
-            this.generateText(dialog, data);
-            break;
-          default:
-            console.error(
-              `Received unhandled message from dialog: ${messageType}`
-            );
-            return;
+    const width = 43;
+    const height = 48;
+
+    Office.context.ui.displayDialogAsync(
+      `${window.location.origin}#letter_form`,
+      { height, width, displayInIframe: true },
+      result => {
+        if (result.status !== "succeeded") {
+          console.error(
+            `Something went wrong while opening the dialog: ${JSON.stringify(
+              result
+            )}`
+          );
+          return;
         }
-      });
-    });
+        const dialog = result.value;
+        dialog.addEventHandler(Office.EventType.DialogMessageReceived, arg => {
+          const { messageType, data } = JSON.parse(arg.message);
+          switch (messageType) {
+            case "closeDialog":
+              dialog.close();
+              break;
+            case "text":
+              this.generateText(dialog, data);
+              break;
+            default:
+              console.error(
+                `Received unhandled message from dialog: ${messageType}`
+              );
+              return;
+          }
+        });
+      }
+    );
   };
 
   authorize = () => {

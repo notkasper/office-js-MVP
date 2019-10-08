@@ -7,7 +7,6 @@ import {
   ActionButton,
   Dropdown,
   PrimaryButton,
-  Checkbox,
   Dialog,
   DialogFooter,
   DefaultButton,
