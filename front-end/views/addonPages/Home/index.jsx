@@ -6,8 +6,8 @@ import {
   Pivot,
   PivotItem,
   Image,
-  textAreaProperties
 } from "office-ui-fabric-react";
+import Profiles from "./profiles";
 import dotOfficeImage from "../../../assets/do365Docs-160.png";
 
 @inject("addonStore")
@@ -164,25 +164,14 @@ export default class Home extends React.Component {
     });
   };
 
-  renderProfiles = () => {
-    return (
-      <Stack vertical tokens={{ childrenGap: "5px" }}>
-        <CompoundButton
-          secondaryText="Maak een nieuw profiel"
-          onClick={this.openProfileForm}
-        >
-          Profiel
-        </CompoundButton>
-      </Stack>
-    );
-  };
-
   render() {
     return (
       <div>
         <Pivot styles={{ itemContainer: { marginTop: "8px" } }}>
           <PivotItem headerText="Nieuw">{this.renderActions()}</PivotItem>
-          <PivotItem headerText="Profielen">{this.renderProfiles()}</PivotItem>
+          <PivotItem headerText="Profielen">
+            <Profiles />
+          </PivotItem>
         </Pivot>
         <Image
           src={dotOfficeImage}
