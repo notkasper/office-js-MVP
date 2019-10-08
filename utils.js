@@ -34,7 +34,7 @@ const getEnv = () => {
   return env;
 };
 
-const getRedirectUrl = () => {
+const getRedirectBaseUrl = () => {
   const env = getEnv();
   const url = config.redirectUrl[env];
   if (!url) {
@@ -92,7 +92,7 @@ module.exports = {
   getSslCert,
   getSslKey,
   getEnv,
-  getRedirectUrl,
+  getRedirectBaseUrl,
   getAppBaseUrl,
   getDatabaseUrl,
   getDatabaseUser,

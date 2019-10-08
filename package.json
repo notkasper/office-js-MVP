@@ -1,13 +1,13 @@
 {
-  "name": "custom-pptx-addon-boilerplate",
+  "name": "office-template",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ssl && node seed && concurrently \"webpack-dev-server --config webpack.dev.js\" \"nodemon ./back-end/server\"",
+    "dev": "node ssl && concurrently \"webpack-dev-server --config webpack.dev.js\" \"nodemon ./back-end/server\"",
     "build:prod": "webpack --config webpack.prod.js",
     "staging": "node ./back-end/server staging",
-    "start": "npm i && node ./back-end/server production"
+    "start": "node ./back-end/server production"
   },
   "keywords": [],
   "author": "",
@@ -54,6 +54,7 @@
     "adal-node": "^0.2.1",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
     "https": "^1.0.0",
     "js-cookie": "^2.2.1",
     "mobx": "^5.13.0",

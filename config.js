@@ -1,8 +1,8 @@
 module.exports = {
   redirectUrl: {
-    development: "https://343232dc.ngrok.io/api/getAccessToken",
-    staging: "https://8bc18d46.ngrok.io/api/getAccessToken",
-    production: "https://duffy-addon.azurewebsites.net/api/getAccesssToken"
+    development: "https://8b0a5404.ngrok.io",
+    staging: "https://6e0b93f6.ngrok.i",
+    production: "https://duffy-addon.azurewebsites.net"
   },
   appBaseUrl: {
     development: "https://localhost:8080",
