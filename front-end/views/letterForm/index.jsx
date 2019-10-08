@@ -9,7 +9,7 @@ import {
   DatePicker,
   Text,
   DefaultButton,
-  Checkbox
+  PrimaryButton
 } from "office-ui-fabric-react";
 
 @inject("letterFormStore")
@@ -158,7 +158,7 @@ export default class Form extends React.Component {
         <Stack>
           <Stack.Item align="end">
             <Stack horizontal tokens={{ childrenGap: "8px" }}>
-              <DefaultButton text="OK" onClick={this.writeInDocument} />
+              <PrimaryButton text="OK" onClick={this.writeInDocument} />
               <DefaultButton
                 text="Annuleren"
                 onClick={this.closeDialog}

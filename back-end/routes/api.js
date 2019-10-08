@@ -7,6 +7,8 @@ const {
 const getUserDetails = require("../handlers/getUserDetails");
 const putProfile = require("../handlers/putProfile");
 const getProfiles = require("../handlers/getProfiles");
+const deleteProfile = require("../handlers/deleteProfile");
+const updateProfile = require("../handlers/updateProfile");
 
 const router = express.Router();
 
@@ -24,5 +26,7 @@ router.get("/getAccessToken", acquireTokenWithAuthorizationCode);
 router.put("/profile", authMiddleware, putProfile);
 router.get("/getUserDetails", authMiddleware, getUserDetails);
 router.get("/profiles", authMiddleware, getProfiles);
+router.delete("/profile/:profile_id", authMiddleware, deleteProfile);
+router.patch("/profile/:profile_id", authMiddleware, updateProfile);
 
 module.exports = router;
