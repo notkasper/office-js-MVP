@@ -41,6 +41,10 @@ export default class Profiles extends React.Component {
     this.loadProfiles();
   };
 
+  handleProfileUpdated = () => {
+    this.loadProfiles();
+  };
+
   openProfileDialog = (action, item) => {
     const height = 60;
     const width = 34;
@@ -81,6 +85,9 @@ export default class Profiles extends React.Component {
             case "profileCreated":
               dialog.close();
               this.handleProfileDeleted();
+              break;
+            case "profileUpdated":
+              this.handleProfileUpdated();
               break;
             case "close":
               dialog.close();

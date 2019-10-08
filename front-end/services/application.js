@@ -37,9 +37,16 @@ export const deleteProfile = (id, callback) => {
     .end((error, response) => handleResponse(error, response, callback));
 };
 
-export const putProfile = (body, callback) => {
+export const putProfile = (profileData, callback) => {
   request
     .put("/api/profile")
-    .send(body)
+    .send(profileData)
+    .end((error, response) => handleResponse(error, response, callback));
+};
+
+export const updateProfile = (id, profileData, callback) => {
+  request
+    .patch(`/api/profile/${id}`)
+    .send(profileData)
     .end((error, response) => handleResponse(error, response, callback));
 };

@@ -29,7 +29,8 @@ export default class Form extends React.Component {
       department,
       establishment,
       extra_text,
-      action
+      action,
+      id
     } = queryString.parse(location.search);
     this.state = {
       formal_name,
@@ -46,7 +47,8 @@ export default class Form extends React.Component {
       working_days: "",
       opening_hours: "",
       editing: false,
-      showDeletePrompt: false
+      showDeletePrompt: false,
+      id
     };
   }
 
@@ -60,8 +62,39 @@ export default class Form extends React.Component {
   };
 
   saveEdit = () => {
+    const { profileFormStore } = this.props;
     this.setState({ editing: false });
-    // TODO: update profile from here
+    const {
+      formal_name,
+      informal_name,
+      phone_number,
+      mobile_number,
+      email,
+      work_function,
+      department,
+      establishment,
+      extra_text,
+      action,
+      id
+    } = this.state;
+    const profileData = {
+      formal_name,
+      informal_name,
+      phone_number,
+      mobile_number,
+      email,
+      work_function,
+      department,
+      establishment,
+      extra_text,
+      action
+    };
+
+    profileFormStore.updateProfile(id, profileData, (error, response) => {
+      Office.context.ui.messageParent(
+        JSON.stringify({ messageType: "profileUpdated" })
+      );
+    });
   };
 
   cancelEdit = () => {
@@ -75,7 +108,7 @@ export default class Form extends React.Component {
 
   deleteProfile = () => {
     const { profileFormStore } = this.props;
-    const { id } = queryString.parse(location.search);
+    const { id } = this.state;
     profileFormStore.deleteProfile(id, (error, response) => {
       this.closePrompt();
       Office.context.ui.messageParent(
