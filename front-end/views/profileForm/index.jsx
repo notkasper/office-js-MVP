@@ -12,6 +12,7 @@ import {
   DialogFooter,
   DefaultButton
 } from "office-ui-fabric-react";
+import queryString from "query-string";
 
 @inject("profileFormStore")
 @observer
@@ -57,9 +58,10 @@ export default class Form extends React.Component {
 
   deleteProfile = () => {
     const { profileFormStore } = this.props;
-    const id = "dnwakjndawkn";
+    const { id } = queryString.parse(location.search);
     profileFormStore.deleteProfile(id, (error, response) => {
       this.closeDialog();
+      // TODO: close entire dialog
     });
   };
 

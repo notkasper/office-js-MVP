@@ -52,18 +52,21 @@ export default class Profiles extends React.Component {
   };
 
   openProfileDialog = id => {
-    console.log(`Open profile dialog for ${id}`);
-    this.openDialog("profile_form", 34, 60, (error, dialog) => {
-      if (error) {
-        return;
-      }
-      dialog.addEventHandler(
-        Office.EventType.DialogMessageReceived,
-        message => {
-          console.log(`Message received: ${message}`);
+    const height = 60;
+    const width = 34;
+
+    Office.context.ui.displayDialogAsync(
+      `${window.location.origin}?id=${id}#profile_form`,
+      { height, width, displayInIframe: true },
+      result => {
+        if (result.status !== "succeeded") {
+          console.error(
+            `Something went wrong while opening the dialog: ${result}`
+          );
+          return;
         }
-      );
-    });
+      }
+    );
   };
 
   renderItemColumn = (item, index, column) => {
@@ -91,7 +94,7 @@ export default class Profiles extends React.Component {
     return (
       <div style={{ padding: "0 .5rem" }}>
         <Stack horizontal horizontalAlign="space-between">
-          <Text styles={{root: {marginTop: "10px"}}}>{`${profiles.length} ${
+          <Text styles={{ root: { marginTop: "10px" } }}>{`${profiles.length} ${
             profiles.length === 1 ? "profiel" : "profielen"
           } gevonden`}</Text>
           <ActionButton
