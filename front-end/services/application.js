@@ -31,10 +31,15 @@ export const getProfiles = callback => {
     .end((error, response) => handleResponse(error, response, callback));
 };
 
+export const deleteProfile = (id, callback) => {
+  request
+    .delete(`/api/profile/${id}`)
+    .end((error, response) => handleResponse(error, response, callback));
+};
+
 export const putProfile = (body, callback) => {
   request
     .put("/api/profile")
     .send(body)
     .end((error, response) => handleResponse(error, response, callback));
 };
-

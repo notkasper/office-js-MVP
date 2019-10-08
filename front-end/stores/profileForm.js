@@ -1,5 +1,8 @@
 import { observable, action } from "mobx";
-import { putProfile as putProfileService } from "../services/application";
+import {
+  putProfile as putProfileService,
+  deleteProfile as deleteProfileService
+} from "../services/application";
 
 class ProfileFormStore {
   @observable profiles = [];
@@ -12,6 +15,17 @@ class ProfileFormStore {
         return;
       }
       this.profiles.push(profile);
+      callback(error, response);
+    });
+  };
+
+  @action deleteProfile = (id, callback) => {
+    deleteProfileService(id, (error, response) => {
+      if (error) {
+        console.error(error);
+        callback(error, response);
+        return;
+      }
       callback(error, response);
     });
   };

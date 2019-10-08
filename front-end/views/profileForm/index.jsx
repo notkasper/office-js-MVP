@@ -7,7 +7,10 @@ import {
   ActionButton,
   Dropdown,
   PrimaryButton,
-  Checkbox
+  Checkbox,
+  Dialog,
+  DialogFooter,
+  DefaultButton
 } from "office-ui-fabric-react";
 
 @inject("profileFormStore")
@@ -29,7 +32,8 @@ export default class Form extends React.Component {
       whatsapp: "",
       working_days: "",
       opening_hours: "",
-      editing: false
+      editing: false,
+      showDeleteDialog: false
     };
   }
 
@@ -47,8 +51,16 @@ export default class Form extends React.Component {
     // update profile from here
   };
 
+  showDeletePrompt = () => {
+    this.setState({ showDeleteDialog: true });
+  };
+
   deleteProfile = () => {
-    console.log("Delete please");
+    const { profileFormStore } = this.props;
+    const id = "dnwakjndawkn";
+    profileFormStore.deleteProfile(id, (error, response) => {
+      this.closeDialog();
+    });
   };
 
   renderHeader = () => {
@@ -60,7 +72,7 @@ export default class Form extends React.Component {
           <div>
             <ActionButton
               iconProps={{ iconName: "Delete" }}
-              onClick={this.deleteProfile}
+              onClick={this.showDeletePrompt}
             >
               Verwijderen
             </ActionButton>
@@ -76,10 +88,33 @@ export default class Form extends React.Component {
     );
   };
 
+  closeDialog = () => {
+    this.setState({ showDeleteDialog: false });
+  };
+
+  renderDeleteDialog = () => {
+    return (
+      <Dialog
+        hidden={false}
+        onDismiss={this.closeDialog}
+        dialogContentProps={{
+          title: "Weet je zeker dat je dit profiel wilt verwijderen?",
+          subText: "Dit is onomkeerbaar"
+        }}
+      >
+        <DialogFooter>
+          <PrimaryButton onClick={this.deleteProfile} text="Verwijderen" />
+          <DefaultButton onClick={this.closeDialog} text="Cancel" />
+        </DialogFooter>
+      </Dialog>
+    );
+  };
+
   render() {
-    const { editing } = this.state;
+    const { editing, showDeleteDialog } = this.state;
     return (
       <div>
+        {showDeleteDialog ? this.renderDeleteDialog() : null}
         <Stack vertical tokens={{ childrenGap: 5 }}>
           {this.renderHeader()}
           <Stack horizontal tokens={{ childrenGap: 5 }}>
