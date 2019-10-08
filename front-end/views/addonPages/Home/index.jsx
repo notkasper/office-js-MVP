@@ -154,20 +154,6 @@ export default class Home extends React.Component {
     );
   };
 
-  openProfileForm = () => {
-    this.openDialog("profile_form", 85, 85, (error, dialog) => {
-      if (error) {
-        return;
-      }
-      dialog.addEventHandler(
-        Office.EventType.DialogMessageReceived,
-        message => {
-          console.log(`Message received: ${message}`);
-        }
-      );
-    });
-  };
-
   render() {
     return (
       <div>
