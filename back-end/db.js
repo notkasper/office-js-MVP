@@ -15,8 +15,9 @@ const connect = async () => {
       getDatabaseUser(),
       getDatabasePassword(),
       {
-        dialect: "mssql",
         host: getDatabaseUrl(),
+        dialect: "mssql",
+        port: 58454,
         logging: false,
         dialectOptions: {
           options: {
