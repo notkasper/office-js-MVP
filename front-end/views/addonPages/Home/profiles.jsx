@@ -45,7 +45,6 @@ export default class Profiles extends React.Component {
     const height = 60;
     const width = 34;
 
-    console.log(item);
     let url = `${window.location.origin}?action=${action}`;
     if (action === "view") {
       url += `&id=${item.id}

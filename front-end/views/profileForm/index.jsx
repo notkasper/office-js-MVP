@@ -329,7 +329,7 @@ export default class Form extends React.Component {
     const { showDeletePrompt, action, editing } = this.state;
     const enabled = editing || action === "create";
     return (
-      <div>
+      <React.Fragment>
         {showDeletePrompt ? this.renderDeleteDialog() : null}
         <Stack vertical tokens={{ childrenGap: 5 }}>
           {this.renderHeader()}
@@ -339,7 +339,7 @@ export default class Form extends React.Component {
           </Stack>
           {this.renderFooter()}
         </Stack>
-      </div>
+      </React.Fragment>
     );
   }
 }

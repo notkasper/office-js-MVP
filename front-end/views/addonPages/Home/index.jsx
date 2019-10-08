@@ -117,7 +117,7 @@ export default class Home extends React.Component {
 
   renderActions = () => {
     return (
-      <div>
+      <React.Fragment>
         <Stack vertical tokens={{ childrenGap: "5px" }}>
           <CompoundButton
             secondaryText="Maak een nieuwe brief"
@@ -144,20 +144,18 @@ export default class Home extends React.Component {
           width="128px"
           styles={{ root: { position: "absolute", bottom: 0, right: "50px" } }}
         />
-      </div>
+      </React.Fragment>
     );
   };
 
   render() {
     return (
-      <div>
-        <Pivot styles={{ itemContainer: { marginTop: "8px" } }}>
-          <PivotItem headerText="Sjablonen">{this.renderActions()}</PivotItem>
-          <PivotItem headerText="Profielen">
-            <Profiles />
-          </PivotItem>
-        </Pivot>
-      </div>
+      <Pivot styles={{ itemContainer: { marginTop: "8px" } }}>
+        <PivotItem headerText="Sjablonen">{this.renderActions()}</PivotItem>
+        <PivotItem headerText="Profielen">
+          <Profiles />
+        </PivotItem>
+      </Pivot>
     );
   }
 }
