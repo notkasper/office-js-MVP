@@ -1,5 +1,11 @@
 import request from "superagent";
-import handleResponse from "./handleResponse";
+
+const handleResponse = (error, response, callback) => {
+  if (response.status === 401) {
+    setLocation("login");
+  }
+  callback(error, response);
+};
 
 export const testApi = callback => {
   request
@@ -24,3 +30,11 @@ export const getProfiles = callback => {
     .get("/api/profiles")
     .end((error, response) => handleResponse(error, response, callback));
 };
+
+export const putProfile = (body, callback) => {
+  request
+    .put("/api/profile")
+    .send(body)
+    .end((error, response) => handleResponse(error, response, callback));
+};
+

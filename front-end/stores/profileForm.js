@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-import { putProfile as putProfileService } from "../services/profileForm";
+import { putProfile as putProfileService } from "../services/application";
 
 class ProfileFormStore {
   @observable profiles = [];

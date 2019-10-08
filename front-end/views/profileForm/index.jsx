@@ -47,22 +47,41 @@ export default class Form extends React.Component {
     // update profile from here
   };
 
+  deleteProfile = () => {
+    console.log("Delete please");
+  };
+
+  renderHeader = () => {
+    const { editing } = this.state;
+    return (
+      <Stack horizontal horizontalAlign="space-between">
+        <Text variant="xLarge">Persoonlijke instellingen</Text>
+        {editing ? null : (
+          <div>
+            <ActionButton
+              iconProps={{ iconName: "Delete" }}
+              onClick={this.deleteProfile}
+            >
+              Verwijderen
+            </ActionButton>
+            <ActionButton
+              iconProps={{ iconName: "EditContact" }}
+              onClick={this.enableEditing}
+            >
+              Aanpassen
+            </ActionButton>
+          </div>
+        )}
+      </Stack>
+    );
+  };
+
   render() {
     const { editing } = this.state;
     return (
       <div>
         <Stack vertical tokens={{ childrenGap: 5 }}>
-          <Stack horizontal horizontalAlign="space-between">
-            <Text variant="xLarge">Persoonlijke instellingen</Text>
-            {editing ? null : (
-              <ActionButton
-                iconProps={{ iconName: "EditContact" }}
-                onClick={this.enableEditing}
-              >
-                Aanpassen
-              </ActionButton>
-            )}
-          </Stack>
+          {this.renderHeader()}
           <Stack horizontal tokens={{ childrenGap: 5 }}>
             <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
               <TextField
@@ -206,7 +225,10 @@ export default class Form extends React.Component {
             </Stack>
           </Stack>
           {editing ? (
-            <PrimaryButton text="Aanpassingen opslaan" onClick={this.saveEdit} />
+            <PrimaryButton
+              text="Aanpassingen opslaan"
+              onClick={this.saveEdit}
+            />
           ) : null}
         </Stack>
       </div>
