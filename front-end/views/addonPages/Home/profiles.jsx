@@ -17,13 +17,15 @@ export default class Profiles extends React.Component {
       loading: false
     };
   }
+
   componentDidMount() {
     const { addonStore } = this.props;
-    this.setState({ loading: true });
-    addonStore.getProfiles(() => {
-      console.log("done loading");
-      this.setState({ loading: false });
-    });
+    if (!addonStore.profiles.length) {
+      this.setState({ loading: true });
+      addonStore.getProfiles(() => {
+        this.setState({ loading: false });
+      });
+    }
   }
 
   renderLoading = () => {
@@ -51,7 +53,7 @@ export default class Profiles extends React.Component {
 
   openProfileDialog = id => {
     console.log(`Open profile dialog for ${id}`);
-    this.openDialog("profile_form", 48, 60, (error, dialog) => {
+    this.openDialog("profile_form", 34, 60, (error, dialog) => {
       if (error) {
         return;
       }
@@ -69,7 +71,7 @@ export default class Profiles extends React.Component {
     switch (fieldName) {
       case "formal_name":
         return (
-          <Stack horizontal tokens={{ childrenGap: "10rem" }}>
+          <Stack horizontal tokens={{ childrenGap: "9rem" }}>
             <Text>{item.formal_name}</Text>
             <ActionButton
               iconProps={{ iconName: "ListMirrored" }}
@@ -87,14 +89,19 @@ export default class Profiles extends React.Component {
     const { addonStore } = this.props;
     const profiles = addonStore.profiles;
     return (
-      <DetailsList
-        items={profiles}
-        columns={[
-          { key: "profile", name: "Profiel", fieldName: "formal_name" }
-        ]}
-        onRenderItemColumn={this.renderItemColumn}
-        checkboxVisibility={2} // 2 = hidden
-      />
+      <div style={{ padding: "0 .5rem" }}>
+        <Text>{`${profiles.length} ${
+          profiles.length === 1 ? "profiel" : "profielen"
+        } gevonden`}</Text>
+        <DetailsList
+          items={profiles}
+          columns={[
+            { key: "profile", name: "Profiel", fieldName: "formal_name" }
+          ]}
+          onRenderItemColumn={this.renderItemColumn}
+          checkboxVisibility={2} // 2 = hidden
+        />
+      </div>
     );
   };
 
