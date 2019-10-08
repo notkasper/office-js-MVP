@@ -48,7 +48,6 @@ class AddonStore {
         return;
       }
       this.profiles = response.body;
-      console.log(`Retrieved profiles: ${JSON.stringify(this.profiles)}`);
       callback();
     });
   };

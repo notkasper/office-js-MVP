@@ -6,9 +6,11 @@ class LetterFormStore {
     getProfiles((error, response) => {
       if (error) {
         console.error(error);
+        callback(error, response);
         return;
       }
       this.contacts = response.body;
+      callback(error, response);
     });
   };
   @observable sendOptions = [
