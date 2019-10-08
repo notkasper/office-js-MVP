@@ -19,11 +19,8 @@ export default class Form extends React.Component {
     super(props);
     this.state = {
       onderwerp: "Brief",
-      ondertekenaar: "Dhr. ",
-      bijlage:
-        "You spend hours trying to figure out the solution to the hints for the TraC trip and really want to know if your answer was correct? You want to know if you have been the first to guess the location right? Then come to the Location Reveal! You will get first hand information about where CognAC is going between the 23rd of April - 1st of May and get a first glance at the planned activities during the trip. Bring your lunch and let the TraC spark your Wanderlust!",
       datum: "4 oktober 2019",
-      contactpersoon: "Jan Koeken",
+      contactpersoon: "",
       aanhef: "Beste ",
       naam: "Francious",
       groetregel: "Hartelijke groet, ",
@@ -31,6 +28,11 @@ export default class Form extends React.Component {
       adres: "Vincent van Goghlaan 64 5246 GB  Rosmalen",
       kenmerk: ""
     };
+  }
+
+  componentDidMount() {
+    const { letterFormStore } = this.props;
+    letterFormStore.getProfiles();
   }
 
   textFieldOnChange = event => {
@@ -43,10 +45,7 @@ export default class Form extends React.Component {
   };
 
   dropDownOnChange = (event, option) => {
-    const { id } = event.target;
-    const newStateBody = {};
-    newStateBody[id] = option.text;
-    this.setState({ id: option.text });
+    this.setState({ [event.target.id]: option.text });
   };
 
   closeDialog = () => {
@@ -66,44 +65,21 @@ export default class Form extends React.Component {
     return (
       <Stack vertical styles={{ root: { width: 400 } }}>
         <TextField
+          label="Adres"
+          id="adres"
+          multiline
+          rows={1}
+          resizable={false}
+          value={this.state.adres}
+          onChange={this.textFieldOnChange}
+        />
+        <TextField
           value={this.state.onderwerp}
           label="Onderwerp"
           id="onderwerp"
           onChange={this.textFieldOnChange}
         />
-        <Dropdown
-          label="Ondertekenaar"
-          id="ondertekenaar"
-          placeholder={this.state.ondertekenaar}
-          options={letterFormStore.signatures}
-          onChange={this.dropDownOnChange}
-        />
-        <TextField
-          value={this.state.bijlage}
-          label="Bijlage(n)"
-          id="bijlage"
-          onChange={this.textFieldOnChange}
-          multiline
-          rows={8}
-          resizable={false}
-        />
         <DatePicker placeholder="Selecteer datum" label="Kies een datum" />
-        <Dropdown
-          label="Contactpersoon"
-          id="contactpersoon"
-          placeholder={this.state.contactpersoon}
-          options={letterFormStore.contacts}
-          onChange={this.dropDownOnChange}
-          disabled
-        />
-      </Stack>
-    );
-  };
-
-  renderRightPanel = () => {
-    const { letterFormStore } = this.props;
-    return (
-      <Stack vertical styles={{ root: { width: 400 } }}>
         <Stack horizontal tokens={{ childrenGap: "1em" }}>
           <Dropdown
             label="Aanhef"
@@ -121,6 +97,14 @@ export default class Form extends React.Component {
             onChange={this.textFieldOnChange}
           />
         </Stack>
+      </Stack>
+    );
+  };
+
+  renderRightPanel = () => {
+    const { letterFormStore } = this.props;
+    return (
+      <Stack vertical styles={{ root: { width: 400 } }}>
         <Dropdown
           label="Groetregel"
           id="groetregel"
@@ -128,23 +112,15 @@ export default class Form extends React.Component {
           options={letterFormStore.greetings}
           onChange={this.dropDownOnChange}
         />
-        <TextField
-          label="Groetregel toevoeging"
-          id="toevoeging"
-          multiline
-          rows={2}
-          resizable={false}
-          value={this.state.toevoeging}
-          onChange={this.textFieldOnChange}
-        />
-        <TextField
-          label="Adres"
-          id="adres"
-          multiline
-          rows={6}
-          resizable={false}
-          value={this.state.adres}
-          onChange={this.textFieldOnChange}
+        <Dropdown
+          label="Contactpersoon"
+          id="contactpersoon"
+          placeholder={this.state.contactpersoon}
+          options={letterFormStore.contacts.map(contact => {
+            return { key: contact.id, text: contact.formal_name };
+          })}
+          onChange={this.dropDownOnChange}
+          disabled={false}
         />
         <TextField
           label="Ons kenmerk"

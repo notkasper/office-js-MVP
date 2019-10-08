@@ -5,9 +5,9 @@ import {
   CompoundButton,
   Pivot,
   PivotItem,
-  Image,
-  textAreaProperties
+  Image
 } from "office-ui-fabric-react";
+import Profiles from "./profiles";
 import dotOfficeImage from "../../../assets/do365Docs-160.png";
 
 @inject("addonStore")
@@ -73,18 +73,11 @@ export default class Home extends React.Component {
         toevoegParagraaf.styleBuiltIn = "Normal";
       }
       const ondertekenParagraaf = body.insertParagraph(
-        data.ondertekenaar + data.contactpersoon,
+        data.contactpersoon,
         "end"
       );
       ondertekenParagraaf.styleBuiltIn = "Normal";
       body.insertBreak(Word.BreakType.line, "end");
-      const bijlageTitle = body.insertParagraph("Bijlage(n):", "end");
-      bijlageTitle.font.set({
-        bold: true,
-        size: 12
-      });
-      const bijlageParagraaf = body.insertParagraph(data.bijlage, "end");
-      bijlageParagraaf.styleBuiltIn = "Normal";
 
       // Synchronize the document state by executing the queued commands,
       // and return a promise to indicate task completion.
@@ -100,7 +93,7 @@ export default class Home extends React.Component {
   };
 
   openLetterForm = () => {
-    this.openDialog("letter_form", 70, 70, (error, dialog) => {
+    this.openDialog("letter_form", 43, 50, (error, dialog) => {
       if (error) {
         return;
       }
@@ -130,23 +123,34 @@ export default class Home extends React.Component {
 
   renderActions = () => {
     return (
-      <Stack vertical tokens={{ childrenGap: "5px" }}>
-        <CompoundButton
-          secondaryText="Maak een nieuwe brief"
-          onClick={this.openLetterForm}
-        >
-          Brief
-        </CompoundButton>
-        <CompoundButton secondaryText="Maak een nieuwe fax" disabled={true}>
-          Fax
-        </CompoundButton>
-        <CompoundButton secondaryText="Maak een nieuwe memo" disabled={true}>
-          Memo
-        </CompoundButton>
-        <CompoundButton secondaryText="Maak een nieuw rapport" disabled={true}>
-          Rapport
-        </CompoundButton>
-      </Stack>
+      <div>
+        <Stack vertical tokens={{ childrenGap: "5px" }}>
+          <CompoundButton
+            secondaryText="Maak een nieuwe brief"
+            onClick={this.openLetterForm}
+          >
+            Brief
+          </CompoundButton>
+          <CompoundButton secondaryText="Maak een nieuwe fax" disabled={true}>
+            Fax
+          </CompoundButton>
+          <CompoundButton secondaryText="Maak een nieuwe memo" disabled={true}>
+            Memo
+          </CompoundButton>
+          <CompoundButton
+            secondaryText="Maak een nieuw rapport"
+            disabled={true}
+          >
+            Rapport
+          </CompoundButton>
+        </Stack>
+        <Image
+          src={dotOfficeImage}
+          alt="DotOffice"
+          width="128px"
+          styles={{ root: { position: "absolute", bottom: 0, right: "50px" } }}
+        />
+      </div>
     );
   };
 
@@ -164,32 +168,15 @@ export default class Home extends React.Component {
     });
   };
 
-  renderProfiles = () => {
-    return (
-      <Stack vertical tokens={{ childrenGap: "5px" }}>
-        <CompoundButton
-          secondaryText="Maak een nieuw profiel"
-          onClick={this.openProfileForm}
-        >
-          Profiel
-        </CompoundButton>
-      </Stack>
-    );
-  };
-
   render() {
     return (
       <div>
         <Pivot styles={{ itemContainer: { marginTop: "8px" } }}>
-          <PivotItem headerText="Nieuw">{this.renderActions()}</PivotItem>
-          <PivotItem headerText="Profielen">{this.renderProfiles()}</PivotItem>
+          <PivotItem headerText="Sjablonen">{this.renderActions()}</PivotItem>
+          <PivotItem headerText="Profielen">
+            <Profiles />
+          </PivotItem>
         </Pivot>
-        <Image
-          src={dotOfficeImage}
-          alt="DotOffice"
-          width="128px"
-          styles={{ root: { position: "absolute", bottom: 0, right: "50px" } }}
-        />
       </div>
     );
   }

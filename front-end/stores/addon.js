@@ -4,11 +4,12 @@ import {
   testApi as testApiService,
   oauth as oauthService,
   getUserDetails as getUserDetailsService,
-  putProfile as putProfileService
+  getProfiles as getProfilesService
 } from "../services/application";
 
-class Store {
+class AddonStore {
   @observable profile = null;
+  @observable profiles = [];
 
   @action getAccesstoken = () => {
     return jsCookie.get("accessToken");
@@ -37,6 +38,18 @@ class Store {
 
   @action testApi = (callback = () => {}) => {
     testApiService(callback);
+  };
+
+  @action getProfiles = (callback = () => {}) => {
+    getProfilesService((error, response) => {
+      if (error) {
+        console.error(error);
+        callback(error, response);
+        return;
+      }
+      this.profiles = response.body;
+      callback();
+    });
   };
 
   @action getUserDetails = (callback = () => {}) => {
@@ -90,6 +103,6 @@ class Store {
   };
 }
 
-const store = new Store();
+const addonStore = new AddonStore();
 
-export default store;
+export default addonStore;

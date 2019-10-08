@@ -1,6 +1,18 @@
 import { observable, action } from "mobx";
+import { getProfiles } from "../services/application";
 
 class LetterFormStore {
+  @action getProfiles = callback => {
+    getProfiles((error, response) => {
+      if (error) {
+        console.error(error);
+        callback(error, response);
+        return;
+      }
+      this.contacts = response.body;
+      callback(error, response);
+    });
+  };
   @observable sendOptions = [
     { key: "apple", text: "Apple" },
     { key: "banana", text: "Banana" },
@@ -10,15 +22,7 @@ class LetterFormStore {
     { key: "lettuce", text: "Lettuce" }
   ];
 
-  @observable contacts = [
-    { key: "apple", text: "Apple" },
-    { key: "banana", text: "Banana" },
-    { key: "grape", text: "Grape" },
-    { key: "broccoli", text: "Broccoli" },
-    { key: "carrot", text: "Carrot" },
-    { key: "lettuce", text: "Lettuce" },
-    { key: "jan koeken", text: "Jan Koeken" }
-  ];
+  @observable contacts = [];
 
   @observable salutations = [
     { key: "mvr", text: "Geachte mevrouw" },
