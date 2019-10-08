@@ -3,7 +3,8 @@ const {
   getDatabaseUrl,
   getDatabaseUser,
   getDatabasePassword,
-  getDatabaseName
+  getDatabaseName,
+  getDatabasePort
 } = require("../utils");
 
 let sequelize;
@@ -16,8 +17,8 @@ const connect = async () => {
       getDatabasePassword(),
       {
         host: getDatabaseUrl(),
+        port: getDatabasePort(),
         dialect: "mssql",
-        port: 58454,
         logging: false,
         dialectOptions: {
           options: {

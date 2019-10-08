@@ -28,5 +28,10 @@ module.exports = {
     development: "master",
     staging: "Duffy-Database",
     production: "Duffy-Database"
+  },
+  databasePort: {
+    development: 58454,
+    staging: 1433,
+    production: 1433
   }
 };
