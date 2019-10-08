@@ -90,9 +90,17 @@ export default class Profiles extends React.Component {
     const profiles = addonStore.profiles;
     return (
       <div style={{ padding: "0 .5rem" }}>
-        <Text>{`${profiles.length} ${
-          profiles.length === 1 ? "profiel" : "profielen"
-        } gevonden`}</Text>
+        <Stack horizontal horizontalAlign="space-between">
+          <Text styles={{root: {marginTop: "10px"}}}>{`${profiles.length} ${
+            profiles.length === 1 ? "profiel" : "profielen"
+          } gevonden`}</Text>
+          <ActionButton
+            iconProps={{ iconName: "AddFriend" }}
+            onClick={() => console.log("New profile please.")}
+          >
+            Nieuw profiel
+          </ActionButton>
+        </Stack>
         <DetailsList
           items={profiles}
           columns={[

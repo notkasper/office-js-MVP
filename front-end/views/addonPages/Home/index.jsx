@@ -179,7 +179,7 @@ export default class Home extends React.Component {
     return (
       <div>
         <Pivot styles={{ itemContainer: { marginTop: "8px" } }}>
-          <PivotItem headerText="Nieuw">{this.renderActions()}</PivotItem>
+          <PivotItem headerText="Sjablonen">{this.renderActions()}</PivotItem>
           <PivotItem headerText="Profielen">
             <Profiles />
           </PivotItem>
