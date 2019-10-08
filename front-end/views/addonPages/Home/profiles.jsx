@@ -51,6 +51,14 @@ export default class Profiles extends React.Component {
     );
   };
 
+  handleProfileDeleted = () => {
+    const { addonStore } = this.props;
+    this.setState({ loading: true });
+    addonStore.getProfiles(() => {
+      this.setState({ loading: false });
+    });
+  };
+
   openProfileDialog = id => {
     const height = 60;
     const width = 34;
@@ -65,6 +73,21 @@ export default class Profiles extends React.Component {
           );
           return;
         }
+        const dialog = result.value;
+        dialog.addEventHandler(Office.EventType.DialogMessageReceived, arg => {
+          const { messageType } = JSON.parse(arg.message);
+          switch (messageType) {
+            case "profileDeleted":
+              dialog.close();
+              this.handleProfileDeleted();
+              break;
+            default:
+              console.error(
+                `Received unhandled message from dialog: ${messageType}`
+              );
+              return;
+          }
+        });
       }
     );
   };

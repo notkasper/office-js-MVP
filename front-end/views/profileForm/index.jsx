@@ -34,7 +34,7 @@ export default class Form extends React.Component {
       working_days: "",
       opening_hours: "",
       editing: false,
-      showDeleteDialog: false
+      showDeletePrompt: false
     };
   }
 
@@ -53,15 +53,21 @@ export default class Form extends React.Component {
   };
 
   showDeletePrompt = () => {
-    this.setState({ showDeleteDialog: true });
+    this.setState({ showDeletePrompt: true });
+  };
+
+  closeDialog = () => {
+    Office.context.ui.messageParent(
+      JSON.stringify({ messageType: "profileDeleted" })
+    );
   };
 
   deleteProfile = () => {
     const { profileFormStore } = this.props;
     const { id } = queryString.parse(location.search);
     profileFormStore.deleteProfile(id, (error, response) => {
+      this.closePrompt();
       this.closeDialog();
-      // TODO: close entire dialog
     });
   };
 
@@ -90,15 +96,15 @@ export default class Form extends React.Component {
     );
   };
 
-  closeDialog = () => {
-    this.setState({ showDeleteDialog: false });
+  closePrompt = () => {
+    this.setState({ showDeletePrompt: false });
   };
 
   renderDeleteDialog = () => {
     return (
       <Dialog
         hidden={false}
-        onDismiss={this.closeDialog}
+        onDismiss={this.closePrompt}
         dialogContentProps={{
           title: "Weet je zeker dat je dit profiel wilt verwijderen?",
           subText: "Dit is onomkeerbaar"
@@ -106,17 +112,17 @@ export default class Form extends React.Component {
       >
         <DialogFooter>
           <PrimaryButton onClick={this.deleteProfile} text="Verwijderen" />
-          <DefaultButton onClick={this.closeDialog} text="Cancel" />
+          <DefaultButton onClick={this.closePrompt} text="Cancel" />
         </DialogFooter>
       </Dialog>
     );
   };
 
   render() {
-    const { editing, showDeleteDialog } = this.state;
+    const { editing, showDeletePrompt } = this.state;
     return (
       <div>
-        {showDeleteDialog ? this.renderDeleteDialog() : null}
+        {showDeletePrompt ? this.renderDeleteDialog() : null}
         <Stack vertical tokens={{ childrenGap: 5 }}>
           {this.renderHeader()}
           <Stack horizontal tokens={{ childrenGap: 5 }}>
