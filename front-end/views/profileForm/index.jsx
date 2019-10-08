@@ -206,7 +206,7 @@ export default class Form extends React.Component {
             </Stack>
           </Stack>
           {editing ? (
-            <PrimaryButton text="Aanpassing opslaan" onClick={this.saveEdit} />
+            <PrimaryButton text="Aanpassingen opslaan" onClick={this.saveEdit} />
           ) : null}
         </Stack>
       </div>
