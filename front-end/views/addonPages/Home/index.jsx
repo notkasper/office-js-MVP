@@ -73,18 +73,11 @@ export default class Home extends React.Component {
         toevoegParagraaf.styleBuiltIn = "Normal";
       }
       const ondertekenParagraaf = body.insertParagraph(
-        data.ondertekenaar + data.contactpersoon,
+        data.contactpersoon,
         "end"
       );
       ondertekenParagraaf.styleBuiltIn = "Normal";
       body.insertBreak(Word.BreakType.line, "end");
-      const bijlageTitle = body.insertParagraph("Bijlage(n):", "end");
-      bijlageTitle.font.set({
-        bold: true,
-        size: 12
-      });
-      const bijlageParagraaf = body.insertParagraph(data.bijlage, "end");
-      bijlageParagraaf.styleBuiltIn = "Normal";
 
       // Synchronize the document state by executing the queued commands,
       // and return a promise to indicate task completion.
@@ -100,7 +93,7 @@ export default class Home extends React.Component {
   };
 
   openLetterForm = () => {
-    this.openDialog("letter_form", 70, 70, (error, dialog) => {
+    this.openDialog("letter_form", 43, 50, (error, dialog) => {
       if (error) {
         return;
       }
