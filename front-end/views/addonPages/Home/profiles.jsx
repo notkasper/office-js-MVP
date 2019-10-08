@@ -42,7 +42,7 @@ export default class Profiles extends React.Component {
   };
 
   openProfileDialog = (action, id) => {
-    const height = 63;
+    const height = 60;
     const width = 34;
 
     Office.context.ui.displayDialogAsync(

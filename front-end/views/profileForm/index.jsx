@@ -130,7 +130,7 @@ export default class Form extends React.Component {
               Verwijderen
             </ActionButton>
             <ActionButton
-              iconProps={{ iconName: "EditContact" }}
+              iconProps={{ iconName: editing ? "UserRemove" : "EditContact" }}
               onClick={editing ? this.cancelEdit : this.enableEditing}
             >
               {editing ? "Aanpassen stoppen" : "Aanpassen"}
