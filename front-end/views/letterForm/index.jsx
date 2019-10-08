@@ -20,7 +20,7 @@ export default class Form extends React.Component {
     this.state = {
       onderwerp: "Brief",
       datum: "4 oktober 2019",
-      contactpersoon: "Jan Koeken",
+      contactpersoon: "",
       aanhef: "Beste ",
       naam: "Francious",
       groetregel: "Hartelijke groet, ",
@@ -28,6 +28,11 @@ export default class Form extends React.Component {
       adres: "Vincent van Goghlaan 64 5246 GB  Rosmalen",
       kenmerk: ""
     };
+  }
+
+  componentDidMount() {
+    const { letterFormStore } = this.props;
+    letterFormStore.getProfiles();
   }
 
   textFieldOnChange = event => {
@@ -40,10 +45,7 @@ export default class Form extends React.Component {
   };
 
   dropDownOnChange = (event, option) => {
-    const { id } = event.target;
-    const newStateBody = {};
-    newStateBody[id] = option.text;
-    this.setState({ id: option.text });
+    this.setState({ [event.target.id]: option.text });
   };
 
   closeDialog = () => {
@@ -114,7 +116,9 @@ export default class Form extends React.Component {
           label="Contactpersoon"
           id="contactpersoon"
           placeholder={this.state.contactpersoon}
-          options={letterFormStore.contacts}
+          options={letterFormStore.contacts.map(contact => {
+            return { key: contact.id, text: contact.formal_name };
+          })}
           onChange={this.dropDownOnChange}
           disabled={false}
         />
