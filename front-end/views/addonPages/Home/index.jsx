@@ -5,9 +5,9 @@ import {
   CompoundButton,
   Pivot,
   PivotItem,
-  Image,
-  textAreaProperties
+  Image
 } from "office-ui-fabric-react";
+import Profiles from "./profiles";
 import dotOfficeImage from "../../../assets/do365Docs-160.png";
 
 @inject("addonStore")
@@ -17,25 +17,6 @@ export default class Home extends React.Component {
     const { addonStore } = this.props;
     addonStore.getUserDetails();
   }
-
-  openDialog = (dialogName, width, height, callback) => {
-    Office.context.ui.displayDialogAsync(
-      `${window.location.origin}/#${dialogName}`,
-      { height, width, displayInIframe: true },
-      result => {
-        if (result.status !== "succeeded") {
-          console.error(
-            `Something went wrong while opening the dialog: ${JSON.stringify(
-              result
-            )}`
-          );
-          callback(true);
-          return;
-        }
-        callback(false, result.value);
-      }
-    );
-  };
 
   generateText = (dialog, data) => {
     // Run a batch operation against the Word object model.
@@ -73,18 +54,11 @@ export default class Home extends React.Component {
         toevoegParagraaf.styleBuiltIn = "Normal";
       }
       const ondertekenParagraaf = body.insertParagraph(
-        data.ondertekenaar + data.contactpersoon,
+        data.contactpersoon,
         "end"
       );
       ondertekenParagraaf.styleBuiltIn = "Normal";
       body.insertBreak(Word.BreakType.line, "end");
-      const bijlageTitle = body.insertParagraph("Bijlage(n):", "end");
-      bijlageTitle.font.set({
-        bold: true,
-        size: 12
-      });
-      const bijlageParagraaf = body.insertParagraph(data.bijlage, "end");
-      bijlageParagraaf.styleBuiltIn = "Normal";
 
       // Synchronize the document state by executing the queued commands,
       // and return a promise to indicate task completion.
@@ -100,27 +74,40 @@ export default class Home extends React.Component {
   };
 
   openLetterForm = () => {
-    this.openDialog("letter_form", 70, 70, (error, dialog) => {
-      if (error) {
-        return;
-      }
-      dialog.addEventHandler(Office.EventType.DialogMessageReceived, arg => {
-        const { messageType, data } = JSON.parse(arg.message);
-        switch (messageType) {
-          case "closeDialog":
-            dialog.close();
-            break;
-          case "text":
-            this.generateText(dialog, data);
-            break;
-          default:
-            console.error(
-              `Received unhandled message from dialog: ${messageType}`
-            );
-            return;
+    const width = 43;
+    const height = 48;
+
+    Office.context.ui.displayDialogAsync(
+      `${window.location.origin}#letter_form`,
+      { height, width, displayInIframe: true },
+      result => {
+        if (result.status !== "succeeded") {
+          console.error(
+            `Something went wrong while opening the dialog: ${JSON.stringify(
+              result
+            )}`
+          );
+          return;
         }
-      });
-    });
+        const dialog = result.value;
+        dialog.addEventHandler(Office.EventType.DialogMessageReceived, arg => {
+          const { messageType, data } = JSON.parse(arg.message);
+          switch (messageType) {
+            case "closeDialog":
+              dialog.close();
+              break;
+            case "text":
+              this.generateText(dialog, data);
+              break;
+            default:
+              console.error(
+                `Received unhandled message from dialog: ${messageType}`
+              );
+              return;
+          }
+        });
+      }
+    );
   };
 
   authorize = () => {
@@ -130,67 +117,45 @@ export default class Home extends React.Component {
 
   renderActions = () => {
     return (
-      <Stack vertical tokens={{ childrenGap: "5px" }}>
-        <CompoundButton
-          secondaryText="Maak een nieuwe brief"
-          onClick={this.openLetterForm}
-        >
-          Brief
-        </CompoundButton>
-        <CompoundButton secondaryText="Maak een nieuwe fax" disabled={true}>
-          Fax
-        </CompoundButton>
-        <CompoundButton secondaryText="Maak een nieuwe memo" disabled={true}>
-          Memo
-        </CompoundButton>
-        <CompoundButton secondaryText="Maak een nieuw rapport" disabled={true}>
-          Rapport
-        </CompoundButton>
-      </Stack>
-    );
-  };
-
-  openProfileForm = () => {
-    this.openDialog("profile_form", 85, 85, (error, dialog) => {
-      if (error) {
-        return;
-      }
-      dialog.addEventHandler(
-        Office.EventType.DialogMessageReceived,
-        message => {
-          console.log(`Message received: ${message}`);
-        }
-      );
-    });
-  };
-
-  renderProfiles = () => {
-    return (
-      <Stack vertical tokens={{ childrenGap: "5px" }}>
-        <CompoundButton
-          secondaryText="Maak een nieuw profiel"
-          onClick={this.openProfileForm}
-        >
-          Profiel
-        </CompoundButton>
-      </Stack>
-    );
-  };
-
-  render() {
-    return (
-      <div>
-        <Pivot styles={{ itemContainer: { marginTop: "8px" } }}>
-          <PivotItem headerText="Nieuw">{this.renderActions()}</PivotItem>
-          <PivotItem headerText="Profielen">{this.renderProfiles()}</PivotItem>
-        </Pivot>
+      <React.Fragment>
+        <Stack vertical tokens={{ childrenGap: "5px" }}>
+          <CompoundButton
+            secondaryText="Maak een nieuwe brief"
+            onClick={this.openLetterForm}
+          >
+            Brief
+          </CompoundButton>
+          <CompoundButton secondaryText="Maak een nieuwe fax" disabled={true}>
+            Fax
+          </CompoundButton>
+          <CompoundButton secondaryText="Maak een nieuwe memo" disabled={true}>
+            Memo
+          </CompoundButton>
+          <CompoundButton
+            secondaryText="Maak een nieuw rapport"
+            disabled={true}
+          >
+            Rapport
+          </CompoundButton>
+        </Stack>
         <Image
           src={dotOfficeImage}
           alt="DotOffice"
           width="128px"
           styles={{ root: { position: "absolute", bottom: 0, right: "50px" } }}
         />
-      </div>
+      </React.Fragment>
+    );
+  };
+
+  render() {
+    return (
+      <Pivot styles={{ itemContainer: { marginTop: "8px" } }}>
+        <PivotItem headerText="Sjablonen">{this.renderActions()}</PivotItem>
+        <PivotItem headerText="Profielen">
+          <Profiles />
+        </PivotItem>
+      </Pivot>
     );
   }
 }

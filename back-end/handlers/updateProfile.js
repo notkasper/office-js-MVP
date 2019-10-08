@@ -1,10 +1,10 @@
 const _ = require("lodash");
-const uuidv4 = require("uuid/v4");
 const msgraph = require("../msgraph");
 const { getConnection } = require("../db");
 
 module.exports = async (req, res) => {
   const accessToken = _.get(req, "cookies.accessToken");
+  const id = _.get(req, "params.profile_id");
   if (!accessToken) {
     res.status(400).send({ message: "Access token niet meegestuurd." });
   }
@@ -22,7 +22,6 @@ module.exports = async (req, res) => {
   }
 
   const { id: creator } = userDetails;
-  const id = uuidv4();
   const {
     formal_name,
     informal_name,
@@ -35,9 +34,19 @@ module.exports = async (req, res) => {
     extra_text
   } = _.get(req, "body");
   try {
-    await getConnection().models.profile.create({
-      id,
-      creator,
+    const profile = await getConnection().models.profile.findOne({
+      where: {
+        id,
+        creator
+      }
+    });
+    if (!profile) {
+      res.status(404).send({
+        message: `Profiel niet gevonden in database, probeer het later opnieuw of neem contact op met support.`
+      });
+      return;
+    }
+    await profile.update({
       formal_name,
       informal_name,
       phone_number,
@@ -52,7 +61,7 @@ module.exports = async (req, res) => {
     console.error(error);
     res.status(500).send({
       message:
-        "Er is iets fout gegaan tijdens het opslaan van het profiel, probeer het later opnieuw of neem contact op met support."
+        "Er is iets fout gegaan tijdens het updaten van het profiel, probeer het later opnieuw of neem contact op met support."
     });
     return;
   }

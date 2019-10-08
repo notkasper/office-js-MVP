@@ -1,6 +1,6 @@
 module.exports = {
   redirectBaseUrl: {
-    development: "https://b0fca8b3.ngrok.io",
+    development: "https://b4775206.ngrok.io",
     staging: "https://duffy-addon-staging.azurewebsites.net",
     production: "https://duffy-addon.azurewebsites.net"
   },
@@ -10,23 +10,28 @@ module.exports = {
     production: "https://duffy-addon.azurewebsites.net"
   },
   databaseUrl: {
-    development: "duffy-server.database.windows.net",
+    development: "localhost",
     staging: "duffy-server.database.windows.net",
     production: "duffy-server.database.windows.net"
   },
   databaseUser: {
-    development: "duffy",
+    development: "sa",
     staging: "duffy",
     production: "duffy"
   },
   databasePassword: {
-    development: "#HamKaas123",
+    development: "officejsadmin",
     staging: "#HamKaas123",
     production: "#HamKaas123"
   },
   databaseName: {
-    development: "Duffy-Database",
+    development: "master",
     staging: "Duffy-Database",
     production: "Duffy-Database"
+  },
+  databasePort: {
+    development: 58454,
+    staging: 1433,
+    production: 1433
   }
 };

@@ -63,29 +63,38 @@ const getDatabaseUrl = () => {
 
 const getDatabaseUser = () => {
   const env = getEnv();
-  const url = config.databaseUser[env];
-  if (!url) {
+  const user = config.databaseUser[env];
+  if (!user) {
     throw new Error(`Could not find database user for env: ${env}`);
   }
-  return url;
+  return user;
 };
 
 const getDatabasePassword = () => {
   const env = getEnv();
-  const url = config.databasePassword[env];
-  if (!url) {
+  const password = config.databasePassword[env];
+  if (!password) {
     throw new Error(`Could not find database password for env: ${env}`);
   }
-  return url;
+  return password;
 };
 
 const getDatabaseName = () => {
   const env = getEnv();
-  const url = config.databaseName[env];
-  if (!url) {
+  const name = config.databaseName[env];
+  if (!name) {
     throw new Error(`Could not find database name for env: ${env}`);
   }
-  return url;
+  return name;
+};
+
+const getDatabasePort = () => {
+  const env = getEnv();
+  const port = config.databasePort[env];
+  if (!port) {
+    throw new Error(`Could not find database port for env: ${env}`);
+  }
+  return port;
 };
 
 module.exports = {
@@ -97,5 +106,6 @@ module.exports = {
   getDatabaseUrl,
   getDatabaseUser,
   getDatabasePassword,
-  getDatabaseName
+  getDatabaseName,
+  getDatabasePort
 };

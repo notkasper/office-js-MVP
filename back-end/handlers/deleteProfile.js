@@ -1,10 +1,10 @@
 const _ = require("lodash");
-const uuidv4 = require("uuid/v4");
 const msgraph = require("../msgraph");
 const { getConnection } = require("../db");
 
 module.exports = async (req, res) => {
   const accessToken = _.get(req, "cookies.accessToken");
+  const id = _.get(req, "params.profile_id");
   if (!accessToken) {
     res.status(400).send({ message: "Access token niet meegestuurd." });
   }
@@ -22,40 +22,21 @@ module.exports = async (req, res) => {
   }
 
   const { id: creator } = userDetails;
-  const id = uuidv4();
-  const {
-    formal_name,
-    informal_name,
-    phone_number,
-    mobile_number,
-    email,
-    work_function,
-    department,
-    establishment,
-    extra_text
-  } = _.get(req, "body");
   try {
-    await getConnection().models.profile.create({
-      id,
-      creator,
-      formal_name,
-      informal_name,
-      phone_number,
-      mobile_number,
-      email,
-      work_function,
-      department,
-      establishment,
-      extra_text
+    await getConnection().models.profile.destroy({
+      where: {
+        creator,
+        id
+      }
     });
   } catch (error) {
     console.error(error);
     res.status(500).send({
       message:
-        "Er is iets fout gegaan tijdens het opslaan van het profiel, probeer het later opnieuw of neem contact op met support."
+        "Er is iets fout gegaan tijdens het verwijderen van het profiel, probeer het later opnieuw of neem contact op met support."
     });
     return;
   }
 
-  res.status(200).send({ message: "CREATED" });
+  res.status(200).send({ message: "DELETED" });
 };
