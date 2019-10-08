@@ -5,7 +5,7 @@ import {
   CompoundButton,
   Pivot,
   PivotItem,
-  Image,
+  Image
 } from "office-ui-fabric-react";
 import Profiles from "./profiles";
 import dotOfficeImage from "../../../assets/do365Docs-160.png";
@@ -130,23 +130,34 @@ export default class Home extends React.Component {
 
   renderActions = () => {
     return (
-      <Stack vertical tokens={{ childrenGap: "5px" }}>
-        <CompoundButton
-          secondaryText="Maak een nieuwe brief"
-          onClick={this.openLetterForm}
-        >
-          Brief
-        </CompoundButton>
-        <CompoundButton secondaryText="Maak een nieuwe fax" disabled={true}>
-          Fax
-        </CompoundButton>
-        <CompoundButton secondaryText="Maak een nieuwe memo" disabled={true}>
-          Memo
-        </CompoundButton>
-        <CompoundButton secondaryText="Maak een nieuw rapport" disabled={true}>
-          Rapport
-        </CompoundButton>
-      </Stack>
+      <div>
+        <Stack vertical tokens={{ childrenGap: "5px" }}>
+          <CompoundButton
+            secondaryText="Maak een nieuwe brief"
+            onClick={this.openLetterForm}
+          >
+            Brief
+          </CompoundButton>
+          <CompoundButton secondaryText="Maak een nieuwe fax" disabled={true}>
+            Fax
+          </CompoundButton>
+          <CompoundButton secondaryText="Maak een nieuwe memo" disabled={true}>
+            Memo
+          </CompoundButton>
+          <CompoundButton
+            secondaryText="Maak een nieuw rapport"
+            disabled={true}
+          >
+            Rapport
+          </CompoundButton>
+        </Stack>
+        <Image
+          src={dotOfficeImage}
+          alt="DotOffice"
+          width="128px"
+          styles={{ root: { position: "absolute", bottom: 0, right: "50px" } }}
+        />
+      </div>
     );
   };
 
@@ -173,12 +184,6 @@ export default class Home extends React.Component {
             <Profiles />
           </PivotItem>
         </Pivot>
-        <Image
-          src={dotOfficeImage}
-          alt="DotOffice"
-          width="128px"
-          styles={{ root: { position: "absolute", bottom: 0, right: "50px" } }}
-        />
       </div>
     );
   }
