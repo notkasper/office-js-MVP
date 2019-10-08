@@ -3,7 +3,9 @@ import { inject, observer } from "mobx-react";
 import {
   DetailsList,
   ShimmeredDetailsList,
-  ActionButton
+  ActionButton,
+  Text,
+  Stack
 } from "office-ui-fabric-react";
 
 @inject("addonStore")
@@ -28,24 +30,54 @@ export default class Profiles extends React.Component {
     return <ShimmeredDetailsList items={[]} />;
   };
 
+  openDialog = (dialogName, width, height, callback) => {
+    Office.context.ui.displayDialogAsync(
+      `${window.location.origin}/#${dialogName}`,
+      { height, width, displayInIframe: true },
+      result => {
+        if (result.status !== "succeeded") {
+          console.error(
+            `Something went wrong while opening the dialog: ${JSON.stringify(
+              result
+            )}`
+          );
+          callback(true);
+          return;
+        }
+        callback(false, result.value);
+      }
+    );
+  };
+
+  openProfileDialog = id => {
+    console.log(`Open profile dialog for ${id}`);
+    this.openDialog("profile_form", 48, 60, (error, dialog) => {
+      if (error) {
+        return;
+      }
+      dialog.addEventHandler(
+        Office.EventType.DialogMessageReceived,
+        message => {
+          console.log(`Message received: ${message}`);
+        }
+      );
+    });
+  };
+
   renderItemColumn = (item, index, column) => {
     const { fieldName } = column;
     switch (fieldName) {
       case "formal_name":
-        return item.formal_name;
-      case "details":
         return (
-          <ActionButton
-            styles={{
-              root: {
-                padding: 0,
-                margin: 0
-              }
-            }}
-            iconProps={{ iconName: "ListMirrored" }}
-          >
-            Details
-          </ActionButton>
+          <Stack horizontal tokens={{ childrenGap: "10rem" }}>
+            <Text>{item.formal_name}</Text>
+            <ActionButton
+              iconProps={{ iconName: "ListMirrored" }}
+              onClick={() => this.openProfileDialog(item.id)}
+            >
+              Details
+            </ActionButton>
+          </Stack>
         );
     }
     return null;
@@ -58,10 +90,10 @@ export default class Profiles extends React.Component {
       <DetailsList
         items={profiles}
         columns={[
-          { key: "profile", name: "Profiel", fieldName: "formal_name" },
-          { key: "details", name: "Details", fieldName: "details" }
+          { key: "profile", name: "Profiel", fieldName: "formal_name" }
         ]}
         onRenderItemColumn={this.renderItemColumn}
+        checkboxVisibility={2} // 2 = hidden
       />
     );
   };
