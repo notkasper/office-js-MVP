@@ -18,6 +18,7 @@ import queryString from "query-string";
 @observer
 export default class Form extends React.Component {
   constructor(props) {
+    const { action } = queryString.parse(location.search);
     super(props);
     this.state = {
       formal_name: "",
@@ -34,7 +35,8 @@ export default class Form extends React.Component {
       working_days: "",
       opening_hours: "",
       editing: false,
-      showDeletePrompt: false
+      showDeletePrompt: false,
+      action
     };
   }
 
@@ -56,27 +58,58 @@ export default class Form extends React.Component {
     this.setState({ showDeletePrompt: true });
   };
 
-  closeDialog = () => {
-    Office.context.ui.messageParent(
-      JSON.stringify({ messageType: "profileDeleted" })
-    );
-  };
-
   deleteProfile = () => {
     const { profileFormStore } = this.props;
     const { id } = queryString.parse(location.search);
     profileFormStore.deleteProfile(id, (error, response) => {
       this.closePrompt();
-      this.closeDialog();
+      Office.context.ui.messageParent(
+        JSON.stringify({ messageType: "profileDeleted" })
+      );
+    });
+  };
+
+  createProfile = () => {
+    const { profileFormStore } = this.props;
+    const {
+      formal_name,
+      informal_name,
+      phone_number,
+      mobile_number,
+      email,
+      work_function,
+      department,
+      establishment,
+      extra_text
+    } = this.state;
+    const profileData = {
+      formal_name,
+      informal_name,
+      phone_number,
+      mobile_number,
+      email,
+      work_function,
+      department,
+      establishment,
+      extra_text
+    };
+    profileFormStore.putProfile(profileData, (error, response) => {
+      if (error) {
+        return;
+      }
+      Office.context.ui.messageParent(
+        JSON.stringify({ messageType: "profileCreated" })
+      );
     });
   };
 
   renderHeader = () => {
-    const { editing } = this.state;
+    const { editing, action } = this.state;
+    const showHeaderButtons = !editing && action === "view";
     return (
       <Stack horizontal horizontalAlign="space-between">
         <Text variant="xLarge">Persoonlijke instellingen</Text>
-        {editing ? null : (
+        {showHeaderButtons ? (
           <div>
             <ActionButton
               iconProps={{ iconName: "Delete" }}
@@ -91,7 +124,7 @@ export default class Form extends React.Component {
               Aanpassen
             </ActionButton>
           </div>
-        )}
+        ) : null}
       </Stack>
     );
   };
@@ -119,7 +152,8 @@ export default class Form extends React.Component {
   };
 
   render() {
-    const { editing, showDeletePrompt } = this.state;
+    const { showDeletePrompt, action, editing } = this.state;
+    const enabled = editing || action === "create";
     return (
       <div>
         {showDeletePrompt ? this.renderDeleteDialog() : null}
@@ -135,7 +169,7 @@ export default class Form extends React.Component {
                   this.setState({ formal_name: event.target.value })
                 }
                 styles={{ root: { minWidth: 300 } }}
-                disabled={!editing}
+                disabled={!enabled}
               />
               <TextField
                 label="Naam (informeel)"
@@ -144,7 +178,7 @@ export default class Form extends React.Component {
                   this.setState({ informal_name: event.target.value })
                 }
                 styles={{ root: { minWidth: 300 } }}
-                disabled={!editing}
+                disabled={!enabled}
               />
               <TextField
                 label="Persoonlijk telefoonnummer (10 cijfers)"
@@ -153,7 +187,7 @@ export default class Form extends React.Component {
                   this.setState({ phone_number: event.target.value })
                 }
                 styles={{ root: { minWidth: 300 } }}
-                disabled={!editing}
+                disabled={!enabled}
               />
               <TextField
                 label="Persoonlijk mobielnummer (10 cijfers)"
@@ -162,7 +196,7 @@ export default class Form extends React.Component {
                   this.setState({ mobile_number: event.target.value })
                 }
                 styles={{ root: { minWidth: 300 } }}
-                disabled={!editing}
+                disabled={!enabled}
               />
             </Stack>
             <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
@@ -171,7 +205,7 @@ export default class Form extends React.Component {
                 value={this.state.email}
                 onChange={event => this.setState({ email: event.target.value })}
                 styles={{ root: { minWidth: 300 } }}
-                disabled={!editing}
+                disabled={!enabled}
               />
               <Dropdown
                 placeholder="Selecteer een optie"
@@ -187,7 +221,7 @@ export default class Form extends React.Component {
                   this.setState({ work_function: option.text });
                 }}
                 styles={{ dropdown: { width: 300 } }}
-                disabled={!editing}
+                disabled={!enabled}
               ></Dropdown>
               <Dropdown
                 placeholder="Selecteer een optie"
@@ -198,7 +232,7 @@ export default class Form extends React.Component {
                   this.setState({ department: option.text });
                 }}
                 styles={{ dropdown: { width: 300 } }}
-                disabled={!editing}
+                disabled={!enabled}
               ></Dropdown>
               <Dropdown
                 placeholder="Selecteer een optie"
@@ -209,7 +243,7 @@ export default class Form extends React.Component {
                 }}
                 options={[{ key: 0, text: "Factuuradres Haarlem CA" }]}
                 styles={{ dropdown: { width: 300 } }}
-                disabled={!editing}
+                disabled={!enabled}
               ></Dropdown>
             </Stack>
           </Stack>
@@ -222,7 +256,7 @@ export default class Form extends React.Component {
                   generate_outlook_signature: event.target.checked
                 })
               }
-              disabled={!editing}
+              disabled={!enabled}
             />
           </Stack>
           <Stack horizontal tokens={{ childrenGap: 5 }}>
@@ -234,7 +268,7 @@ export default class Form extends React.Component {
                   this.setState({ extra_text: event.target.value })
                 }
                 styles={{ root: { minWidth: 300 } }}
-                disabled={!editing}
+                disabled={!enabled}
               />
               <TextField
                 label="WhatsApp"
@@ -243,7 +277,7 @@ export default class Form extends React.Component {
                   this.setState({ whatsapp: event.target.value })
                 }
                 styles={{ root: { minWidth: 300 } }}
-                disabled={!editing}
+                disabled={!enabled}
               />
             </Stack>
             <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
@@ -254,7 +288,7 @@ export default class Form extends React.Component {
                   this.setState({ working_days: event.target.value })
                 }
                 styles={{ root: { minWidth: 300 } }}
-                disabled={!editing}
+                disabled={!enabled}
               />
               <TextField
                 label="Openingstijden"
@@ -263,7 +297,7 @@ export default class Form extends React.Component {
                   this.setState({ opening_hours: event.target.value })
                 }
                 styles={{ root: { minWidth: 300 } }}
-                disabled={!editing}
+                disabled={!enabled}
               />
             </Stack>
           </Stack>
@@ -272,6 +306,9 @@ export default class Form extends React.Component {
               text="Aanpassingen opslaan"
               onClick={this.saveEdit}
             />
+          ) : null}
+          {action === "create" ? (
+            <PrimaryButton text="Opslaan" onClick={this.createProfile} />
           ) : null}
         </Stack>
       </div>

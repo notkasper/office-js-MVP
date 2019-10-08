@@ -21,37 +21,11 @@ export default class Profiles extends React.Component {
   componentDidMount() {
     const { addonStore } = this.props;
     if (!addonStore.profiles.length) {
-      this.setState({ loading: true });
-      addonStore.getProfiles(() => {
-        this.setState({ loading: false });
-      });
+      this.loadProfiles();
     }
   }
 
-  renderLoading = () => {
-    return <ShimmeredDetailsList items={[]} />;
-  };
-
-  openDialog = (dialogName, width, height, callback) => {
-    Office.context.ui.displayDialogAsync(
-      `${window.location.origin}/#${dialogName}`,
-      { height, width, displayInIframe: true },
-      result => {
-        if (result.status !== "succeeded") {
-          console.error(
-            `Something went wrong while opening the dialog: ${JSON.stringify(
-              result
-            )}`
-          );
-          callback(true);
-          return;
-        }
-        callback(false, result.value);
-      }
-    );
-  };
-
-  handleProfileDeleted = () => {
+  loadProfiles = () => {
     const { addonStore } = this.props;
     this.setState({ loading: true });
     addonStore.getProfiles(() => {
@@ -59,12 +33,20 @@ export default class Profiles extends React.Component {
     });
   };
 
-  openProfileDialog = id => {
+  handleProfileDeleted = () => {
+    this.loadProfiles();
+  };
+
+  handleProfileCreated = () => {
+    this.loadProfiles();
+  };
+
+  openProfileDialog = (action, id) => {
     const height = 60;
     const width = 34;
 
     Office.context.ui.displayDialogAsync(
-      `${window.location.origin}?id=${id}#profile_form`,
+      `${window.location.origin}?action=${action}&id=${id}#profile_form`,
       { height, width, displayInIframe: true },
       result => {
         if (result.status !== "succeeded") {
@@ -78,6 +60,10 @@ export default class Profiles extends React.Component {
           const { messageType } = JSON.parse(arg.message);
           switch (messageType) {
             case "profileDeleted":
+              dialog.close();
+              this.handleProfileDeleted();
+              break;
+            case "profileCreated":
               dialog.close();
               this.handleProfileDeleted();
               break;
@@ -101,7 +87,7 @@ export default class Profiles extends React.Component {
             <Text>{item.formal_name}</Text>
             <ActionButton
               iconProps={{ iconName: "ListMirrored" }}
-              onClick={() => this.openProfileDialog(item.id)}
+              onClick={() => this.openProfileDialog("view", item.id)}
             >
               Details
             </ActionButton>
@@ -122,7 +108,7 @@ export default class Profiles extends React.Component {
           } gevonden`}</Text>
           <ActionButton
             iconProps={{ iconName: "AddFriend" }}
-            onClick={() => console.log("New profile please.")}
+            onClick={() => this.openProfileDialog("create")}
           >
             Nieuw profiel
           </ActionButton>
@@ -137,6 +123,10 @@ export default class Profiles extends React.Component {
         />
       </div>
     );
+  };
+
+  renderLoading = () => {
+    return <ShimmeredDetailsList items={[]} />;
   };
 
   render() {
