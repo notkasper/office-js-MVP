@@ -18,24 +18,35 @@ import queryString from "query-string";
 @observer
 export default class Form extends React.Component {
   constructor(props) {
-    const { action } = queryString.parse(location.search);
     super(props);
+    const {
+      formal_name,
+      informal_name,
+      phone_number,
+      mobile_number,
+      email,
+      work_function,
+      department,
+      establishment,
+      extra_text,
+      action
+    } = queryString.parse(location.search);
     this.state = {
-      formal_name: "",
-      informal_name: "",
-      phone_number: "",
-      mobile_number: "",
-      email: "",
-      work_function: "",
-      department: "",
-      establishment: "",
-      extra_text: "",
+      formal_name,
+      informal_name,
+      phone_number,
+      mobile_number,
+      email,
+      work_function,
+      department,
+      establishment,
+      extra_text,
+      action,
       whatsapp: "",
       working_days: "",
       opening_hours: "",
       editing: false,
-      showDeletePrompt: false,
-      action
+      showDeletePrompt: false
     };
   }
 

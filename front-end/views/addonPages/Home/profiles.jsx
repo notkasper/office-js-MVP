@@ -41,12 +41,28 @@ export default class Profiles extends React.Component {
     this.loadProfiles();
   };
 
-  openProfileDialog = (action, id) => {
+  openProfileDialog = (action, item) => {
     const height = 60;
     const width = 34;
 
+    console.log(item);
+    let url = `${window.location.origin}?action=${action}`;
+    if (action === "view") {
+      url += `&id=${item.id}
+              &formal_name=${item.formal_name}
+              &informal_name=${item.informal_name}
+              &phone_number=${item.phone_number}
+              &mobile_number=${item.mobile_number}
+              &extra_text=${item.extra_text}
+              &email=${item.email}
+              &work_function=${item.work_function}
+              &department=${item.department}
+              &establishment=${item.establishment}`;
+    }
+    url += "#profile_form";
+
     Office.context.ui.displayDialogAsync(
-      `${window.location.origin}?action=${action}&id=${id}#profile_form`,
+      url,
       { height, width, displayInIframe: true },
       result => {
         if (result.status !== "succeeded") {
@@ -74,7 +90,7 @@ export default class Profiles extends React.Component {
               console.error(
                 `Received unhandled message from dialog: ${messageType}`
               );
-              return;
+              break;
           }
         });
       }
@@ -92,7 +108,7 @@ export default class Profiles extends React.Component {
             </Text>
             <ActionButton
               iconProps={{ iconName: "ListMirrored" }}
-              onClick={() => this.openProfileDialog("view", item.id)}
+              onClick={() => this.openProfileDialog("view", item)}
             >
               Details
             </ActionButton>
@@ -108,7 +124,9 @@ export default class Profiles extends React.Component {
     return (
       <div style={{ padding: "0 .5rem" }}>
         <Stack horizontal horizontalAlign="space-between">
-          <Text styles={{ root: { marginTop: "10px", paddingLeft: ".3rem" } }}>{`${profiles.length} ${
+          <Text
+            styles={{ root: { marginTop: "10px", paddingLeft: ".3rem" } }}
+          >{`${profiles.length} ${
             profiles.length === 1 ? "profiel" : "profielen"
           } gevonden`}</Text>
           <ActionButton
