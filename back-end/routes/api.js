@@ -1,5 +1,11 @@
 const express = require("express");
-const { getProfileList, createProfile } = require("../handlers/profile");
+const {
+  getProfileList,
+  getProfile,
+  createProfile,
+  adjustProfile,
+  deleteProfile
+} = require("../handlers/profile");
 const {
   acquireTokenWithAuthorizationCode,
   getAuthorizationUrl
@@ -12,7 +18,10 @@ router.get("/test", (req, res) => {
 });
 
 router.get("/profile", getProfileList);
+router.get("/profile/:id", getProfile);
+router.put("/profile/:id", adjustProfile);
 router.post("/profile", createProfile);
+router.delete("/profile/:id", deleteProfile);
 
 router.get("/oauth", getAuthorizationUrl);
 

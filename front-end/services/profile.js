@@ -1,5 +1,17 @@
 import request from "superagent";
 
+export const retrieveProfiles = callback => {
+  request
+    .get("/api/profile")
+    .end((error, response) => callback(error, response));
+};
+
+export const retrieveProfile = (id, callback) => {
+  request
+    .get(`/api/profile/${id}`)
+    .end((error, response) => callback(error, response));
+};
+
 export const createProfile = (body, callback) => {
   request
     .post("/api/profile")
@@ -7,8 +19,14 @@ export const createProfile = (body, callback) => {
     .end((error, response) => callback(error, response));
 };
 
-export const retrieveProfiles = callback => {
+export const adjustProfile = (id, callback) => {
   request
-    .get("/api/profile")
+    .put(`/api/profile/${id}`)
+    .end((error, response) => callback(error, response));
+};
+
+export const deleteProfile = (id, callback) => {
+  request
+    .delete(`/api/profile/${id}`)
     .end((error, response) => callback(error, response));
 };

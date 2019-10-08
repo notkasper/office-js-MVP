@@ -15,21 +15,6 @@ import ProfileList from "./ProfileList";
 export default class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      formal_name: "",
-      informal_name: "",
-      phone_number: "",
-      mobile_number: "",
-      email: "",
-      work_function: "",
-      department: "",
-      establishment: "",
-      generate_outlook_signature: false,
-      extra_text: "",
-      whatsapp: "",
-      working_days: "",
-      opening_hours: ""
-    };
   }
 
   componentDidMount() {
@@ -42,7 +27,26 @@ export default class Form extends React.Component {
     store.sendDialogForm(data, () => {});
   }
 
+  onTextFieldChange = event => {
+    const { exampleFormStore: store } = this.props;
+    const { id, value } = event.target;
+    store[id] = value;
+  };
+
+  onCheckboxChange = event => {
+    const { exampleFormStore: store } = this.props;
+    const { id, checked } = event.target;
+    store[id] = checked;
+  };
+
+  onDropdownChange = (event, option) => {
+    const { exampleFormStore: store } = this.props;
+    const { id } = event.target;
+    store[id] = option.text;
+  };
+
   render() {
+    const { exampleFormStore: store } = this.props;
     return (
       <div>
         <Stack horizontal tokens={{ childrenGap: 5, padding: 15 }}>
@@ -55,50 +59,46 @@ export default class Form extends React.Component {
               <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
                 <TextField
                   label="Naam (formeel)"
+                  id="formal_name"
                   required
-                  value={this.state.formal_name}
-                  onChange={event =>
-                    this.setState({ formal_name: event.target.value })
-                  }
+                  value={store.formal_name}
+                  onChange={event => this.onTextFieldChange(event)}
                   styles={{ root: { minWidth: 300 } }}
                 />
                 <TextField
                   label="Naam (informeel)"
-                  value={this.state.informal_name}
-                  onChange={event =>
-                    this.setState({ informal_name: event.target.value })
-                  }
+                  id="informal_name"
+                  value={store.informal_name}
+                  onChange={event => this.onTextFieldChange(event)}
                   styles={{ root: { minWidth: 300 } }}
                 />
                 <TextField
                   label="Persoonlijk telefoonnummer (10 cijfers)"
-                  value={this.state.phone_number}
-                  onChange={event =>
-                    this.setState({ phone_number: event.target.value })
-                  }
+                  id="phone_number"
+                  value={store.phone_number}
+                  onChange={event => this.onTextFieldChange(event)}
                   styles={{ root: { minWidth: 300 } }}
                 />
                 <TextField
                   label="Persoonlijk mobielnummer (10 cijfers)"
-                  value={this.state.mobile_number}
-                  onChange={event =>
-                    this.setState({ mobile_number: event.target.value })
-                  }
+                  id="mobile_number"
+                  value={store.mobile_number}
+                  onChange={event => this.onTextFieldChange(event)}
                   styles={{ root: { minWidth: 300 } }}
                 />
               </Stack>
               <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
                 <TextField
                   label="Persoonlijk e-mailadres"
-                  value={this.state.email}
-                  onChange={event =>
-                    this.setState({ email: event.target.value })
-                  }
+                  id="email"
+                  value={store.email}
+                  onChange={event => this.onTextFieldChange(event)}
                   styles={{ root: { minWidth: 300 } }}
                 />
                 <Dropdown
                   placeholder="Selecteer een optie"
                   label="Functie"
+                  id="work_function"
                   options={[
                     { key: 0, text: "Assistent procesmanager" },
                     { key: 1, text: "Assistent procesmanager" },
@@ -106,28 +106,31 @@ export default class Form extends React.Component {
                     { key: 3, text: "Assistent procesmanager" },
                     { key: 4, text: "Assistent procesmanager" }
                   ]}
-                  onChange={(event, option) => {
-                    this.setState({ work_function: option.text });
-                  }}
+                  value={store.work_function}
+                  onChange={(event, option) =>
+                    this.onDropdownChange(event, option)
+                  }
                   styles={{ dropdown: { width: 300 } }}
                 ></Dropdown>
                 <Dropdown
                   placeholder="Selecteer een optie"
                   label="Afdeling"
+                  id="department"
                   options={[{ key: 0, text: "CZ directie" }]}
-                  value={this.state.department}
-                  onChange={(event, option) => {
-                    this.setState({ department: option.text });
-                  }}
+                  value={store.department}
+                  onChange={(event, option) =>
+                    this.onDropdownChange(event, option)
+                  }
                   styles={{ dropdown: { width: 300 } }}
                 ></Dropdown>
                 <Dropdown
                   placeholder="Selecteer een optie"
                   label="Vestiging"
-                  value={this.state.establishment}
-                  onChange={(event, option) => {
-                    this.setState({ establishment: option.text });
-                  }}
+                  id="establishment"
+                  value={store.establishment}
+                  onChange={(event, option) =>
+                    this.onDropdownChange(event, option)
+                  }
                   options={[{ key: 0, text: "Factuuradres Haarlem CA" }]}
                   styles={{ dropdown: { width: 300 } }}
                 ></Dropdown>
@@ -136,48 +139,41 @@ export default class Form extends React.Component {
             <Stack horizontal tokens={{ childrenGap: 5, padding: 5 }}>
               <Checkbox
                 label="Outlook ondertekening genereren"
-                checked={this.state.generate_outlook_signature}
-                onChange={event =>
-                  this.setState({
-                    generate_outlook_signature: event.target.checked
-                  })
-                }
+                id="generate_outlook_signature"
+                checked={store.generate_outlook_signature}
+                onChange={event => this.onCheckboxChange(event)}
               />
             </Stack>
             <Stack horizontal tokens={{ childrenGap: 5 }}>
               <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
                 <TextField
                   label="Extra tekst (bijv. Vragen?)"
-                  value={this.state.extra_text}
-                  onChange={event =>
-                    this.setState({ extra_text: event.target.value })
-                  }
+                  id="extra_text"
+                  value={store.extra_text}
+                  onChange={event => this.onTextFieldChange(event)}
                   styles={{ root: { minWidth: 300 } }}
                 />
                 <TextField
                   label="WhatsApp"
-                  value={this.state.whatsapp}
-                  onChange={event =>
-                    this.setState({ whatsapp: event.target.value })
-                  }
+                  id="whatsapp"
+                  value={store.whatsapp}
+                  onChange={event => this.onTextFieldChange(event)}
                   styles={{ root: { minWidth: 300 } }}
                 />
               </Stack>
               <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
                 <TextField
                   label="Werkdagen"
-                  value={this.state.working_days}
-                  onChange={event =>
-                    this.setState({ working_days: event.target.value })
-                  }
+                  id="working_days"
+                  value={store.working_days}
+                  onChange={event => this.onTextFieldChange(event)}
                   styles={{ root: { minWidth: 300 } }}
                 />
                 <TextField
                   label="Openingstijden"
-                  value={this.state.opening_hours}
-                  onChange={event =>
-                    this.setState({ opening_hours: event.target.value })
-                  }
+                  id="opening_hours"
+                  value={store.opening_hours}
+                  onChange={event => this.onTextFieldChange(event)}
                   styles={{ root: { minWidth: 300 } }}
                 />
               </Stack>
@@ -199,7 +195,7 @@ export default class Form extends React.Component {
                   whatsapp,
                   working_days,
                   opening_hours
-                } = this.state;
+                } = store;
 
                 this.handleFormData({
                   formal_name,
