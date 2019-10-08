@@ -1,12 +1,5 @@
 const express = require("express");
 const {
-  getProfileList,
-  getProfile,
-  createProfile,
-  adjustProfile,
-  deleteProfile
-} = require("../handlers/profile");
-const {
   acquireTokenWithAuthorizationCode,
   getAuthorizationUrl,
   authMiddleware
@@ -30,10 +23,10 @@ router.get("/oauth", getAuthorizationUrl);
 router.get("/getAccessToken", acquireTokenWithAuthorizationCode);
 
 /* AUTHORIZED */
-router.put("/profile", authMiddleware, putProfile);
-router.get("/getUserDetails", authMiddleware, getUserDetails);
+router.post("/profile", authMiddleware, putProfile);
+router.put("/profile/:profile_id", authMiddleware, updateProfile);
 router.get("/profiles", authMiddleware, getProfiles);
+router.get("/getUserDetails", authMiddleware, getUserDetails);
 router.delete("/profile/:profile_id", authMiddleware, deleteProfile);
-router.patch("/profile/:profile_id", authMiddleware, updateProfile);
 
 module.exports = router;
