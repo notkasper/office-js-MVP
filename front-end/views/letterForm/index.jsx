@@ -9,7 +9,7 @@ import {
   DatePicker,
   Text,
   DefaultButton,
-  Checkbox
+  PrimaryButton
 } from "office-ui-fabric-react";
 
 @inject("letterFormStore")
@@ -17,8 +17,36 @@ import {
 export default class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      onderwerp: "Brief",
+      datum: "4 oktober 2019",
+      contactpersoon: "",
+      aanhef: "Beste ",
+      naam: "Francious",
+      groetregel: "Hartelijke groet, ",
+      toevoeging: "",
+      adres: "Vincent van Goghlaan 64 5246 GB  Rosmalen",
+      kenmerk: ""
+    };
   }
+
+  componentDidMount() {
+    const { letterFormStore } = this.props;
+    letterFormStore.getProfiles();
+  }
+
+  textFieldOnChange = event => {
+    const {
+      target: { id, value }
+    } = event;
+    const newStateBody = {};
+    newStateBody[id] = value;
+    this.setState(newStateBody);
+  };
+
+  dropDownOnChange = (event, option) => {
+    this.setState({ [event.target.id]: option.text });
+  };
 
   closeDialog = () => {
     Office.context.ui.messageParent(
@@ -26,23 +54,49 @@ export default class Form extends React.Component {
     );
   };
 
+  writeInDocument = () => {
+    Office.context.ui.messageParent(
+      JSON.stringify({ messageType: "text", data: this.state })
+    );
+  };
+
   renderLeftPanel = () => {
     const { letterFormStore } = this.props;
     return (
       <Stack vertical styles={{ root: { width: 400 } }}>
-        <Dropdown
-          label="Verzendoptie"
-          options={letterFormStore.sendOptions}
+        <TextField
+          label="Adres"
+          id="adres"
+          multiline
+          rows={1}
+          resizable={false}
+          value={this.state.adres}
+          onChange={this.textFieldOnChange}
         />
-        <TextField label="Adres" multiline rows={6} resizable={false} />
+        <TextField
+          value={this.state.onderwerp}
+          label="Onderwerp"
+          id="onderwerp"
+          onChange={this.textFieldOnChange}
+        />
         <DatePicker placeholder="Selecteer datum" label="Kies een datum" />
-        <Dropdown
-          label="Contactpersoon"
-          options={letterFormStore.contacts}
-          disabled
-        />
-        <TextField label="Ons kenmerk" />
-        <TextField label="Onderwerp" />
+        <Stack horizontal tokens={{ childrenGap: "1em" }}>
+          <Dropdown
+            label="Aanhef"
+            id="aanhef"
+            options={letterFormStore.salutations}
+            placeholder={this.state.aanhef}
+            onChange={this.dropDownOnChange}
+            styles={{ root: { width: 200 } }}
+          />
+          <TextField
+            value={this.state.naam}
+            label="Naam"
+            id="naam"
+            styles={{ root: { width: 200 } }}
+            onChange={this.textFieldOnChange}
+          />
+        </Stack>
       </Stack>
     );
   };
@@ -51,30 +105,28 @@ export default class Form extends React.Component {
     const { letterFormStore } = this.props;
     return (
       <Stack vertical styles={{ root: { width: 400 } }}>
-        <Stack horizontal tokens={{ childrenGap: "1em" }}>
-          <Dropdown
-            label="Aanhef"
-            options={letterFormStore.salutations}
-            disabled={true}
-            styles={{ root: { width: 100 } }}
-          />
-          <TextField label="Naam" styles={{ root: { width: 250 } }} />
-        </Stack>
         <Dropdown
           label="Groetregel"
+          id="groetregel"
+          placeholder={this.state.groetregel}
           options={letterFormStore.greetings}
-        />
-        <TextField
-          label="Groetregel toevoeging"
-          multiline
-          rows={2}
-          resizable={false}
+          onChange={this.dropDownOnChange}
         />
         <Dropdown
-          label="Ondertekenaar"
-          options={letterFormStore.signatures}
+          label="Contactpersoon"
+          id="contactpersoon"
+          placeholder={this.state.contactpersoon}
+          options={letterFormStore.contacts.map(contact => {
+            return { key: contact.id, text: contact.formal_name };
+          })}
+          onChange={this.dropDownOnChange}
+          disabled={false}
         />
-        <TextField label="Bijlage(n)" multiline rows={8} resizable={false} />
+        <TextField
+          label="Ons kenmerk"
+          id="kenmerk"
+          onChange={this.textFieldOnChange}
+        />
       </Stack>
     );
   };
@@ -106,7 +158,7 @@ export default class Form extends React.Component {
         <Stack>
           <Stack.Item align="end">
             <Stack horizontal tokens={{ childrenGap: "8px" }}>
-              <DefaultButton text="OK" />
+              <PrimaryButton text="OK" onClick={this.writeInDocument} />
               <DefaultButton
                 text="Annuleren"
                 onClick={this.closeDialog}

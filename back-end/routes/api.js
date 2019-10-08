@@ -8,23 +8,32 @@ const {
 } = require("../handlers/profile");
 const {
   acquireTokenWithAuthorizationCode,
-  getAuthorizationUrl
+  getAuthorizationUrl,
+  authMiddleware
 } = require("../handlers/auth");
+const getUserDetails = require("../handlers/getUserDetails");
+const putProfile = require("../handlers/putProfile");
+const getProfiles = require("../handlers/getProfiles");
+const deleteProfile = require("../handlers/deleteProfile");
+const updateProfile = require("../handlers/updateProfile");
 
 const router = express.Router();
 
+/* OPEN */
 router.get("/test", (req, res) => {
   res.status(200).send({ message: "OK" });
 });
-
-router.get("/profile", getProfileList);
-router.get("/profile/:id", getProfile);
-router.put("/profile/:id", adjustProfile);
-router.post("/profile", createProfile);
-router.delete("/profile/:id", deleteProfile);
-
+router.put("/dialog", (req, res) => {
+  res.status(201).send({ message: "CREATED", body: req.body });
+});
 router.get("/oauth", getAuthorizationUrl);
-
 router.get("/getAccessToken", acquireTokenWithAuthorizationCode);
+
+/* AUTHORIZED */
+router.put("/profile", authMiddleware, putProfile);
+router.get("/getUserDetails", authMiddleware, getUserDetails);
+router.get("/profiles", authMiddleware, getProfiles);
+router.delete("/profile/:profile_id", authMiddleware, deleteProfile);
+router.patch("/profile/:profile_id", authMiddleware, updateProfile);
 
 module.exports = router;
