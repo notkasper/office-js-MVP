@@ -9,7 +9,7 @@ const {
 
 let sequelize;
 
-const connect = async () => {
+const connect = async (force = false) => {
   try {
     sequelize = new Sequelize(
       getDatabaseName(),
@@ -52,12 +52,12 @@ const connect = async () => {
         type: Sequelize.UUID,
         primaryKey: true
       },
-      name: Sequelize.STRING,
+      name: Sequelize.STRING
     });
 
     // sync
-    await Profile.sync();
-    await Establishment.sync();
+    await Profile.sync({ force });
+    await Establishment.sync({ force });
   } catch (error) {
     console.error(`Error while connecting to mssql: ${error}`);
     return;
