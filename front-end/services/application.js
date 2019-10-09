@@ -49,6 +49,12 @@ export const getWorkFunctions = callback => {
     .end((error, response) => handleResponse(error, response, callback));
 };
 
+export const getLetterTemplate = callback => {
+  request
+    .get("/api/letterTemplate")
+    .end((error, response) => handleResponse(error, response, callback));
+};
+
 export const deleteProfile = (id, callback) => {
   request
     .delete(`/api/profile/${id}`)

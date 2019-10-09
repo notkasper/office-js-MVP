@@ -2,10 +2,9 @@ import { observable, action } from "mobx";
 import { getProfiles } from "../services/application";
 
 class LetterFormStore {
-
   @observable contacts = [];
 
-  @action getProfiles = callback => {
+  @action getProfiles = (callback = () => {}) => {
     getProfiles((error, response) => {
       if (error) {
         console.error(error);

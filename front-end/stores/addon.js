@@ -4,7 +4,8 @@ import {
   testApi as testApiService,
   oauth as oauthService,
   getUserDetails as getUserDetailsService,
-  getProfiles as getProfilesService
+  getProfiles as getProfilesService,
+  getLetterTemplate as getLetterTemplateService
 } from "../services/application";
 
 class AddonStore {
@@ -60,7 +61,17 @@ class AddonStore {
         return;
       }
       this.profile = response.body;
-      console.log(`Retrieved profile: ${JSON.stringify(this.profile)}`);
+    });
+  };
+
+  @action generateLetter = (callback = () => {}) => {
+    getLetterTemplateService((error, response) => {
+      if (error) {
+        console.error(error);
+        callback(error, response);
+        return;
+      }
+      callback(null, response);
     });
   };
 
@@ -85,16 +96,14 @@ class AddonStore {
         result => {
           if (result.status !== "succeeded") {
             console.error(
-              `Something went wrong while opening the dialog: ${JSON.stringify(
-                result
-              )}`
+              `Something went wrong while opening the dialog: ${result}`
             );
           }
           const dialog = result.value;
           dialog.addEventHandler(
             Office.EventType.DialogMessageReceived,
             message => {
-              console.error(`something: ${JSON > stringify(message)}`);
+              console.error(`something: ${JSON.stringify(message)}`);
             }
           );
         }
