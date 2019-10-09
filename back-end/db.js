@@ -41,7 +41,7 @@ const connect = async (force = false) => {
       phone_number: Sequelize.BIGINT,
       mobile_number: Sequelize.BIGINT,
       email: Sequelize.STRING,
-      work_function: Sequelize.STRING,
+      work_function: Sequelize.UUID,
       department: Sequelize.UUID,
       establishment: Sequelize.UUID,
       extra_text: Sequelize.STRING
@@ -63,10 +63,19 @@ const connect = async (force = false) => {
       name: Sequelize.STRING
     });
 
+    const WorkFunctions = sequelize.define("workFunctions", {
+      id: {
+        type: Sequelize.UUID,
+        primaryKey: true
+      },
+      name: Sequelize.STRING
+    });
+
     // sync
     await Profile.sync({ force });
     await Establishment.sync({ force });
     await Department.sync({ force });
+    await WorkFunctions.sync({ force });
   } catch (error) {
     console.error(`Error while connecting to mssql: ${error}`);
     return;

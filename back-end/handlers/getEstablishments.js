@@ -19,6 +19,7 @@ module.exports = async (req, res) => {
     return;
   }
 
+  let establishments;
   try {
     establishments = await getConnection().models.establishments.findAll();
   } catch (error) {

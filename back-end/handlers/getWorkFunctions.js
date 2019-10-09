@@ -19,17 +19,17 @@ module.exports = async (req, res) => {
     return;
   }
 
-  let departments;
+  let workFunctions;
   try {
-    departments = await getConnection().models.departments.findAll();
+    workFunctions = await getConnection().models.workFunctions.findAll();
   } catch (error) {
     console.error(error);
     res.status(500).send({
       message:
-        "Er is iets fout gegaan tijdens het ophalen van de departementen, probeer het later opnieuw of neem contact op met support."
+        "Er is iets fout gegaan tijdens het ophalen van de functies, probeer het later opnieuw of neem contact op met support."
     });
     return;
   }
 
-  res.status(200).send(departments);
+  res.status(200).send(workFunctions);
 };

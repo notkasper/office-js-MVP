@@ -23,6 +23,15 @@ const seed = async () => {
     await connection.models.departments.create(department);
   }
 
+  const workFunctions = [
+    { id: "2d4dc1b8-2c32-40de-862c-fb72286fac43", name: "Sales manager" },
+    { id: "743f41f0-a3ee-4903-815a-5ccd8a47e347", name: "Spokesperson" },
+    { id: "e071322d-4b02-4dad-8106-af56a6bd4dea", name: "Customer Success Manager" }
+  ];
+  for (const workFunction of workFunctions) {
+    await connection.models.workFunctions.create(workFunction);
+  }
+
   connection.close();
 };
 

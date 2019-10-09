@@ -43,6 +43,12 @@ export const getDepartments = callback => {
     .end((error, response) => handleResponse(error, response, callback));
 };
 
+export const getWorkFunctions = callback => {
+  request
+    .get("/api/workFunctions")
+    .end((error, response) => handleResponse(error, response, callback));
+};
+
 export const deleteProfile = (id, callback) => {
   request
     .delete(`/api/profile/${id}`)

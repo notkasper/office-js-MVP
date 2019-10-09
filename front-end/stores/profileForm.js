@@ -4,12 +4,14 @@ import {
   deleteProfile as deleteProfileService,
   updateProfile as updateProfileService,
   getEstablishments as getEstablishmentsService,
-  getDepartments as getDepartmentsService
+  getDepartments as getDepartmentsService,
+  getWorkFunctions as getWorkFunctionsService
 } from "../services/application";
 
 class ProfileFormStore {
   @observable establishments = [];
   @observable departments = [];
+  @observable workFunctions = [];
 
   @action getEstablishments = (callback = () => {}) => {
     getEstablishmentsService((error, response) => {
@@ -19,6 +21,18 @@ class ProfileFormStore {
         return;
       }
       this.establishments = response.body;
+      callback(error, response);
+    });
+  };
+
+  @action getWorkFunctions = (callback = () => {}) => {
+    getWorkFunctionsService((error, response) => {
+      if (error) {
+        console.error(error);
+        callback(error, response);
+        return;
+      }
+      this.workFunctions = response.body;
       callback(error, response);
     });
   };

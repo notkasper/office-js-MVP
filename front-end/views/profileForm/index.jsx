@@ -56,6 +56,7 @@ export default class Form extends React.Component {
     const { profileFormStore } = this.props;
     profileFormStore.getEstablishments();
     profileFormStore.getDepartments();
+    profileFormStore.getWorkFunctions();
   }
 
   handleFormData(data) {
@@ -279,16 +280,14 @@ export default class Form extends React.Component {
         <Dropdown
           placeholder="Selecteer een optie"
           label="Functie"
-          options={[
-            { key: 0, text: "Assistent procesmanager" },
-            { key: 1, text: "Assistent procesmanager" },
-            { key: 2, text: "Assistent procesmanager" },
-            { key: 3, text: "Assistent procesmanager" },
-            { key: 4, text: "Assistent procesmanager" }
-          ]}
+          defaultSelectedKey={this.state.work_function}
           onChange={(event, option) => {
-            this.setState({ work_function: option.text });
+            this.setState({ work_function: option.key });
           }}
+          options={profileFormStore.workFunctions.map(workFunction => ({
+            key: workFunction.id,
+            text: workFunction.name
+          }))}
           styles={{ dropdown: { width: 300 } }}
           disabled={!enabled}
         />
