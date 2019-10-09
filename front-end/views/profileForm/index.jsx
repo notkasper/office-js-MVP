@@ -55,6 +55,7 @@ export default class Form extends React.Component {
   componentDidMount() {
     const { profileFormStore } = this.props;
     profileFormStore.getEstablishments();
+    profileFormStore.getDepartments();
   }
 
   handleFormData(data) {
@@ -294,11 +295,14 @@ export default class Form extends React.Component {
         <Dropdown
           placeholder="Selecteer een optie"
           label="Afdeling"
-          options={[{ key: 0, text: "CZ directie" }]}
-          value={this.state.department}
+          defaultSelectedKey={this.state.department}
           onChange={(event, option) => {
-            this.setState({ department: option.text });
+            this.setState({ department: option.key });
           }}
+          options={profileFormStore.departments.map(department => ({
+            key: department.id,
+            text: department.name
+          }))}
           styles={{ dropdown: { width: 300 } }}
           disabled={!enabled}
         />

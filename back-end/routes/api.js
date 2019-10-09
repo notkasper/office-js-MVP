@@ -10,6 +10,7 @@ const getProfiles = require("../handlers/getProfiles");
 const deleteProfile = require("../handlers/deleteProfile");
 const updateProfile = require("../handlers/updateProfile");
 const getEstablishments = require("../handlers/getEstablishments");
+const getDepartments = require("../handlers/getDepartments");
 
 const router = express.Router();
 
@@ -30,5 +31,6 @@ router.get("/profiles", authMiddleware, getProfiles);
 router.delete("/profile/:profile_id", authMiddleware, deleteProfile);
 router.patch("/profile/:profile_id", authMiddleware, updateProfile);
 router.get("/establishments", authMiddleware, getEstablishments);
+router.get("/departments", authMiddleware, getDepartments);
 
 module.exports = router;

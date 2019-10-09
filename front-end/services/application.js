@@ -37,6 +37,12 @@ export const getEstablishments = callback => {
     .end((error, response) => handleResponse(error, response, callback));
 };
 
+export const getDepartments = callback => {
+  request
+    .get("/api/departments")
+    .end((error, response) => handleResponse(error, response, callback));
+};
+
 export const deleteProfile = (id, callback) => {
   request
     .delete(`/api/profile/${id}`)
