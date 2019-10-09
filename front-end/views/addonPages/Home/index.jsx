@@ -44,11 +44,13 @@ export default class Home extends React.Component {
         //   "start"
         // );
         return context.sync().then(() => {
-          console.log(context.document.body.contentControls);
           const greetingControl =
             context.document.body.contentControls.items[0];
-          greetingControl.insertText("HOWDY HO COWBOY", "start");
-          dialog.close();
+          console.log(greetingControl)
+          greetingControl.insertText("HOWDY HO COWBOY", "replace");
+          return context.sync().then(() => {
+            dialog.close();
+          });
         });
       }).catch(error => {
         console.log(`Error while running Word.run: ${error}`);
