@@ -20,5 +20,5 @@ module.exports = async (req, res) => {
     return;
   }
 
-  res.status(200).sendFile(path.join(__dirname, "../fixtures/base64_2.txt"));
+  res.status(200).sendFile(path.join(__dirname, "../fixtures/letter-template.txt"));
 };

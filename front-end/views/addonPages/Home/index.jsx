@@ -38,18 +38,31 @@ export default class Home extends React.Component {
       }
       const letterTemplateBase64 = response.text;
       Word.run(context => {
-        context.document.body.contentControls.load();
-        // context.document.body.insertFileFromBase64(
-        //   letterTemplateBase64,
-        //   "start"
-        // );
+        context.document.body.clear();
+        context.document.body.insertFileFromBase64(
+          letterTemplateBase64,
+          "start"
+        );
         return context.sync().then(() => {
-          const greetingControl =
-            context.document.body.contentControls.items[0];
-          console.log(greetingControl)
-          greetingControl.insertText("HOWDY HO COWBOY", "replace");
+          context.document.body.contentControls.load();
           return context.sync().then(() => {
-            dialog.close();
+            console.log(context.document.body.contentControls);
+            const contentControls = context.document.body.contentControls.items;
+            console.log(contentControls)
+            const findContentControl = tag => {
+              return contentControls.find(control => (control.tag = tag));
+            };
+            console.log(onderwerp)
+            console.log(onderwerp)
+            console.log(onderwerp)
+            const topicControl = findContentControl("onderwerp");
+            console.log(topicControl)
+            console.log(topicControl)
+            console.log(topicControl)
+            topicControl.insertText(onderwerp, "replace");
+            return context.sync().then(() => {
+              dialog.close();
+            });
           });
         });
       }).catch(error => {
