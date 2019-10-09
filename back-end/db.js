@@ -9,7 +9,7 @@ const {
 
 let sequelize;
 
-const connect = async () => {
+const connect = async (force = false) => {
   try {
     sequelize = new Sequelize(
       getDatabaseName(),
@@ -41,14 +41,41 @@ const connect = async () => {
       phone_number: Sequelize.BIGINT,
       mobile_number: Sequelize.BIGINT,
       email: Sequelize.STRING,
-      work_function: Sequelize.STRING,
-      department: Sequelize.STRING,
-      establishment: Sequelize.STRING,
+      work_function: Sequelize.UUID,
+      department: Sequelize.UUID,
+      establishment: Sequelize.UUID,
       extra_text: Sequelize.STRING
     });
 
+    const Establishment = sequelize.define("establishments", {
+      id: {
+        type: Sequelize.UUID,
+        primaryKey: true
+      },
+      name: Sequelize.STRING
+    });
+
+    const Department = sequelize.define("departments", {
+      id: {
+        type: Sequelize.UUID,
+        primaryKey: true
+      },
+      name: Sequelize.STRING
+    });
+
+    const WorkFunctions = sequelize.define("workFunctions", {
+      id: {
+        type: Sequelize.UUID,
+        primaryKey: true
+      },
+      name: Sequelize.STRING
+    });
+
     // sync
-    await Profile.sync();
+    await Profile.sync({ force });
+    await Establishment.sync({ force });
+    await Department.sync({ force });
+    await WorkFunctions.sync({ force });
   } catch (error) {
     console.error(`Error while connecting to mssql: ${error}`);
     return;

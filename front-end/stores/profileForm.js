@@ -2,10 +2,53 @@ import { observable, action } from "mobx";
 import {
   putProfile as putProfileService,
   deleteProfile as deleteProfileService,
-  updateProfile as updateProfileService
+  updateProfile as updateProfileService,
+  getEstablishments as getEstablishmentsService,
+  getDepartments as getDepartmentsService,
+  getWorkFunctions as getWorkFunctionsService
 } from "../services/application";
 
 class ProfileFormStore {
+  @observable establishments = [];
+  @observable departments = [];
+  @observable workFunctions = [];
+
+  @action getEstablishments = (callback = () => {}) => {
+    getEstablishmentsService((error, response) => {
+      if (error) {
+        console.error(error);
+        callback(error, response);
+        return;
+      }
+      this.establishments = response.body;
+      callback(error, response);
+    });
+  };
+
+  @action getWorkFunctions = (callback = () => {}) => {
+    getWorkFunctionsService((error, response) => {
+      if (error) {
+        console.error(error);
+        callback(error, response);
+        return;
+      }
+      this.workFunctions = response.body;
+      callback(error, response);
+    });
+  };
+
+  @action getDepartments = (callback = () => {}) => {
+    getDepartmentsService((error, response) => {
+      if (error) {
+        console.error(error);
+        callback(error, response);
+        return;
+      }
+      this.departments = response.body;
+      callback(error, response);
+    });
+  };
+
   @action putProfile = (profileData, callback = () => {}) => {
     putProfileService(profileData, (error, response) => {
       if (error) {

@@ -52,6 +52,13 @@ export default class Form extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { profileFormStore } = this.props;
+    profileFormStore.getEstablishments();
+    profileFormStore.getDepartments();
+    profileFormStore.getWorkFunctions();
+  }
+
   handleFormData(data) {
     const { profileFormStore } = this.props;
     profileFormStore.putProfile(data, () => {});
@@ -260,6 +267,7 @@ export default class Form extends React.Component {
   };
 
   renderRightPanel = enabled => {
+    const { profileFormStore } = this.props;
     return (
       <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
         <TextField
@@ -272,38 +280,42 @@ export default class Form extends React.Component {
         <Dropdown
           placeholder="Selecteer een optie"
           label="Functie"
-          options={[
-            { key: 0, text: "Assistent procesmanager" },
-            { key: 1, text: "Assistent procesmanager" },
-            { key: 2, text: "Assistent procesmanager" },
-            { key: 3, text: "Assistent procesmanager" },
-            { key: 4, text: "Assistent procesmanager" }
-          ]}
+          defaultSelectedKey={this.state.work_function}
           onChange={(event, option) => {
-            this.setState({ work_function: option.text });
+            this.setState({ work_function: option.key });
           }}
+          options={profileFormStore.workFunctions.map(workFunction => ({
+            key: workFunction.id,
+            text: workFunction.name
+          }))}
           styles={{ dropdown: { width: 300 } }}
           disabled={!enabled}
         />
         <Dropdown
           placeholder="Selecteer een optie"
           label="Afdeling"
-          options={[{ key: 0, text: "CZ directie" }]}
-          value={this.state.department}
+          defaultSelectedKey={this.state.department}
           onChange={(event, option) => {
-            this.setState({ department: option.text });
+            this.setState({ department: option.key });
           }}
+          options={profileFormStore.departments.map(department => ({
+            key: department.id,
+            text: department.name
+          }))}
           styles={{ dropdown: { width: 300 } }}
           disabled={!enabled}
         />
         <Dropdown
           placeholder="Selecteer een optie"
           label="Vestiging"
-          value={this.state.establishment}
-          onChange={(event, option) => {
-            this.setState({ establishment: option.text });
-          }}
-          options={[{ key: 0, text: "Factuuradres Haarlem CA" }]}
+          defaultSelectedKey={this.state.establishment}
+          onChange={(event, option) =>
+            this.setState({ establishment: option.key })
+          }
+          options={profileFormStore.establishments.map(establishment => ({
+            key: establishment.id,
+            text: establishment.name
+          }))}
           styles={{ dropdown: { width: 300 } }}
           disabled={!enabled}
         />
