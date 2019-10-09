@@ -21,15 +21,33 @@ export default class Home extends React.Component {
   generateText = (dialog, data) => {
     // Run a batch operation against the Word object model.
     const { addonStore } = this.props;
+    const {
+      aanhef,
+      adres,
+      contactpersoon,
+      datum,
+      groetregel,
+      kenmerk,
+      naam,
+      onderwerp,
+      toevoeging
+    } = data;
     addonStore.generateLetter((error, response) => {
       if (error) {
         return;
       }
       const letterTemplateBase64 = response.text;
       Word.run(context => {
-        context.document.body.clear();
-        context.document.body.insertFileFromBase64(letterTemplateBase64, "start");
+        context.document.body.contentControls.load();
+        // context.document.body.insertFileFromBase64(
+        //   letterTemplateBase64,
+        //   "start"
+        // );
         return context.sync().then(() => {
+          console.log(context.document.body.contentControls);
+          const greetingControl =
+            context.document.body.contentControls.items[0];
+          greetingControl.insertText("HOWDY HO COWBOY", "start");
           dialog.close();
         });
       }).catch(error => {
