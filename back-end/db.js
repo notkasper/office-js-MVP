@@ -43,12 +43,21 @@ const connect = async () => {
       email: Sequelize.STRING,
       work_function: Sequelize.STRING,
       department: Sequelize.STRING,
-      establishment: Sequelize.STRING,
+      establishment: Sequelize.UUID,
       extra_text: Sequelize.STRING
+    });
+
+    const Establishment = sequelize.define("establishments", {
+      id: {
+        type: Sequelize.UUID,
+        primaryKey: true
+      },
+      name: Sequelize.STRING,
     });
 
     // sync
     await Profile.sync();
+    await Establishment.sync();
   } catch (error) {
     console.error(`Error while connecting to mssql: ${error}`);
     return;

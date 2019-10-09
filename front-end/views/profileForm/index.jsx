@@ -52,6 +52,11 @@ export default class Form extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { profileFormStore } = this.props;
+    profileFormStore.getEstablishments();
+  }
+
   handleFormData(data) {
     const { profileFormStore } = this.props;
     profileFormStore.putProfile(data, () => {});
@@ -260,6 +265,7 @@ export default class Form extends React.Component {
   };
 
   renderRightPanel = enabled => {
+    const { profileFormStore } = this.props;
     return (
       <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
         <TextField
@@ -299,11 +305,14 @@ export default class Form extends React.Component {
         <Dropdown
           placeholder="Selecteer een optie"
           label="Vestiging"
-          value={this.state.establishment}
-          onChange={(event, option) => {
-            this.setState({ establishment: option.text });
-          }}
-          options={[{ key: 0, text: "Factuuradres Haarlem CA" }]}
+          defaultSelectedKey={this.state.establishment}
+          onChange={(event, option) =>
+            this.setState({ establishment: option.key })
+          }
+          options={profileFormStore.establishments.map(establishment => ({
+            key: establishment.id,
+            text: establishment.name
+          }))}
           styles={{ dropdown: { width: 300 } }}
           disabled={!enabled}
         />
