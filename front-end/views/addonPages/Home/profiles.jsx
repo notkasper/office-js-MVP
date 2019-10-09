@@ -51,16 +51,16 @@ export default class Profiles extends React.Component {
 
     let url = `${window.location.origin}?action=${action}`;
     if (action === "view") {
-      url += `&id=${item.id}
-              &formal_name=${item.formal_name}
-              &informal_name=${item.informal_name}
-              &phone_number=${item.phone_number}
-              &mobile_number=${item.mobile_number}
-              &extra_text=${item.extra_text}
-              &email=${item.email}
-              &work_function=${item.work_function}
-              &department=${item.department}
-              &establishment=${item.establishment}`;
+      url += `&id=${item.id}`;
+      url += `&formal_name=${item.formal_name}`;
+      url += `&informal_name=${item.informal_name}`;
+      url += `&phone_number=${item.phone_number}`;
+      url += `&mobile_number=${item.mobile_number}`;
+      url += `&extra_text=${item.extra_text}`;
+      url += `&email=${item.email}`;
+      url += `&work_function=${item.work_function}`;
+      url += `&department=${item.department}`;
+      url += `&establishment=${item.establishment}`;
     }
     url += "#profile_form";
 
