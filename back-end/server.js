@@ -55,7 +55,7 @@ if (env === "development") {
   server = http.createServer(app);
 }
 
-db.connect(true);
+db.connect();
 
 server.listen(port);
 server.on("error", onError);
