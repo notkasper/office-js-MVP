@@ -62,6 +62,7 @@ export default class Profiles extends React.Component {
       url += `&department=${item.department}`;
       url += `&establishment=${item.establishment}`;
     }
+    url += `&prevent_host_info_bug=${true}`; // Office appends a malformed query parameter, so add this non-functional parameter at the end so the other parameters do not get malformed
     url += "#profile_form";
 
     Office.context.ui.displayDialogAsync(
