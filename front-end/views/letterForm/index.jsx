@@ -19,14 +19,16 @@ export default class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      datum: "",
+      datum: null,
       contactpersoon: "",
       aanhef: "",
       naam: "",
       groetregel: "",
+      postcode: "",
       toevoeging: "",
       straatnaam: "",
       straatnummer: null,
+      huisnummer: null
     };
   }
 
@@ -46,6 +48,10 @@ export default class Form extends React.Component {
 
   dropDownOnChange = (event, option) => {
     this.setState({ [event.target.id]: option.text });
+  };
+
+  dateOnSelect = newDate => {
+    this.setState({ datum: newDate });
   };
 
   closeDialog = () => {
@@ -97,7 +103,13 @@ export default class Form extends React.Component {
             mask="9999 aa"
           />
         </Stack>
-        <DatePicker placeholder="Selecteer datum" label="Datum" />
+        <DatePicker
+          value={this.state.datum}
+          placeholder="Selecteer datum"
+          label="Datum"
+          id="datum"
+          onSelectDate={this.dateOnSelect}
+        />
         <Stack horizontal tokens={{ childrenGap: "1em" }}>
           <Dropdown
             label="Aanhef"

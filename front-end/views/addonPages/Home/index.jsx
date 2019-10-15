@@ -20,17 +20,41 @@ export default class Home extends React.Component {
 
   generateLetter = (dialog, data) => {
     const { addonStore } = this.props;
+    Object.keys(data).forEach(key => {
+      if (!data[key]) {
+        data[key] = "NIET INGEVULD";
+      }
+    });
     addonStore.generateLetter((error, response) => {
       if (error) {
         return;
       }
       const letterTemplateBase64 = response.text;
-      Word.run(context => {
+      Word.run(async context => {
         context.document.body.clear();
-        context.document.body.insertFileFromBase64(letterTemplateBase64, "start");
-        return context.sync().then(() => {
-          dialog.close();
-        });
+        context.document.body.insertFileFromBase64(
+          letterTemplateBase64,
+          "start"
+        );
+        await context.sync();
+        const contentControls = context.document.contentControls;
+        const straatAfzenderCcs = contentControls.getByTag("straat-afzender");
+        straatAfzenderCcs.load("items");
+        await context.sync();
+        straatAfzenderCcs.items[0].insertText(
+          `${data.straatnaam} ${data.huisnummer}`,
+          "replace"
+        );
+        await context.sync();
+        const postcodeAfzenderCcs = contentControls.getByTag(
+          "postcode-afzender"
+        );
+        postcodeAfzenderCcs.load("items");
+        await context.sync();
+        postcodeAfzenderCcs.items[0].insertText(data.postcode, "replace");
+        await context.sync();
+        console.log("REEEE", data.datum);
+        dialog.close();
       }).catch(error => {
         console.log(`Error while running Word.run: ${error}`);
       });
