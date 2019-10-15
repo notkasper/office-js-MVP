@@ -3,7 +3,7 @@ import notificationStore from "../stores/_notifcation"
 
 const handleResponse = (error, response, callback) => {
   if (error) {
-    notificationStore.setMessage(response.body.message || error.description);
+    notificationStore.setMessage(response.body.message || error.description, "error");
 }
   if (response.status === 401) {
     setLocation("login");

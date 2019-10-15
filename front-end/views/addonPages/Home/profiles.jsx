@@ -8,7 +8,7 @@ import {
   Stack
 } from "office-ui-fabric-react";
 
-@inject("addonStore")
+@inject("addonStore", "notificationStore")
 @observer
 export default class Profiles extends React.Component {
   constructor(props) {
@@ -34,14 +34,20 @@ export default class Profiles extends React.Component {
   };
 
   handleProfileDeleted = () => {
+    const { notificationStore } = this.props;
+    notificationStore.setMessage("Profiel verwijderd", "message");
     this.loadProfiles();
   };
 
   handleProfileCreated = () => {
+    const { notificationStore } = this.props;
+    notificationStore.setMessage("Profiel aangemaakt", "message");
     this.loadProfiles();
   };
 
   handleProfileUpdated = () => {
+    const { notificationStore } = this.props;
+    notificationStore.setMessage("Profiel ge-update", "message");
     this.loadProfiles();
   };
 
@@ -85,7 +91,7 @@ export default class Profiles extends React.Component {
               break;
             case "profileCreated":
               dialog.close();
-              this.handleProfileDeleted();
+              this.handleProfileCreated();
               break;
             case "profileUpdated":
               this.handleProfileUpdated();
@@ -135,7 +141,7 @@ export default class Profiles extends React.Component {
             styles={{ root: { marginTop: "10px", paddingLeft: ".3rem" } }}
           >{`${profiles.length} ${
             profiles.length === 1 ? "profiel" : "profielen"
-          } gevonden`}</Text>
+            } gevonden`}</Text>
           <ActionButton
             iconProps={{ iconName: "AddFriend" }}
             onClick={() => this.openProfileDialog("create")}
