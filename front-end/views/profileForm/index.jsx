@@ -59,11 +59,6 @@ export default class Form extends React.Component {
     profileFormStore.getWorkFunctions();
   }
 
-  handleFormData(data) {
-    const { profileFormStore } = this.props;
-    profileFormStore.putProfile(data, () => {});
-  }
-
   enableEditing = () => {
     this.setState({ editing: true });
   };
@@ -98,6 +93,9 @@ export default class Form extends React.Component {
     };
 
     profileFormStore.updateProfile(id, profileData, (error, response) => {
+      if (error) {
+        return;
+      }
       Office.context.ui.messageParent(
         JSON.stringify({ messageType: "profileUpdated" })
       );
