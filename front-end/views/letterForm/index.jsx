@@ -9,7 +9,8 @@ import {
   DatePicker,
   Text,
   DefaultButton,
-  PrimaryButton
+  PrimaryButton,
+  MaskedTextField
 } from "office-ui-fabric-react";
 
 @inject("letterFormStore")
@@ -18,15 +19,14 @@ export default class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      onderwerp: "Brief",
-      datum: "4 oktober 2019",
+      datum: "",
       contactpersoon: "",
-      aanhef: "Beste ",
-      naam: "Francious",
-      groetregel: "Hartelijke groet, ",
+      aanhef: "",
+      naam: "",
+      groetregel: "",
       toevoeging: "",
-      adres: "Vincent van Goghlaan 64 5246 GB  Rosmalen",
-      kenmerk: ""
+      straatnaam: "",
+      straatnummer: null,
     };
   }
 
@@ -54,32 +54,50 @@ export default class Form extends React.Component {
     );
   };
 
-  writeInDocument = () => {
+  createLetter = () => {
     Office.context.ui.messageParent(
-      JSON.stringify({ messageType: "text", data: this.state })
+      JSON.stringify({ messageType: "createLetter", data: this.state })
     );
   };
 
-  renderLeftPanel = () => {
+  renderMainpanel = () => {
     const { letterFormStore } = this.props;
     return (
-      <Stack vertical styles={{ root: { width: "50%" } }}>
-        <TextField
-          label="Adres"
-          id="adres"
-          multiline
-          rows={1}
-          resizable={false}
-          value={this.state.adres}
-          onChange={this.textFieldOnChange}
-        />
-        <TextField
-          value={this.state.onderwerp}
-          label="Onderwerp"
-          id="onderwerp"
-          onChange={this.textFieldOnChange}
-        />
-        <DatePicker placeholder="Selecteer datum" label="Kies een datum" />
+      <Stack vertical styles={{ root: { padding: "0 .3em" } }}>
+        <Stack horizontal tokens={{ childrenGap: "1em" }}>
+          <TextField
+            value={this.state.straatnaam}
+            label="Straatnaam"
+            id="straatnaam"
+            styles={{ root: { width: "50%" } }}
+            onChange={this.textFieldOnChange}
+          />
+          <TextField
+            value={this.state.huisnummer}
+            label="Huisnummer"
+            id="huisnummer"
+            onChange={this.textFieldOnChange}
+            styles={{ root: { width: "50%" } }}
+          />
+        </Stack>
+        <Stack horizontal tokens={{ childrenGap: "1em" }}>
+          <TextField
+            label="Plaatsnaam"
+            id="plaatsnaam"
+            value={this.state.plaatsnaam}
+            onChange={this.textFieldOnChange}
+            styles={{ root: { width: "50%" } }}
+          />
+          <MaskedTextField
+            label="Postcode"
+            id="postcode"
+            value={this.state.postcode}
+            onChange={this.textFieldOnChange}
+            styles={{ root: { width: "50%" } }}
+            mask="9999 aa"
+          />
+        </Stack>
+        <DatePicker placeholder="Selecteer datum" label="Datum" />
         <Stack horizontal tokens={{ childrenGap: "1em" }}>
           <Dropdown
             label="Aanhef"
@@ -97,14 +115,6 @@ export default class Form extends React.Component {
             styles={{ root: { width: "50%" } }}
           />
         </Stack>
-      </Stack>
-    );
-  };
-
-  renderRightPanel = () => {
-    const { letterFormStore } = this.props;
-    return (
-      <Stack vertical styles={{ root: { width: "50%" } }}>
         <Dropdown
           label="Groetregel"
           id="groetregel"
@@ -121,11 +131,6 @@ export default class Form extends React.Component {
           })}
           onChange={this.dropDownOnChange}
           disabled={false}
-        />
-        <TextField
-          label="Ons kenmerk"
-          id="kenmerk"
-          onChange={this.textFieldOnChange}
         />
       </Stack>
     );
@@ -158,7 +163,7 @@ export default class Form extends React.Component {
         <Stack>
           <Stack.Item align="end">
             <Stack horizontal tokens={{ childrenGap: "8px" }}>
-              <PrimaryButton text="OK" onClick={this.writeInDocument} />
+              <PrimaryButton text="OK" onClick={this.createLetter} />
               <DefaultButton
                 text="Annuleren"
                 onClick={this.closeDialog}
@@ -175,10 +180,7 @@ export default class Form extends React.Component {
     return (
       <Stack vertical>
         {this.renderHeader()}
-        <Stack horizontal tokens={{ childrenGap: "10px" }}>
-          {this.renderLeftPanel()}
-          {this.renderRightPanel()}
-        </Stack>
+        {this.renderMainpanel()}
         {this.renderFooter()}
       </Stack>
     );

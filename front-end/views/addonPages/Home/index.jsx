@@ -18,8 +18,7 @@ export default class Home extends React.Component {
     addonStore.getUserDetails();
   }
 
-  generateText = (dialog, data) => {
-    // Run a batch operation against the Word object model.
+  generateLetter = (dialog, data) => {
     const { addonStore } = this.props;
     addonStore.generateLetter((error, response) => {
       if (error) {
@@ -40,7 +39,7 @@ export default class Home extends React.Component {
 
   openLetterForm = () => {
     const width = 35;
-    const height = 43;
+    const height = 52;
 
     Office.context.ui.displayDialogAsync(
       `${window.location.origin}#letter_form`,
@@ -61,8 +60,8 @@ export default class Home extends React.Component {
             case "closeDialog":
               dialog.close();
               break;
-            case "text":
-              this.generateText(dialog, data);
+            case "createLetter":
+              this.generateLetter(dialog, data);
               break;
             default:
               console.error(
