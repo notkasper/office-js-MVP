@@ -20,62 +20,27 @@ export default class Home extends React.Component {
 
   generateText = (dialog, data) => {
     // Run a batch operation against the Word object model.
-    Word.run(context => {
-      // Create a proxy object for the document body.
-      const body = context.document.body;
-
-      // Queue a command to insert text in to the beginning of the body.
-
-      const adressParagraph = body.insertParagraph(data.adres, "start");
-      adressParagraph.styleBuiltIn = "Heading9";
-      const onderwerpParagraph = body.insertParagraph(data.onderwerp, "end");
-      onderwerpParagraph.font.set({
-        italic: false,
-        bold: true,
-        size: 13
-      });
-      body.insertBreak(Word.BreakType.line, "end");
-      const naamParagraph = body.insertParagraph(
-        `${data.aanhef} ${data.naam},`,
-        "end"
-      );
-      naamParagraph.font.set({
-        italic: false,
-        bold: false,
-        size: 12
-      });
-      const textBody = body.insertParagraph("voeg hier uw text toe", "end");
-      textBody.styleBuiltIn = "NoSpacing";
-      body.insertBreak(Word.BreakType.line, "end");
-      const groetParagraaf = body.insertParagraph(data.groetregel, "end");
-      groetParagraaf.styleBuiltIn = "Normal";
-      if (data.toevoeging.length) {
-        const toevoegParagraaf = body.insertParagraph(data.toevoeging, "end");
-        toevoegParagraaf.styleBuiltIn = "Normal";
+    const { addonStore } = this.props;
+    addonStore.generateLetter((error, response) => {
+      if (error) {
+        return;
       }
-      const ondertekenParagraaf = body.insertParagraph(
-        data.contactpersoon,
-        "end"
-      );
-      ondertekenParagraaf.styleBuiltIn = "Normal";
-      body.insertBreak(Word.BreakType.line, "end");
-
-      // Synchronize the document state by executing the queued commands,
-      // and return a promise to indicate task completion.
-      return context.sync().then(() => {
-        dialog.close();
+      const letterTemplateBase64 = response.text;
+      Word.run(context => {
+        context.document.body.clear();
+        context.document.body.insertFileFromBase64(letterTemplateBase64, "start");
+        return context.sync().then(() => {
+          dialog.close();
+        });
+      }).catch(error => {
+        console.log(`Error while running Word.run: ${error}`);
       });
-    }).catch(error => {
-      console.log("Error: " + JSON.stringify(error));
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
     });
   };
 
   openLetterForm = () => {
-    const width = 43;
-    const height = 48;
+    const width = 35;
+    const height = 43;
 
     Office.context.ui.displayDialogAsync(
       `${window.location.origin}#letter_form`,

@@ -1,6 +1,10 @@
 import request from "superagent";
+import notificationStore from "../stores/_notifcation"
 
 const handleResponse = (error, response, callback) => {
+  if (error) {
+    notificationStore.setMessage(response.body.message || error.description, "error");
+}
   if (response.status === 401) {
     setLocation("login");
   }
@@ -46,6 +50,12 @@ export const getDepartments = callback => {
 export const getWorkFunctions = callback => {
   request
     .get("/api/workFunctions")
+    .end((error, response) => handleResponse(error, response, callback));
+};
+
+export const getLetterTemplate = callback => {
+  request
+    .get("/api/letterTemplate")
     .end((error, response) => handleResponse(error, response, callback));
 };
 

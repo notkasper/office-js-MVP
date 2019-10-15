@@ -7,6 +7,7 @@ import { Provider } from "mobx-react";
 import addonStore from "./stores/addon";
 import profileFormStore from "./stores/profileForm";
 import letterFormStore from "./stores/letterForm";
+import notificationStore from "./stores/_notifcation";
 
 /*===========================DIALOGS===========================*/
 import ProfileForm from "./views/profileForm";
@@ -19,11 +20,13 @@ import Login from "./views/addonPages/Login";
 
 /*===========================OTHER=============================*/
 import { setLocation } from "./utils";
+import Notifications from "./views/_shared/Notifications";
 
 const stores = {
   addonStore,
   profileFormStore,
-  letterFormStore
+  letterFormStore,
+  notificationStore
 };
 
 const App = class App extends React.Component {
@@ -75,9 +78,13 @@ const App = class App extends React.Component {
     }
   };
 
+  renderNotifications = () => {
+    return <Notifications />;
+  }
+
   render() {
     const { location } = this.state;
-    return <Provider {...stores}>{this.getComponent(location)}</Provider>;
+    return <Provider {...stores}>{this.getComponent(location)}{this.renderNotifications()}</Provider>;
   }
 };
 

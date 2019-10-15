@@ -8,7 +8,7 @@ import {
   Stack
 } from "office-ui-fabric-react";
 
-@inject("addonStore")
+@inject("addonStore", "notificationStore")
 @observer
 export default class Profiles extends React.Component {
   constructor(props) {
@@ -34,20 +34,26 @@ export default class Profiles extends React.Component {
   };
 
   handleProfileDeleted = () => {
+    const { notificationStore } = this.props;
+    notificationStore.setMessage("Profiel verwijderd", "message");
     this.loadProfiles();
   };
 
   handleProfileCreated = () => {
+    const { notificationStore } = this.props;
+    notificationStore.setMessage("Profiel aangemaakt", "message");
     this.loadProfiles();
   };
 
   handleProfileUpdated = () => {
+    const { notificationStore } = this.props;
+    notificationStore.setMessage("Profiel ge-update", "message");
     this.loadProfiles();
   };
 
   openProfileDialog = (action, item) => {
-    const height = 60;
-    const width = 34;
+    const height = 53;
+    const width = 40;
 
     let url = `${window.location.origin}?action=${action}`;
     if (action === "view") {
@@ -62,6 +68,7 @@ export default class Profiles extends React.Component {
       url += `&department=${item.department}`;
       url += `&establishment=${item.establishment}`;
     }
+    url += `&prevent_host_info_bug=${true}`; // Office appends a malformed query parameter, so add this non-functional parameter at the end so the other parameters do not get malformed
     url += "#profile_form";
 
     Office.context.ui.displayDialogAsync(
@@ -84,7 +91,7 @@ export default class Profiles extends React.Component {
               break;
             case "profileCreated":
               dialog.close();
-              this.handleProfileDeleted();
+              this.handleProfileCreated();
               break;
             case "profileUpdated":
               this.handleProfileUpdated();
@@ -134,7 +141,7 @@ export default class Profiles extends React.Component {
             styles={{ root: { marginTop: "10px", paddingLeft: ".3rem" } }}
           >{`${profiles.length} ${
             profiles.length === 1 ? "profiel" : "profielen"
-          } gevonden`}</Text>
+            } gevonden`}</Text>
           <ActionButton
             iconProps={{ iconName: "AddFriend" }}
             onClick={() => this.openProfileDialog("create")}
