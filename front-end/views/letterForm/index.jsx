@@ -63,7 +63,7 @@ export default class Form extends React.Component {
   renderLeftPanel = () => {
     const { letterFormStore } = this.props;
     return (
-      <Stack vertical styles={{ root: { width: 400 } }}>
+      <Stack vertical styles={{ root: { width: "50%" } }}>
         <TextField
           label="Adres"
           id="adres"
@@ -87,14 +87,14 @@ export default class Form extends React.Component {
             options={letterFormStore.salutations}
             placeholder={this.state.aanhef}
             onChange={this.dropDownOnChange}
-            styles={{ root: { width: 200 } }}
+            styles={{ root: { width: "50%" } }}
           />
           <TextField
             value={this.state.naam}
             label="Naam"
             id="naam"
-            styles={{ root: { width: 200 } }}
             onChange={this.textFieldOnChange}
+            styles={{ root: { width: "50%" } }}
           />
         </Stack>
       </Stack>
@@ -104,7 +104,7 @@ export default class Form extends React.Component {
   renderRightPanel = () => {
     const { letterFormStore } = this.props;
     return (
-      <Stack vertical styles={{ root: { width: 400 } }}>
+      <Stack vertical styles={{ root: { width: "50%" } }}>
         <Dropdown
           label="Groetregel"
           id="groetregel"

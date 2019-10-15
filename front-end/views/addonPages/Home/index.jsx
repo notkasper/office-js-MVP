@@ -39,8 +39,8 @@ export default class Home extends React.Component {
   };
 
   openLetterForm = () => {
-    const width = 43;
-    const height = 48;
+    const width = 35;
+    const height = 43;
 
     Office.context.ui.displayDialogAsync(
       `${window.location.origin}#letter_form`,

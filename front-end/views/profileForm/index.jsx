@@ -32,6 +32,18 @@ export default class Form extends React.Component {
       action,
       id
     } = queryString.parse(location.search);
+    const originalProperties = {
+      formal_name,
+      informal_name,
+      phone_number,
+      mobile_number,
+      email,
+      work_function,
+      department,
+      establishment,
+      extra_text,
+      action
+    };
     this.state = {
       formal_name,
       informal_name,
@@ -48,7 +60,8 @@ export default class Form extends React.Component {
       opening_hours: "",
       editing: false,
       showDeletePrompt: false,
-      id
+      id,
+      originalProperties
     };
   }
 
@@ -103,8 +116,8 @@ export default class Form extends React.Component {
   };
 
   cancelEdit = () => {
-    this.setState({ editing: false });
-    // TODO: revert to old values
+    const { originalProperties } = this.state;
+    this.setState({ editing: false, ...originalProperties });
   };
 
   showDeletePrompt = () => {
@@ -210,14 +223,18 @@ export default class Form extends React.Component {
 
   renderLeftPanel = enabled => {
     return (
-      <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
+      <Stack
+        vertical
+        tokens={{ childrenGap: 5, padding: 5 }}
+        styles={{ root: { width: "50%" } }}
+      >
         <TextField
           label="Naam (formeel)"
           required
           value={this.state.formal_name}
           onChange={event => this.setState({ formal_name: event.target.value })}
-          styles={{ root: { minWidth: 300 } }}
           disabled={!enabled}
+          styles={{ root: { minWidth: "15rem" } }}
         />
         <TextField
           label="Naam (informeel)"
@@ -225,7 +242,6 @@ export default class Form extends React.Component {
           onChange={event =>
             this.setState({ informal_name: event.target.value })
           }
-          styles={{ root: { minWidth: 300 } }}
           disabled={!enabled}
         />
         <TextField
@@ -234,7 +250,6 @@ export default class Form extends React.Component {
           onChange={event =>
             this.setState({ phone_number: event.target.value })
           }
-          styles={{ root: { minWidth: 300 } }}
           disabled={!enabled}
         />
         <TextField
@@ -243,21 +258,18 @@ export default class Form extends React.Component {
           onChange={event =>
             this.setState({ mobile_number: event.target.value })
           }
-          styles={{ root: { minWidth: 300 } }}
           disabled={!enabled}
         />
         <TextField
           label="Extra tekst (bijv. Vragen?)"
           value={this.state.extra_text}
           onChange={event => this.setState({ extra_text: event.target.value })}
-          styles={{ root: { minWidth: 300 } }}
           disabled={!enabled}
         />
         <TextField
           label="WhatsApp"
           value={this.state.whatsapp}
           onChange={event => this.setState({ whatsapp: event.target.value })}
-          styles={{ root: { minWidth: 300 } }}
           disabled={!enabled}
         />
       </Stack>
@@ -267,12 +279,15 @@ export default class Form extends React.Component {
   renderRightPanel = enabled => {
     const { profileFormStore } = this.props;
     return (
-      <Stack vertical tokens={{ childrenGap: 5, padding: 5 }}>
+      <Stack
+        vertical
+        tokens={{ childrenGap: 5, padding: 5 }}
+        styles={{ root: { width: "50%" } }}
+      >
         <TextField
           label="Persoonlijk e-mailadres"
           value={this.state.email}
           onChange={event => this.setState({ email: event.target.value })}
-          styles={{ root: { minWidth: 300 } }}
           disabled={!enabled}
         />
         <Dropdown
@@ -286,7 +301,6 @@ export default class Form extends React.Component {
             key: workFunction.id,
             text: workFunction.name
           }))}
-          styles={{ dropdown: { width: 300 } }}
           disabled={!enabled}
         />
         <Dropdown
@@ -300,7 +314,6 @@ export default class Form extends React.Component {
             key: department.id,
             text: department.name
           }))}
-          styles={{ dropdown: { width: 300 } }}
           disabled={!enabled}
         />
         <Dropdown
@@ -314,7 +327,6 @@ export default class Form extends React.Component {
             key: establishment.id,
             text: establishment.name
           }))}
-          styles={{ dropdown: { width: 300 } }}
           disabled={!enabled}
         />
         <TextField
@@ -323,7 +335,6 @@ export default class Form extends React.Component {
           onChange={event =>
             this.setState({ working_days: event.target.value })
           }
-          styles={{ root: { minWidth: 300 } }}
           disabled={!enabled}
         />
         <TextField
@@ -332,7 +343,6 @@ export default class Form extends React.Component {
           onChange={event =>
             this.setState({ opening_hours: event.target.value })
           }
-          styles={{ root: { minWidth: 300 } }}
           disabled={!enabled}
         />
       </Stack>
