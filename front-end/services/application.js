@@ -1,6 +1,10 @@
 import request from "superagent";
+import notificationStore from "../stores/_notifcation"
 
 const handleResponse = (error, response, callback) => {
+  if (error) {
+    notificationStore.setMessage(response.body.message || error.description);
+}
   if (response.status === 401) {
     setLocation("login");
   }
