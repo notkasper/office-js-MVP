@@ -42,7 +42,7 @@ module.exports = async (req, res) => {
     });
     if (!profile) {
       res.status(404).send({
-        message: `Profiel niet gevonden in database, probeer het later opnieuw of neem contact op met support.`
+        message: "Profiel niet gevonden in database, probeer het later opnieuw of neem contact op met support."
       });
       return;
     }

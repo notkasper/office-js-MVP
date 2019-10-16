@@ -18,64 +18,66 @@ export default class Home extends React.Component {
     addonStore.getUserDetails();
   }
 
-  generateText = (dialog, data) => {
-    // Run a batch operation against the Word object model.
-    Word.run(context => {
-      // Create a proxy object for the document body.
-      const body = context.document.body;
-
-      // Queue a command to insert text in to the beginning of the body.
-
-      const adressParagraph = body.insertParagraph(data.adres, "start");
-      adressParagraph.styleBuiltIn = "Heading9";
-      const onderwerpParagraph = body.insertParagraph(data.onderwerp, "end");
-      onderwerpParagraph.font.set({
-        italic: false,
-        bold: true,
-        size: 13
-      });
-      body.insertBreak(Word.BreakType.line, "end");
-      const naamParagraph = body.insertParagraph(
-        `${data.aanhef} ${data.naam},`,
-        "end"
-      );
-      naamParagraph.font.set({
-        italic: false,
-        bold: false,
-        size: 12
-      });
-      const textBody = body.insertParagraph("voeg hier uw text toe", "end");
-      textBody.styleBuiltIn = "NoSpacing";
-      body.insertBreak(Word.BreakType.line, "end");
-      const groetParagraaf = body.insertParagraph(data.groetregel, "end");
-      groetParagraaf.styleBuiltIn = "Normal";
-      if (data.toevoeging.length) {
-        const toevoegParagraaf = body.insertParagraph(data.toevoeging, "end");
-        toevoegParagraaf.styleBuiltIn = "Normal";
+  generateLetter = (dialog, data) => {
+    const { addonStore } = this.props;
+    Object.keys(data).forEach(key => {
+      if (!data[key]) {
+        data[key] = "NIET INGEVULD";
       }
-      const ondertekenParagraaf = body.insertParagraph(
-        data.contactpersoon,
-        "end"
-      );
-      ondertekenParagraaf.styleBuiltIn = "Normal";
-      body.insertBreak(Word.BreakType.line, "end");
+    });
+    console.log(data);
+    addonStore.generateLetter((error, response) => {
+      if (error) {
+        return;
+      }
+      const letterTemplateBase64 = response.text;
+      Word.run(async context => {
+        // define utility function
+        const fillFieldWith = async (
+          contentControlName,
+          value,
+          position = "replace"
+        ) => {
+          const contentControls = context.document.contentControls;
+          const taggedCcs = contentControls.getByTag(contentControlName);
+          taggedCcs.load("items");
+          await context.sync();
+          for (const cc of taggedCcs.items) {
+            cc.insertText(value, position);
+            await context.sync();
+          }
+        };
 
-      // Synchronize the document state by executing the queued commands,
-      // and return a promise to indicate task completion.
-      return context.sync().then(() => {
+        context.document.body.clear();
+        context.document.body.insertFileFromBase64(
+          letterTemplateBase64,
+          "start"
+        );
+        await context.sync();
+        await fillFieldWith("straat-afzender", data.straatnaam);
+        await fillFieldWith("huisnummer", data.huisnummer.toString());
+        await fillFieldWith("postcode-afzender", data.postcode);
+        await fillFieldWith("datum", data.datum.toString().substring(0, 10));
+        await fillFieldWith("aanhef-voornam", data.voornaam);
+        await fillFieldWith("aanhef-achternaam", data.achternaam);
+        await fillFieldWith("straat-aanhef", data.straatnaam);
+        await fillFieldWith("huisnummer-aanhef", data.huisnummer);
+        await fillFieldWith(
+          "postcode-aanhef",
+          `${data.postcode}, ${data.plaatsnaam}`
+        );
+        await fillFieldWith("groet1", data.aanhef);
+        await fillFieldWith("aanhef-achternaam", data.achternaam);
+        await fillFieldWith("inhoud", "Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proeftekst in deze bedrijfstak sinds de 16e eeuw, toen een onbekende drukker een zethaak met letters nam en ze door elkaar husselde om een font-catalogus te maken. Het heeft niet alleen vijf eeuwen overleefd maar is ook, vrijwel onveranderd, overgenomen in elektronische letterzetting. Het is in de jaren '60 populair geworden met de introductie van Letraset vellen met Lorem Ipsum passages en meer recentelijk door desktop publishing software zoals Aldus PageMaker die versies van Lorem Ipsum bevatten.");
+        await fillFieldWith("groet", data.groetregel);
         dialog.close();
       });
-    }).catch(error => {
-      console.log("Error: " + JSON.stringify(error));
-      if (error instanceof OfficeExtension.Error) {
-        console.log("Debug info: " + JSON.stringify(error.debugInfo));
-      }
     });
   };
 
   openLetterForm = () => {
-    const width = 43;
-    const height = 48;
+    const width = 35;
+    const height = 52;
 
     Office.context.ui.displayDialogAsync(
       `${window.location.origin}#letter_form`,
@@ -96,8 +98,8 @@ export default class Home extends React.Component {
             case "closeDialog":
               dialog.close();
               break;
-            case "text":
-              this.generateText(dialog, data);
+            case "createLetter":
+              this.generateLetter(dialog, data);
               break;
             default:
               console.error(
