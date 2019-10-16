@@ -1,17 +1,33 @@
 import { observable, action } from "mobx";
-import { getProfiles } from "../services/application";
+import {
+  getProfiles as getProfilesService,
+  getAanheffen as getAanheffenService
+} from "../services/application";
 
 class LetterFormStore {
   @observable contacts = [];
+  @observable aanheffen = [];
 
   @action getProfiles = (callback = () => {}) => {
-    getProfiles((error, response) => {
+    getProfilesService((error, response) => {
       if (error) {
         console.error(error);
         callback(error, response);
         return;
       }
       this.contacts = response.body;
+      callback(error, response);
+    });
+  };
+
+  @action getAanheffen = (callback = () => {}) => {
+    getAanheffenService((error, response) => {
+      if (error) {
+        console.error(error);
+        callback(error, response);
+        return;
+      }
+      this.aanheffen = response.body;
       callback(error, response);
     });
   };
@@ -23,12 +39,6 @@ class LetterFormStore {
     { key: "broccoli", text: "Broccoli" },
     { key: "carrot", text: "Carrot" },
     { key: "lettuce", text: "Lettuce" }
-  ];
-
-  @observable salutations = [
-    { key: "mvr", text: "Geachte mevrouw" },
-    { key: "dhr", text: "Geachte heer" },
-    { key: "informal", text: "Beste" }
   ];
 
   @observable signatures = [

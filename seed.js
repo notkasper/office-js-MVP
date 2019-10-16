@@ -26,10 +26,26 @@ const seed = async () => {
   const workFunctions = [
     { id: "2d4dc1b8-2c32-40de-862c-fb72286fac43", name: "Sales manager" },
     { id: "743f41f0-a3ee-4903-815a-5ccd8a47e347", name: "Spokesperson" },
-    { id: "e071322d-4b02-4dad-8106-af56a6bd4dea", name: "Customer Success Manager" }
+    {
+      id: "e071322d-4b02-4dad-8106-af56a6bd4dea",
+      name: "Customer Success Manager"
+    }
   ];
   for (const workFunction of workFunctions) {
     await connection.models.workFunctions.create(workFunction);
+  }
+
+  const aanheffen = [
+    { id: "07fcfa06-9505-428b-b95d-ead6d7e3dd19", name: "Geachte mevrouw" },
+    { id: "c6ee8b34-87d2-4a97-8e60-c04e57b7c5ea", name: "Geachte heer" },
+    {
+      id: "84836c96-02c9-4716-b468-314c52ae1e36",
+      name: "Geachte heer, mevrouw"
+    },
+    { id: "1eaf2e35-7762-428c-bc7d-3c1bb38531cf", name: "Beste" }
+  ];
+  for (const aanhef of aanheffen) {
+    await connection.models.aanheffen.create(aanhef);
   }
 
   connection.close();

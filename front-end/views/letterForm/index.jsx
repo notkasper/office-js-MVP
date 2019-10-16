@@ -9,8 +9,7 @@ import {
   DatePicker,
   Text,
   DefaultButton,
-  PrimaryButton,
-  MaskedTextField
+  PrimaryButton
 } from "office-ui-fabric-react";
 
 @inject("letterFormStore")
@@ -21,7 +20,7 @@ export default class Form extends React.Component {
     this.state = {
       datum: new Date(),
       contactpersoon: "Contactos Personos",
-      aanhef: "Geachte Dhr.",
+      aanhef: null,
       voornaam: "Kerel",
       achternaam: "Man",
       groetregel: "Met vriendelijke groet,",
@@ -35,6 +34,7 @@ export default class Form extends React.Component {
   componentDidMount() {
     const { letterFormStore } = this.props;
     letterFormStore.getProfiles();
+    letterFormStore.getAanheffen();
   }
 
   textFieldOnChange = event => {
@@ -42,6 +42,7 @@ export default class Form extends React.Component {
   };
 
   dropDownOnChange = (event, option) => {
+    console.log(event.target.id, option.key);
     this.setState({ [event.target.id]: option.key });
   };
 
@@ -56,8 +57,23 @@ export default class Form extends React.Component {
   };
 
   createLetter = () => {
+    const { letterFormStore } = this.props;
+    const data = {
+      datum: this.state.datum,
+      contactpersoon: this.state.contactpersoon,
+      aanhef: letterFormStore.aanheffen.find(
+        aanhef => aanhef.id === this.state.aanhef
+      ).name,
+      voornaam: this.state.voornaam,
+      achternaam: this.state.achternaam,
+      groetregel: this.state.groetregel,
+      postcode: this.state.postcode,
+      straatnaam: this.state.straatnaam,
+      huisnummer: this.state.huisnummer,
+      plaatsnaam: this.state.plaatsnaam
+    };
     Office.context.ui.messageParent(
-      JSON.stringify({ messageType: "createLetter", data: this.state })
+      JSON.stringify({ messageType: "createLetter", data })
     );
   };
 
@@ -108,8 +124,11 @@ export default class Form extends React.Component {
           <Dropdown
             label="Aanhef"
             id="aanhef"
-            options={letterFormStore.salutations}
-            placeholder={this.state.aanhef}
+            options={letterFormStore.aanheffen.map(aanhef => ({
+              key: aanhef.id,
+              text: aanhef.name
+            }))}
+            placeHolder="Selecteer aanhef"
             onChange={this.dropDownOnChange}
             styles={{ root: { width: "25%" } }}
           />

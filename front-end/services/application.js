@@ -53,6 +53,12 @@ export const getWorkFunctions = callback => {
     .end((error, response) => handleResponse(error, response, callback));
 };
 
+export const getAanheffen = callback => {
+  request
+    .get("/api/aanheffen")
+    .end((error, response) => handleResponse(error, response, callback));
+};
+
 export const getLetterTemplate = callback => {
   request
     .get("/api/letterTemplate")
