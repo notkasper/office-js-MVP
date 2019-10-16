@@ -19,16 +19,15 @@ export default class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      datum: null,
-      contactpersoon: "",
-      aanhef: "",
-      naam: "",
-      groetregel: "",
-      postcode: "",
-      toevoeging: "",
-      straatnaam: "",
-      straatnummer: null,
-      huisnummer: null
+      datum: new Date(),
+      contactpersoon: "Contactos Personos",
+      aanhef: "Geachte Dhr.",
+      naam: "Man",
+      groetregel: "Met vriendelijke groet,",
+      postcode: "6861 CG",
+      straatnaam: "Cronjéweg",
+      huisnummer: 32,
+      plaatsnaam: "Oosterbeek"
     };
   }
 
@@ -38,12 +37,7 @@ export default class Form extends React.Component {
   }
 
   textFieldOnChange = event => {
-    const {
-      target: { id, value }
-    } = event;
-    const newStateBody = {};
-    newStateBody[id] = value;
-    this.setState(newStateBody);
+    this.setState({ [event.target.id]: event.target.value });
   };
 
   dropDownOnChange = (event, option) => {
@@ -94,13 +88,12 @@ export default class Form extends React.Component {
             onChange={this.textFieldOnChange}
             styles={{ root: { width: "50%" } }}
           />
-          <MaskedTextField
+          <TextField
             label="Postcode"
             id="postcode"
             value={this.state.postcode}
             onChange={this.textFieldOnChange}
             styles={{ root: { width: "50%" } }}
-            mask="9999 aa"
           />
         </Stack>
         <DatePicker

@@ -31,21 +31,27 @@ export default class Home extends React.Component {
       }
       const letterTemplateBase64 = response.text;
       Word.run(async context => {
+        // clear document
         context.document.body.clear();
+        // insert template
         context.document.body.insertFileFromBase64(
           letterTemplateBase64,
           "start"
         );
         await context.sync();
         const contentControls = context.document.contentControls;
+        // insert straatnaam
         const straatAfzenderCcs = contentControls.getByTag("straat-afzender");
         straatAfzenderCcs.load("items");
         await context.sync();
-        straatAfzenderCcs.items[0].insertText(
-          `${data.straatnaam} ${data.huisnummer}`,
-          "replace"
-        );
+        straatAfzenderCcs.items[0].insertText(data.straatnaam, "replace");
         await context.sync();
+        // insert huisnummer
+        const huisnummerCcs = contentControls.getByTag("huisnummer");
+        huisnummerCcs.load("items");
+        await context.sync();
+        huisnummerCcs.items[0].insertText(data.huisnummer.toString(), "replace");
+        // set postcode
         const postcodeAfzenderCcs = contentControls.getByTag(
           "postcode-afzender"
         );
@@ -53,7 +59,14 @@ export default class Home extends React.Component {
         await context.sync();
         postcodeAfzenderCcs.items[0].insertText(data.postcode, "replace");
         await context.sync();
-        console.log("REEEE", data.datum);
+        // set datum
+        const datumCcs = contentControls.getByTag("datum");
+        datumCcs.load("items");
+        await context.sync();
+        datumCcs.items[0].insertText(
+          data.datum.toString().substring(0, 10),
+          "replace"
+        );
         dialog.close();
       }).catch(error => {
         console.log(`Error while running Word.run: ${error}`);
