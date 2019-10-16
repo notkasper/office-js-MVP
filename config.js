@@ -1,6 +1,6 @@
 module.exports = {
   redirectBaseUrl: {
-    development: "https://b4775206.ngrok.io",
+    development: "https://d7f05935.ngrok.io",
     staging: "https://duffy-addon-staging.azurewebsites.net",
     production: "https://duffy-addon.azurewebsites.net"
   },
@@ -30,7 +30,7 @@ module.exports = {
     production: "Duffy-Database"
   },
   databasePort: {
-    development: 58454,
+    development: 1433,
     staging: 1433,
     production: 1433
   }

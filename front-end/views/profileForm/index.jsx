@@ -13,6 +13,7 @@ import {
   Separator
 } from "office-ui-fabric-react";
 import queryString from "query-string";
+import { onPhoneError, onEmailError } from "./validations";
 
 @inject("profileFormStore")
 @observer
@@ -48,6 +49,7 @@ export default class Form extends React.Component {
       opening_hours: "",
       editing: false,
       showDeletePrompt: false,
+      error: false,
       id
     };
   }
@@ -112,6 +114,8 @@ export default class Form extends React.Component {
   showDeletePrompt = () => {
     this.setState({ showDeletePrompt: true });
   };
+
+  validate = () => this.state.formal_name && !this.error;
 
   deleteProfile = () => {
     const { profileFormStore } = this.props;
@@ -238,6 +242,7 @@ export default class Form extends React.Component {
           }
           styles={{ root: { minWidth: 300 } }}
           disabled={!enabled}
+          onGetErrorMessage={value => onPhoneError({ phone_number: value })}
         />
         <TextField
           label="Persoonlijk mobielnummer (10 cijfers)"
@@ -247,18 +252,12 @@ export default class Form extends React.Component {
           }
           styles={{ root: { minWidth: 300 } }}
           disabled={!enabled}
+          onGetErrorMessage={value => onPhoneError({ phone_number: value })}
         />
         <TextField
-          label="Extra tekst (bijv. Vragen?)"
+          label="Extra tekst"
           value={this.state.extra_text}
           onChange={event => this.setState({ extra_text: event.target.value })}
-          styles={{ root: { minWidth: 300 } }}
-          disabled={!enabled}
-        />
-        <TextField
-          label="WhatsApp"
-          value={this.state.whatsapp}
-          onChange={event => this.setState({ whatsapp: event.target.value })}
           styles={{ root: { minWidth: 300 } }}
           disabled={!enabled}
         />
@@ -276,6 +275,9 @@ export default class Form extends React.Component {
           onChange={event => this.setState({ email: event.target.value })}
           styles={{ root: { minWidth: 300 } }}
           disabled={!enabled}
+          onGetErrorMessage={value =>
+            value.length ? onEmailError({ email: value }) : ""
+          }
         />
         <Dropdown
           placeholder="Selecteer een optie"
@@ -319,24 +321,6 @@ export default class Form extends React.Component {
           styles={{ dropdown: { width: 300 } }}
           disabled={!enabled}
         />
-        <TextField
-          label="Werkdagen"
-          value={this.state.working_days}
-          onChange={event =>
-            this.setState({ working_days: event.target.value })
-          }
-          styles={{ root: { minWidth: 300 } }}
-          disabled={!enabled}
-        />
-        <TextField
-          label="Openingstijden"
-          value={this.state.opening_hours}
-          onChange={event =>
-            this.setState({ opening_hours: event.target.value })
-          }
-          styles={{ root: { minWidth: 300 } }}
-          disabled={!enabled}
-        />
       </Stack>
     );
   };
@@ -356,7 +340,10 @@ export default class Form extends React.Component {
                 />
               ) : null}
               {action === "create" ? (
-                <PrimaryButton text="Opslaan" onClick={this.createProfile} />
+                <PrimaryButton
+                  text="Opslaan"
+                  onClick={this.validate && this.createProfile}
+                />
               ) : null}
               <DefaultButton
                 text="Annuleren"
