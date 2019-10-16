@@ -37,6 +37,10 @@ class AddonStore {
     }, 100);
   };
 
+  @action getProfile = id => {
+    return this.profiles.find(profile => profile.id === id);
+  };
+
   @action testApi = (callback = () => {}) => {
     testApiService(callback);
   };

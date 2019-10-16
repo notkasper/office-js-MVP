@@ -25,51 +25,52 @@ export default class Home extends React.Component {
         data[key] = "NIET INGEVULD";
       }
     });
+    console.log(data);
     addonStore.generateLetter((error, response) => {
       if (error) {
         return;
       }
       const letterTemplateBase64 = response.text;
       Word.run(async context => {
-        // clear document
+        // define utility function
+        const fillFieldWith = async (
+          contentControlName,
+          value,
+          position = "replace"
+        ) => {
+          const contentControls = context.document.contentControls;
+          const taggedCcs = contentControls.getByTag(contentControlName);
+          taggedCcs.load("items");
+          await context.sync();
+          for (const cc of taggedCcs.items) {
+            cc.insertText(value, position);
+            await context.sync();
+          }
+        };
+
         context.document.body.clear();
-        // insert template
         context.document.body.insertFileFromBase64(
           letterTemplateBase64,
           "start"
         );
         await context.sync();
-        const contentControls = context.document.contentControls;
-        // insert straatnaam
-        const straatAfzenderCcs = contentControls.getByTag("straat-afzender");
-        straatAfzenderCcs.load("items");
-        await context.sync();
-        straatAfzenderCcs.items[0].insertText(data.straatnaam, "replace");
-        await context.sync();
-        // insert huisnummer
-        const huisnummerCcs = contentControls.getByTag("huisnummer");
-        huisnummerCcs.load("items");
-        await context.sync();
-        huisnummerCcs.items[0].insertText(data.huisnummer.toString(), "replace");
-        // set postcode
-        const postcodeAfzenderCcs = contentControls.getByTag(
-          "postcode-afzender"
+        await fillFieldWith("straat-afzender", data.straatnaam);
+        await fillFieldWith("huisnummer", data.huisnummer.toString());
+        await fillFieldWith("postcode-afzender", data.postcode);
+        await fillFieldWith("datum", data.datum.toString().substring(0, 10));
+        await fillFieldWith("aanhef-voornam", data.voornaam);
+        await fillFieldWith("aanhef-achternaam", data.achternaam);
+        await fillFieldWith("straat-aanhef", data.straatnaam);
+        await fillFieldWith("huisnummer-aanhef", data.huisnummer);
+        await fillFieldWith(
+          "postcode-aanhef",
+          `${data.postcode}, ${data.plaatsnaam}`
         );
-        postcodeAfzenderCcs.load("items");
-        await context.sync();
-        postcodeAfzenderCcs.items[0].insertText(data.postcode, "replace");
-        await context.sync();
-        // set datum
-        const datumCcs = contentControls.getByTag("datum");
-        datumCcs.load("items");
-        await context.sync();
-        datumCcs.items[0].insertText(
-          data.datum.toString().substring(0, 10),
-          "replace"
-        );
+        await fillFieldWith("groet1", data.aanhef);
+        await fillFieldWith("aanhef-achternaam", data.achternaam);
+        await fillFieldWith("inhoud", "Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proeftekst in deze bedrijfstak sinds de 16e eeuw, toen een onbekende drukker een zethaak met letters nam en ze door elkaar husselde om een font-catalogus te maken. Het heeft niet alleen vijf eeuwen overleefd maar is ook, vrijwel onveranderd, overgenomen in elektronische letterzetting. Het is in de jaren '60 populair geworden met de introductie van Letraset vellen met Lorem Ipsum passages en meer recentelijk door desktop publishing software zoals Aldus PageMaker die versies van Lorem Ipsum bevatten.");
+        await fillFieldWith("groet", data.groetregel);
         dialog.close();
-      }).catch(error => {
-        console.log(`Error while running Word.run: ${error}`);
       });
     });
   };

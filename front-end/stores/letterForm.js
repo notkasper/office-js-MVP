@@ -37,10 +37,10 @@ class LetterFormStore {
   ];
 
   @observable greetings = [
-    { key: "mvg", text: "Met vriendelijke groet," },
-    { key: "mvgn", text: "Met vriendelijke groeten," },
-    { key: "informal", text: "Hartelijke groet, " },
-    { key: "formal", text: "Hoogachtend, " }
+    { key: "mvg", text: "Met vriendelijke groet" },
+    { key: "mvgn", text: "Met vriendelijke groeten" },
+    { key: "informal", text: "Hartelijke groet" },
+    { key: "formal", text: "Hoogachtend" }
   ];
 }
 

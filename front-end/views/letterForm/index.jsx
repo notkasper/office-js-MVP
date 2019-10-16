@@ -22,7 +22,8 @@ export default class Form extends React.Component {
       datum: new Date(),
       contactpersoon: "Contactos Personos",
       aanhef: "Geachte Dhr.",
-      naam: "Man",
+      voornaam: "Kerel",
+      achternaam: "Man",
       groetregel: "Met vriendelijke groet,",
       postcode: "6861 CG",
       straatnaam: "Cronjéweg",
@@ -41,7 +42,7 @@ export default class Form extends React.Component {
   };
 
   dropDownOnChange = (event, option) => {
-    this.setState({ [event.target.id]: option.text });
+    this.setState({ [event.target.id]: option.key });
   };
 
   dateOnSelect = newDate => {
@@ -110,14 +111,21 @@ export default class Form extends React.Component {
             options={letterFormStore.salutations}
             placeholder={this.state.aanhef}
             onChange={this.dropDownOnChange}
-            styles={{ root: { width: "50%" } }}
+            styles={{ root: { width: "25%" } }}
           />
           <TextField
-            value={this.state.naam}
-            label="Naam"
-            id="naam"
+            value={this.state.voornaam}
+            label="Voornaam"
+            id="voornaam"
             onChange={this.textFieldOnChange}
-            styles={{ root: { width: "50%" } }}
+            styles={{ root: { width: "37.5%" } }}
+          />
+          <TextField
+            value={this.state.achternaam}
+            label="Achternaam"
+            id="achternaam"
+            onChange={this.textFieldOnChange}
+            styles={{ root: { width: "37.5%" } }}
           />
         </Stack>
         <Dropdown
