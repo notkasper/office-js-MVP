@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
 
   let aanheffen;
   try {
-    aanheffen = await getConnection().models.aanheffen.findAll();
+    aanheffen = await getConnection().models.aanhefs.findAll();
   } catch (error) {
     console.error(error);
     res.status(500).send({

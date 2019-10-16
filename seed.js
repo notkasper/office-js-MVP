@@ -45,7 +45,7 @@ const seed = async () => {
     { id: "1eaf2e35-7762-428c-bc7d-3c1bb38531cf", name: "Beste" }
   ];
   for (const aanhef of aanheffen) {
-    await connection.models.aanheffen.create(aanhef);
+    await connection.models.aanhefs.create(aanhef);
   }
 
   connection.close();
