@@ -3,7 +3,6 @@ const http = require("http");
 const db = require("./db");
 const app = require("./app");
 const { getSslCert, getSslKey, getEnv } = require("../utils");
-require("../seed");
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
@@ -56,7 +55,7 @@ if (env === "development") {
   server = http.createServer(app);
 }
 
-// db.connect();
+db.connect();
 
 server.listen(port);
 server.on("error", onError);
