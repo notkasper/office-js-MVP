@@ -77,7 +77,9 @@ export default class Profiles extends React.Component {
       result => {
         if (result.status !== "succeeded") {
           console.error(
-            `Something went wrong while opening the dialog: ${result}`
+            `Something went wrong while opening the dialog: ${JSON.stringify(
+              result
+            )}`
           );
           return;
         }
@@ -141,7 +143,7 @@ export default class Profiles extends React.Component {
             styles={{ root: { marginTop: "10px", paddingLeft: ".3rem" } }}
           >{`${profiles.length} ${
             profiles.length === 1 ? "profiel" : "profielen"
-            } gevonden`}</Text>
+          } gevonden`}</Text>
           <ActionButton
             iconProps={{ iconName: "AddFriend" }}
             onClick={() => this.openProfileDialog("create")}

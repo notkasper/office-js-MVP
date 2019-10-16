@@ -35,5 +35,6 @@ router.patch("/profile/:profile_id", authMiddleware, updateProfile);
 router.get("/establishments", authMiddleware, getEstablishments);
 router.get("/departments", authMiddleware, getDepartments);
 router.get("/letterTemplate", authMiddleware, getLetterTemplate);
+router.get("/workFunctions", authMiddleware, getWorkFunctions);
 
 module.exports = router;

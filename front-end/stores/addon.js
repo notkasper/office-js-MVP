@@ -100,7 +100,9 @@ class AddonStore {
         result => {
           if (result.status !== "succeeded") {
             console.error(
-              `Something went wrong while opening the dialog: ${result}`
+              `Something went wrong while opening the dialog: ${JSON.stringify(
+                result
+              )}`
             );
           }
           const dialog = result.value;
