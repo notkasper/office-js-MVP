@@ -1,7 +1,6 @@
 import { observable, action } from 'mobx';
 import jsCookie from 'js-cookie';
 import {
-  testApi as testApiService,
   oauth as oauthService,
   getUserDetails as getUserDetailsService,
   getProfiles as getProfilesService,
@@ -39,10 +38,6 @@ class AddonStore {
 
   @action getProfile = id => {
     return this.profiles.find(profile => profile.id === id);
-  };
-
-  @action testApi = (callback = () => {}) => {
-    testApiService(callback);
   };
 
   @action getProfiles = (callback = () => {}) => {

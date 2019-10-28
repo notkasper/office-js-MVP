@@ -1,5 +1,5 @@
-import React from "react";
-import { inject, observer } from "mobx-react";
+import React from 'react';
+import { inject, observer } from 'mobx-react';
 import {
   Text,
   Stack,
@@ -11,10 +11,10 @@ import {
   DialogFooter,
   DefaultButton,
   Separator
-} from "office-ui-fabric-react";
-import queryString from "query-string";
+} from 'office-ui-fabric-react';
+import queryString from 'query-string';
 
-@inject("profileFormStore")
+@inject('profileFormStore')
 @observer
 export default class Form extends React.Component {
   constructor(props) {
@@ -55,9 +55,9 @@ export default class Form extends React.Component {
       establishment,
       extra_text,
       action,
-      whatsapp: "",
-      working_days: "",
-      opening_hours: "",
+      whatsapp: '',
+      working_days: '',
+      opening_hours: '',
       editing: false,
       showDeletePrompt: false,
       id,
@@ -109,9 +109,7 @@ export default class Form extends React.Component {
       if (error) {
         return;
       }
-      Office.context.ui.messageParent(
-        JSON.stringify({ messageType: "profileUpdated" })
-      );
+      Office.context.ui.messageParent(JSON.stringify({ messageType: 'profileUpdated' }));
     });
   };
 
@@ -129,9 +127,7 @@ export default class Form extends React.Component {
     const { id } = this.state;
     profileFormStore.deleteProfile(id, (error, response) => {
       this.closePrompt();
-      Office.context.ui.messageParent(
-        JSON.stringify({ messageType: "profileDeleted" })
-      );
+      Office.context.ui.messageParent(JSON.stringify({ messageType: 'profileDeleted' }));
     });
   };
 
@@ -159,13 +155,11 @@ export default class Form extends React.Component {
       establishment,
       extra_text
     };
-    profileFormStore.putProfile(profileData, (error, response) => {
+    profileFormStore.createProfile(profileData, (error, response) => {
       if (error) {
         return;
       }
-      Office.context.ui.messageParent(
-        JSON.stringify({ messageType: "profileCreated" })
-      );
+      Office.context.ui.messageParent(JSON.stringify({ messageType: 'profileCreated' }));
     });
   };
 
@@ -174,28 +168,25 @@ export default class Form extends React.Component {
   };
 
   closeDialog = () => {
-    Office.context.ui.messageParent(JSON.stringify({ messageType: "close" }));
+    Office.context.ui.messageParent(JSON.stringify({ messageType: 'close' }));
   };
 
   renderHeader = () => {
     const { action, editing } = this.state;
-    const showHeaderButtons = action === "view";
+    const showHeaderButtons = action === 'view';
     return (
       <Stack horizontal horizontalAlign="space-between">
         <Text variant="xLarge">Persoonlijke instellingen</Text>
         {showHeaderButtons ? (
           <div>
-            <ActionButton
-              iconProps={{ iconName: "Delete" }}
-              onClick={this.showDeletePrompt}
-            >
+            <ActionButton iconProps={{ iconName: 'Delete' }} onClick={this.showDeletePrompt}>
               Verwijderen
             </ActionButton>
             <ActionButton
-              iconProps={{ iconName: editing ? "UserRemove" : "EditContact" }}
+              iconProps={{ iconName: editing ? 'UserRemove' : 'EditContact' }}
               onClick={editing ? this.cancelEdit : this.enableEditing}
             >
-              {editing ? "Aanpassen stoppen" : "Aanpassen"}
+              {editing ? 'Aanpassen stoppen' : 'Aanpassen'}
             </ActionButton>
           </div>
         ) : null}
@@ -209,8 +200,8 @@ export default class Form extends React.Component {
         hidden={false}
         onDismiss={this.closePrompt}
         dialogContentProps={{
-          title: "Weet je zeker dat je dit profiel wilt verwijderen?",
-          subText: "Dit is onomkeerbaar"
+          title: 'Weet je zeker dat je dit profiel wilt verwijderen?',
+          subText: 'Dit is onomkeerbaar'
         }}
       >
         <DialogFooter>
@@ -223,41 +214,31 @@ export default class Form extends React.Component {
 
   renderLeftPanel = enabled => {
     return (
-      <Stack
-        vertical
-        tokens={{ childrenGap: 5, padding: 5 }}
-        styles={{ root: { width: "50%" } }}
-      >
+      <Stack vertical tokens={{ childrenGap: 5, padding: 5 }} styles={{ root: { width: '50%' } }}>
         <TextField
           label="Naam (formeel)"
           required
           value={this.state.formal_name}
           onChange={event => this.setState({ formal_name: event.target.value })}
           disabled={!enabled}
-          styles={{ root: { minWidth: "15rem" } }}
+          styles={{ root: { minWidth: '15rem' } }}
         />
         <TextField
           label="Naam (informeel)"
           value={this.state.informal_name}
-          onChange={event =>
-            this.setState({ informal_name: event.target.value })
-          }
+          onChange={event => this.setState({ informal_name: event.target.value })}
           disabled={!enabled}
         />
         <TextField
           label="Persoonlijk telefoonnummer (10 cijfers)"
           value={this.state.phone_number}
-          onChange={event =>
-            this.setState({ phone_number: event.target.value })
-          }
+          onChange={event => this.setState({ phone_number: event.target.value })}
           disabled={!enabled}
         />
         <TextField
           label="Persoonlijk mobielnummer (10 cijfers)"
           value={this.state.mobile_number}
-          onChange={event =>
-            this.setState({ mobile_number: event.target.value })
-          }
+          onChange={event => this.setState({ mobile_number: event.target.value })}
           disabled={!enabled}
         />
         <TextField
@@ -279,11 +260,7 @@ export default class Form extends React.Component {
   renderRightPanel = enabled => {
     const { profileFormStore } = this.props;
     return (
-      <Stack
-        vertical
-        tokens={{ childrenGap: 5, padding: 5 }}
-        styles={{ root: { width: "50%" } }}
-      >
+      <Stack vertical tokens={{ childrenGap: 5, padding: 5 }} styles={{ root: { width: '50%' } }}>
         <TextField
           label="Persoonlijk e-mailadres"
           value={this.state.email}
@@ -320,9 +297,7 @@ export default class Form extends React.Component {
           placeholder="Selecteer een optie"
           label="Vestiging"
           defaultSelectedKey={this.state.establishment}
-          onChange={(event, option) =>
-            this.setState({ establishment: option.key })
-          }
+          onChange={(event, option) => this.setState({ establishment: option.key })}
           options={profileFormStore.establishments.map(establishment => ({
             key: establishment.id,
             text: establishment.name
@@ -332,17 +307,13 @@ export default class Form extends React.Component {
         <TextField
           label="Werkdagen"
           value={this.state.working_days}
-          onChange={event =>
-            this.setState({ working_days: event.target.value })
-          }
+          onChange={event => this.setState({ working_days: event.target.value })}
           disabled={!enabled}
         />
         <TextField
           label="Openingstijden"
           value={this.state.opening_hours}
-          onChange={event =>
-            this.setState({ opening_hours: event.target.value })
-          }
+          onChange={event => this.setState({ opening_hours: event.target.value })}
           disabled={!enabled}
         />
       </Stack>
@@ -352,25 +323,14 @@ export default class Form extends React.Component {
   renderFooter = () => {
     const { action, editing } = this.state;
     return (
-      <Stack vertical tokens={{ childrenGap: ".3em" }}>
+      <Stack vertical tokens={{ childrenGap: '.3em' }}>
         <Separator />
         <Stack>
           <Stack.Item align="end">
-            <Stack horizontal tokens={{ childrenGap: "8px" }}>
-              {editing ? (
-                <PrimaryButton
-                  text="Aanpassingen opslaan"
-                  onClick={this.saveEdit}
-                />
-              ) : null}
-              {action === "create" ? (
-                <PrimaryButton text="Opslaan" onClick={this.createProfile} />
-              ) : null}
-              <DefaultButton
-                text="Annuleren"
-                onClick={this.closeDialog}
-                styles={{ paddingLeft: "30px" }}
-              />
+            <Stack horizontal tokens={{ childrenGap: '8px' }}>
+              {editing ? <PrimaryButton text="Aanpassingen opslaan" onClick={this.saveEdit} /> : null}
+              {action === 'create' ? <PrimaryButton text="Opslaan" onClick={this.createProfile} /> : null}
+              <DefaultButton text="Annuleren" onClick={this.closeDialog} styles={{ paddingLeft: '30px' }} />
             </Stack>
           </Stack.Item>
         </Stack>
@@ -380,7 +340,7 @@ export default class Form extends React.Component {
 
   render() {
     const { showDeletePrompt, action, editing } = this.state;
-    const enabled = editing || action === "create";
+    const enabled = editing || action === 'create';
     return (
       <React.Fragment>
         {showDeletePrompt ? this.renderDeleteDialog() : null}

@@ -1,6 +1,8 @@
 const { getConnection } = require('../db');
+const asyncHandler = require('../middleware/async');
+const ErrorResponse = require('../utils/errorResponse');
 
-module.exports = async (req, res) => {
+module.exports = asyncHandler(async (req, res) => {
   const {
     formal_name,
     informal_name,
@@ -19,10 +21,7 @@ module.exports = async (req, res) => {
     }
   });
   if (!profile) {
-    res.status(404).send({
-      message: 'Profiel niet gevonden in database, probeer het later opnieuw of neem contact op met support.'
-    });
-    return;
+    return new ErrorResponse('Profile not found', 404);
   }
   profile = await profile.update({
     formal_name,
@@ -37,4 +36,4 @@ module.exports = async (req, res) => {
   });
 
   res.status(200).send({ success: true, data: profile });
-};
+});

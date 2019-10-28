@@ -1,6 +1,6 @@
 import { observable, action } from 'mobx';
 import {
-  putProfile as putProfileService,
+  createProfile as createProfileService,
   deleteProfile as deleteProfileService,
   updateProfile as updateProfileService,
   getEstablishments as getEstablishmentsService,
@@ -49,8 +49,8 @@ class ProfileFormStore {
     });
   };
 
-  @action putProfile = (profileData, callback = () => {}) => {
-    putProfileService(profileData, (error, response) => {
+  @action createProfile = (profileData, callback = () => {}) => {
+    createProfileService(profileData, (error, response) => {
       if (error) {
         console.error(error);
         callback(error, response);

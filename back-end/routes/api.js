@@ -4,7 +4,7 @@ const { acquireTokenWithAuthorizationCode, getAuthorizationUrl } = require('../h
 const authMiddleware = require('../middleware/auth');
 // Handlers
 const getUserDetails = require('../handlers/getUserDetails');
-const putProfile = require('../handlers/putProfile');
+const createProfile = require('../handlers/createProfile');
 const getProfiles = require('../handlers/getProfiles');
 const deleteProfile = require('../handlers/deleteProfile');
 const updateProfile = require('../handlers/updateProfile');
@@ -21,11 +21,11 @@ router.get('/oauth', getAuthorizationUrl);
 router.get('/getAccessToken', acquireTokenWithAuthorizationCode);
 
 /* AUTHORIZED */
-router.put('/profile', authMiddleware, putProfile);
+router.post('/profile', authMiddleware, createProfile);
 router.get('/getUserDetails', authMiddleware, getUserDetails);
 router.get('/profiles', authMiddleware, getProfiles);
 router.delete('/profile/:id', authMiddleware, deleteProfile);
-router.patch('/profile/:id', authMiddleware, updateProfile);
+router.put('/profile/:id', authMiddleware, updateProfile);
 router.get('/establishments', authMiddleware, getEstablishments);
 router.get('/departments', authMiddleware, getDepartments);
 router.get('/letterTemplate', authMiddleware, getLetterTemplate);
