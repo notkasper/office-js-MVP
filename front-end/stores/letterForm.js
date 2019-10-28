@@ -12,7 +12,7 @@ class LetterFormStore {
         callback(error, response);
         return;
       }
-      this.contacts = response.body;
+      this.contacts = response.body.data;
       callback(error, response);
     });
   };
