@@ -19,15 +19,15 @@ export default class Form extends React.Component {
     super(props);
     this.state = {
       datum: new Date(),
-      contactpersoon: 'Contactos Personos',
+      contactpersoon: '',
       aanhef: null,
-      voornaam: 'Kerel',
-      achternaam: 'Man',
-      groetregel: 'Met vriendelijke groet,',
-      postcode: '6861 CG',
-      straatnaam: 'Cronjéweg',
-      huisnummer: 32,
-      plaatsnaam: 'Oosterbeek'
+      voornaam: '',
+      achternaam: '',
+      groetregel: '',
+      postcode: '',
+      straatnaam: '',
+      huisnummer: null,
+      plaatsnaam: ''
     };
   }
 
