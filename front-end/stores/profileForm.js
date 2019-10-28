@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action } from 'mobx';
 import {
   putProfile as putProfileService,
   deleteProfile as deleteProfileService,
@@ -6,7 +6,7 @@ import {
   getEstablishments as getEstablishmentsService,
   getDepartments as getDepartmentsService,
   getWorkFunctions as getWorkFunctionsService
-} from "../services/application";
+} from '../services/application';
 
 class ProfileFormStore {
   @observable establishments = [];
@@ -20,7 +20,7 @@ class ProfileFormStore {
         callback(error, response);
         return;
       }
-      this.establishments = response.body;
+      this.establishments = response.body.data;
       callback(error, response);
     });
   };
@@ -32,7 +32,7 @@ class ProfileFormStore {
         callback(error, response);
         return;
       }
-      this.workFunctions = response.body;
+      this.workFunctions = response.body.data;
       callback(error, response);
     });
   };
@@ -44,7 +44,7 @@ class ProfileFormStore {
         callback(error, response);
         return;
       }
-      this.departments = response.body;
+      this.departments = response.body.data;
       callback(error, response);
     });
   };

@@ -1,23 +1,23 @@
-import { observable, action } from "mobx";
-import jsCookie from "js-cookie";
+import { observable, action } from 'mobx';
+import jsCookie from 'js-cookie';
 import {
   testApi as testApiService,
   oauth as oauthService,
   getUserDetails as getUserDetailsService,
   getProfiles as getProfilesService,
   getLetterTemplate as getLetterTemplateService
-} from "../services/application";
+} from '../services/application';
 
 class AddonStore {
   @observable profile = null;
   @observable profiles = [];
 
   @action getAccesstoken = () => {
-    return jsCookie.get("accessToken");
+    return jsCookie.get('accessToken');
   };
 
   @action getRefreshToken = () => {
-    return jsCookie.get("refreshToken");
+    return jsCookie.get('refreshToken');
   };
 
   @action checkAuthorized = () => {
@@ -52,7 +52,7 @@ class AddonStore {
         callback(error, response);
         return;
       }
-      this.profiles = response.body;
+      this.profiles = response.body.data;
       callback();
     });
   };
@@ -64,7 +64,7 @@ class AddonStore {
         callback(error, response);
         return;
       }
-      this.profile = response.body;
+      this.profile = response.body.data;
     });
   };
 
@@ -98,20 +98,13 @@ class AddonStore {
           promptBeforeOpen: false
         },
         result => {
-          if (result.status !== "succeeded") {
-            console.error(
-              `Something went wrong while opening the dialog: ${JSON.stringify(
-                result
-              )}`
-            );
+          if (result.status !== 'succeeded') {
+            console.error(`Something went wrong while opening the dialog: ${JSON.stringify(result)}`);
           }
           const dialog = result.value;
-          dialog.addEventHandler(
-            Office.EventType.DialogMessageReceived,
-            message => {
-              console.error(`something: ${JSON.stringify(message)}`);
-            }
-          );
+          dialog.addEventHandler(Office.EventType.DialogMessageReceived, message => {
+            console.error(`something: ${JSON.stringify(message)}`);
+          });
         }
       );
     });

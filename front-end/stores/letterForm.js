@@ -1,8 +1,5 @@
-import { observable, action } from "mobx";
-import {
-  getProfiles as getProfilesService,
-  getAanheffen as getAanheffenService
-} from "../services/application";
+import { observable, action } from 'mobx';
+import { getProfiles as getProfilesService, getAanheffen as getAanheffenService } from '../services/application';
 
 class LetterFormStore {
   @observable contacts = [];
@@ -27,30 +24,27 @@ class LetterFormStore {
         callback(error, response);
         return;
       }
-      this.aanheffen = response.body;
+      this.aanheffen = response.body.data;
       callback(error, response);
     });
   };
 
   @observable sendOptions = [
-    { key: "apple", text: "Apple" },
-    { key: "banana", text: "Banana" },
-    { key: "grape", text: "Grape" },
-    { key: "broccoli", text: "Broccoli" },
-    { key: "carrot", text: "Carrot" },
-    { key: "lettuce", text: "Lettuce" }
+    { key: 'apple', text: 'Apple' },
+    { key: 'banana', text: 'Banana' },
+    { key: 'grape', text: 'Grape' },
+    { key: 'broccoli', text: 'Broccoli' },
+    { key: 'carrot', text: 'Carrot' },
+    { key: 'lettuce', text: 'Lettuce' }
   ];
 
-  @observable signatures = [
-    { key: "mvr", text: "Mvr." },
-    { key: "dhr", text: "Dhr." }
-  ];
+  @observable signatures = [{ key: 'mvr', text: 'Mvr.' }, { key: 'dhr', text: 'Dhr.' }];
 
   @observable greetings = [
-    { key: "mvg", text: "Met vriendelijke groet" },
-    { key: "mvgn", text: "Met vriendelijke groeten" },
-    { key: "informal", text: "Hartelijke groet" },
-    { key: "formal", text: "Hoogachtend" }
+    { key: 'mvg', text: 'Met vriendelijke groet' },
+    { key: 'mvgn', text: 'Met vriendelijke groeten' },
+    { key: 'informal', text: 'Hartelijke groet' },
+    { key: 'formal', text: 'Hoogachtend' }
   ];
 }
 
