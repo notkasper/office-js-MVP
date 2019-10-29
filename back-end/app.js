@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const xssClean = require('xss-clean');
 const expressRateLimit = require('express-rate-limit');
 const api = require('./routes/api');
+const errorHandler = require('./middleware/error');
 
 const app = express();
 
@@ -24,5 +25,7 @@ app.use(
 
 app.use('/', express.static(path.join(__dirname, 'dist')));
 app.use('/api', api);
+
+app.use(errorHandler);
 
 module.exports = app;

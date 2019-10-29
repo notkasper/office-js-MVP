@@ -14,8 +14,11 @@ const getWorkFunctions = require('../handlers/getWorkFunctions');
 const getLetterTemplate = require('../handlers/getLetterTemplate');
 const getAanheffen = require('../handlers/getAanheffen');
 const getGroetOpties = require('../handlers/getGroetOpties');
+const adminRouter = require('./admin');
 
 const router = express.Router();
+
+router.use('/admin', adminRouter);
 
 /* OPEN */
 router.get('/oauth', getAuthorizationUrl);

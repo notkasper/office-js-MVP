@@ -45,7 +45,7 @@ const acquireTokenWithAuthorizationCode = (req, res) => {
     config.clientSecret,
     (error, response) => {
       if (error) {
-        const message = `error: ${error.message}\nresponse: ${JSON.stringify(response)}`;
+        const message = `Error: ${error.message}\nresponse: ${JSON.stringify(response)}`;
         res.status(500).send(message);
         return;
       }
@@ -58,20 +58,14 @@ const acquireTokenWithAuthorizationCode = (req, res) => {
 const acquireTokenWithRefreshToken = refreshToken => {
   return new Promise((resolve, reject) => {
     const authenticationContext = new AuthenticationContext(authorityUrl);
-    authenticationContext.acquireTokenWithRefreshToken(
-      refreshToken,
-      config.clientId,
-      config.clientSecret,
-      resource,
-      (error, response) => {
-        if (error) {
-          console.error(`Error while refreshing token: ${error}\nresponse: ${response}`);
-          reject(error);
-          return;
-        }
-        resolve(response);
+    authenticationContext.acquireTokenWithRefreshToken(refreshToken, config.clientId, config.clientSecret, resource, (error, response) => {
+      if (error) {
+        console.error(`Error while refreshing token: ${error}\nresponse: ${response}`);
+        reject(error);
+        return;
       }
-    );
+      resolve(response);
+    });
   });
 };
 
