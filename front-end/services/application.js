@@ -35,8 +35,8 @@ export const getWorkFunctions = callback => {
   request.get('/api/workFunctions').end((error, response) => handleResponse(error, response, callback));
 };
 
-export const getAanheffen = callback => {
-  request.get('/api/aanheffen').end((error, response) => handleResponse(error, response, callback));
+export const getAanhefs = callback => {
+  request.get('/api/aanhefs').end((error, response) => handleResponse(error, response, callback));
 };
 
 export const getGroetOpties = callback => {

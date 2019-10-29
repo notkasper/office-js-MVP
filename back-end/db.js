@@ -1,3 +1,4 @@
+require('colors');
 const Sequelize = require('sequelize');
 const { getDatabaseUrl, getDatabaseUser, getDatabasePassword, getDatabaseName, getDatabasePort } = require('../utils');
 
@@ -83,11 +84,12 @@ const connect = async (force = false) => {
     await WorkFunctions.sync({ force });
     await Aanhefs.sync({ force });
     await GroetOpties.sync({ force });
+    console.log('Connected to database'.green.bold);
+    return sequelize;
   } catch (error) {
     console.error(`Error while connecting to mssql: ${error}`);
     return;
   }
-  console.log('Connected to database.');
 };
 
 const getConnection = () => {

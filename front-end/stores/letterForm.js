@@ -1,13 +1,13 @@
 import { observable, action } from 'mobx';
 import {
   getProfiles as getProfilesService,
-  getAanheffen as getAanheffenService,
+  getAanhefs as getAanhefsService,
   getGroetOpties as getGroetOptiesService
 } from '../services/application';
 
 class LetterFormStore {
   @observable contacts = [];
-  @observable aanheffen = [];
+  @observable aanhefs = [];
   @observable groetOpties = [];
 
   @action getProfiles = (callback = () => {}) => {
@@ -22,14 +22,14 @@ class LetterFormStore {
     });
   };
 
-  @action getAanheffen = (callback = () => {}) => {
-    getAanheffenService((error, response) => {
+  @action getAanhefs = (callback = () => {}) => {
+    getAanhefsService((error, response) => {
       if (error) {
         console.error(error);
         callback(error, response);
         return;
       }
-      this.aanheffen = response.body.data;
+      this.aanhefs = response.body.data;
       callback(error, response);
     });
   };

@@ -24,7 +24,7 @@ export default class Form extends React.Component {
   componentDidMount() {
     const { letterFormStore } = this.props;
     letterFormStore.getProfiles();
-    letterFormStore.getAanheffen();
+    letterFormStore.getAanhefs();
     letterFormStore.getGroetOpties();
   }
 
@@ -50,7 +50,7 @@ export default class Form extends React.Component {
     const data = {
       datum: this.state.datum,
       contactpersoon: this.state.contactpersoon,
-      aanhef: letterFormStore.aanheffen.find(aanhef => aanhef.id === this.state.aanhef).name,
+      aanhef: letterFormStore.aanhefs.find(aanhef => aanhef.id === this.state.aanhef).name,
       voornaam: this.state.voornaam,
       achternaam: this.state.achternaam,
       groetOptie: letterFormStore.groetOpties.find(groetOptie => groetOptie.id === this.state.groetOptie).name,
@@ -103,7 +103,7 @@ export default class Form extends React.Component {
           <Dropdown
             label="Aanhef"
             id="aanhef"
-            options={letterFormStore.aanheffen.map(aanhef => ({
+            options={letterFormStore.aanhefs.map(aanhef => ({
               key: aanhef.id,
               text: aanhef.name
             }))}
