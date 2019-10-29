@@ -1,36 +1,25 @@
-const Sequelize = require("sequelize");
-const {
-  getDatabaseUrl,
-  getDatabaseUser,
-  getDatabasePassword,
-  getDatabaseName,
-  getDatabasePort
-} = require("../utils");
+const Sequelize = require('sequelize');
+const { getDatabaseUrl, getDatabaseUser, getDatabasePassword, getDatabaseName, getDatabasePort } = require('../utils');
 
 let sequelize;
 
 const connect = async (force = false) => {
   try {
-    sequelize = new Sequelize(
-      getDatabaseName(),
-      getDatabaseUser(),
-      getDatabasePassword(),
-      {
-        host: getDatabaseUrl(),
-        port: getDatabasePort(),
-        dialect: "mssql",
-        logging: false,
-        dialectOptions: {
-          options: {
-            encrypt: true
-          }
+    sequelize = new Sequelize(getDatabaseName(), getDatabaseUser(), getDatabasePassword(), {
+      host: getDatabaseUrl(),
+      port: getDatabasePort(),
+      dialect: 'mssql',
+      logging: false,
+      dialectOptions: {
+        options: {
+          encrypt: true
         }
       }
-    );
+    });
     await sequelize.authenticate();
 
     // define models
-    const Profile = sequelize.define("profile", {
+    const Profile = sequelize.define('profile', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true
@@ -47,7 +36,7 @@ const connect = async (force = false) => {
       extra_text: Sequelize.STRING
     });
 
-    const Establishment = sequelize.define("establishments", {
+    const Establishment = sequelize.define('establishments', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true
@@ -55,7 +44,7 @@ const connect = async (force = false) => {
       name: Sequelize.STRING
     });
 
-    const Department = sequelize.define("departments", {
+    const Department = sequelize.define('departments', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true
@@ -63,7 +52,7 @@ const connect = async (force = false) => {
       name: Sequelize.STRING
     });
 
-    const WorkFunctions = sequelize.define("workFunctions", {
+    const WorkFunctions = sequelize.define('workFunctions', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true
@@ -71,7 +60,15 @@ const connect = async (force = false) => {
       name: Sequelize.STRING
     });
 
-    const Aanhefs = sequelize.define("aanhefs", {
+    const Aanhefs = sequelize.define('aanhefs', {
+      id: {
+        type: Sequelize.UUID,
+        primaryKey: true
+      },
+      name: Sequelize.STRING
+    });
+
+    const GroetOpties = sequelize.define('groetOpties', {
       id: {
         type: Sequelize.UUID,
         primaryKey: true
@@ -85,11 +82,12 @@ const connect = async (force = false) => {
     await Department.sync({ force });
     await WorkFunctions.sync({ force });
     await Aanhefs.sync({ force });
+    await GroetOpties.sync({ force });
   } catch (error) {
     console.error(`Error while connecting to mssql: ${error}`);
     return;
   }
-  console.log("Connected to database.");
+  console.log('Connected to database.');
 };
 
 const getConnection = () => {

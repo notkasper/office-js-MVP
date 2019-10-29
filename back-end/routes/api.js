@@ -13,6 +13,7 @@ const getDepartments = require('../handlers/getDepartments');
 const getWorkFunctions = require('../handlers/getWorkFunctions');
 const getLetterTemplate = require('../handlers/getLetterTemplate');
 const getAanheffen = require('../handlers/getAanheffen');
+const getGroetOpties = require('../handlers/getGroetOpties');
 
 const router = express.Router();
 
@@ -31,5 +32,6 @@ router.get('/departments', authMiddleware, getDepartments);
 router.get('/letterTemplate', authMiddleware, getLetterTemplate);
 router.get('/workFunctions', authMiddleware, getWorkFunctions);
 router.get('/aanheffen', authMiddleware, getAanheffen);
+router.get('/groetOpties', authMiddleware, getGroetOpties);
 
 module.exports = router;
