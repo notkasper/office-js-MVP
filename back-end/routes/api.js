@@ -1,5 +1,4 @@
 const express = require('express');
-const { acquireTokenWithAuthorizationCode, getAuthorizationUrl } = require('../handlers/auth');
 // Middleware
 const authMiddleware = require('../middleware/auth');
 // Handlers
@@ -8,16 +7,14 @@ const getLetterTemplate = require('../handlers/getLetterTemplate');
 const adminRouter = require('./admin');
 const formDataRouter = require('./formData');
 const profilesRouter = require('./profiles');
+const authRouter = require('./auth');
 
 const router = express.Router();
 
 router.use('/admin', adminRouter);
 router.use('/formData', authMiddleware, formDataRouter);
 router.use('/profiles', authMiddleware, profilesRouter);
-
-/* OPEN */
-router.get('/oauth', getAuthorizationUrl);
-router.get('/getAccessToken', acquireTokenWithAuthorizationCode);
+router.use('/auth', authRouter);
 
 /* AUTHORIZED */
 router.get('/getUserDetails', authMiddleware, getUserDetails);

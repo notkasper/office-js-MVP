@@ -14,7 +14,7 @@ const handleResponse = (error, response, callback) => {
 
 /* AUTH */
 export const oauth = callback => {
-  request.get('/api/oauth').end((error, response) => handleResponse(error, response, callback));
+  request.get('/api/auth/url').end((error, response) => handleResponse(error, response, callback));
 };
 
 /* PROFILES */

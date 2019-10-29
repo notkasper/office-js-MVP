@@ -1,4 +1,4 @@
-const { acquireTokenWithRefreshToken } = require('../handlers/auth');
+const { acquireTokenWithRefreshToken } = require('../controllers/auth');
 const asyncHandler = require('../middleware/async');
 const getUserDetails = require('../utils/getUserDetails');
 const ErrorResponse = require('../utils/errorResponse');
@@ -7,10 +7,7 @@ module.exports = asyncHandler(async (req, res, next) => {
   let accessToken = req.cookies.accessToken;
   let refreshToken = req.cookies.refreshToken;
   if (!accessToken && !refreshToken) {
-    return new ErrorResponse(
-      'Geen access token of refresh token meegestuurd. Autoriseer opnieuw of neem contact op met support.',
-      401
-    );
+    return new ErrorResponse('Geen access token of refresh token meegestuurd. Autoriseer opnieuw of neem contact op met support.', 401);
   }
   if (!accessToken && refreshToken) {
     response = await acquireTokenWithRefreshToken(refreshToken);

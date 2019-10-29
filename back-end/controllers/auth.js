@@ -10,7 +10,7 @@ const config = {
 };
 
 const authorityUrl = `${config.authorityHostUrl}/${config.tenant}`;
-const redirectUri = `${getRedirectBaseUrl()}/api/getAccessToken`;
+const redirectUri = `${getRedirectBaseUrl()}/api/auth/token`;
 const resource = 'https://graph.microsoft.com/';
 
 const templateAuthzUrl = `https://login.windows.net/${config.tenant}/oauth2/authorize?response_type=code&client_id=<client_id>&redirect_uri=<redirect_uri>&state=<state>&resource=<resource>`;
@@ -23,8 +23,11 @@ const createAuthorizationUrl = state => {
   return authorizationUrl;
 };
 
-const getAuthorizationUrl = (req, res) => {
+exports.getAuthorizationUrl = (req, res) => {
   crypto.randomBytes(48, async (error, buffer) => {
+    if (error) {
+      return next(new ErrorResponse('Could not generate authorization url', 500));
+    }
     const token = buffer
       .toString('base64')
       .replace(/\//g, '_')
@@ -35,7 +38,7 @@ const getAuthorizationUrl = (req, res) => {
   });
 };
 
-const acquireTokenWithAuthorizationCode = (req, res) => {
+exports.acquireTokenWithAuthorizationCode = (req, res) => {
   const authenticationContext = new AuthenticationContext(authorityUrl);
   authenticationContext.acquireTokenWithAuthorizationCode(
     req.query.code,
@@ -55,7 +58,7 @@ const acquireTokenWithAuthorizationCode = (req, res) => {
   );
 };
 
-const acquireTokenWithRefreshToken = refreshToken => {
+exports.acquireTokenWithRefreshToken = refreshToken => {
   return new Promise((resolve, reject) => {
     const authenticationContext = new AuthenticationContext(authorityUrl);
     authenticationContext.acquireTokenWithRefreshToken(refreshToken, config.clientId, config.clientSecret, resource, (error, response) => {
@@ -67,10 +70,4 @@ const acquireTokenWithRefreshToken = refreshToken => {
       resolve(response);
     });
   });
-};
-
-module.exports = {
-  getAuthorizationUrl,
-  acquireTokenWithAuthorizationCode,
-  acquireTokenWithRefreshToken
 };

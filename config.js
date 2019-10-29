@@ -1,6 +1,6 @@
 module.exports = {
   redirectBaseUrl: {
-    development: 'https://e8bae17a.ngrok.io',
+    development: 'https://0d8ac515.ngrok.io',
     staging: 'https://duffy-addon-staging.azurewebsites.net',
     production: 'https://duffy-addon.azurewebsites.net'
   },
