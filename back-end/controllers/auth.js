@@ -71,3 +71,7 @@ exports.acquireTokenWithRefreshToken = refreshToken => {
     });
   });
 };
+
+exports.getUserDetails = async (req, res) => {
+  res.status(200).send({ success: true, data: req.user });
+};

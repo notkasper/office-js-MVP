@@ -17,6 +17,10 @@ export const oauth = callback => {
   request.get('/api/auth/url').end((error, response) => handleResponse(error, response, callback));
 };
 
+export const getUserDetails = callback => {
+  request.get('/api/auth/me').end((error, response) => handleResponse(error, response, callback));
+};
+
 /* PROFILES */
 export const createProfile = (profileData, callback) => {
   request
@@ -62,10 +66,6 @@ export const getGroetOpties = callback => {
 };
 
 /* OTHER */
-export const getUserDetails = callback => {
-  request.get('/api/getUserDetails').end((error, response) => handleResponse(error, response, callback));
-};
-
 export const getLetterTemplate = callback => {
-  request.get('/api/letterTemplate').end((error, response) => handleResponse(error, response, callback));
+  request.get('/api/other/letterTemplate').end((error, response) => handleResponse(error, response, callback));
 };
