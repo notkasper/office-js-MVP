@@ -1,14 +1,8 @@
-import React from "react";
-import { inject, observer } from "mobx-react";
-import {
-  DetailsList,
-  ShimmeredDetailsList,
-  ActionButton,
-  Text,
-  Stack
-} from "office-ui-fabric-react";
+import React from 'react';
+import { inject, observer } from 'mobx-react';
+import { DetailsList, ShimmeredDetailsList, ActionButton, Text, Stack } from 'office-ui-fabric-react';
 
-@inject("addonStore", "notificationStore")
+@inject('addonStore', 'notificationStore')
 @observer
 export default class Profiles extends React.Component {
   constructor(props) {
@@ -35,28 +29,28 @@ export default class Profiles extends React.Component {
 
   handleProfileDeleted = () => {
     const { notificationStore } = this.props;
-    notificationStore.setMessage("Profiel verwijderd", "message");
+    notificationStore.setMessage('Profiel verwijderd', 'message');
     this.loadProfiles();
   };
 
   handleProfileCreated = () => {
     const { notificationStore } = this.props;
-    notificationStore.setMessage("Profiel aangemaakt", "message");
+    notificationStore.setMessage('Profiel aangemaakt', 'message');
     this.loadProfiles();
   };
 
   handleProfileUpdated = () => {
     const { notificationStore } = this.props;
-    notificationStore.setMessage("Profiel ge-update", "message");
+    notificationStore.setMessage('Profiel ge-update', 'message');
     this.loadProfiles();
   };
 
   openProfileDialog = (action, item) => {
-    const height = 53;
+    const height = 45;
     const width = 40;
 
     let url = `${window.location.origin}?action=${action}`;
-    if (action === "view") {
+    if (action === 'view') {
       url += `&id=${item.id}`;
       url += `&formal_name=${item.formal_name}`;
       url += `&informal_name=${item.informal_name}`;
@@ -69,62 +63,47 @@ export default class Profiles extends React.Component {
       url += `&establishment=${item.establishment}`;
     }
     url += `&prevent_host_info_bug=${true}`; // Office appends a malformed query parameter, so add this non-functional parameter at the end so the other parameters do not get malformed
-    url += "#profile_form";
+    url += '#profile_form';
 
-    Office.context.ui.displayDialogAsync(
-      url,
-      { height, width, displayInIframe: true },
-      result => {
-        if (result.status !== "succeeded") {
-          console.error(
-            `Something went wrong while opening the dialog: ${JSON.stringify(
-              result
-            )}`
-          );
-          return;
-        }
-        const dialog = result.value;
-        dialog.addEventHandler(Office.EventType.DialogMessageReceived, arg => {
-          const { messageType } = JSON.parse(arg.message);
-          switch (messageType) {
-            case "profileDeleted":
-              dialog.close();
-              this.handleProfileDeleted();
-              break;
-            case "profileCreated":
-              dialog.close();
-              this.handleProfileCreated();
-              break;
-            case "profileUpdated":
-              this.handleProfileUpdated();
-              break;
-            case "close":
-              dialog.close();
-              break;
-            default:
-              console.error(
-                `Received unhandled message from dialog: ${messageType}`
-              );
-              break;
-          }
-        });
+    Office.context.ui.displayDialogAsync(url, { height, width, displayInIframe: true }, result => {
+      if (result.status !== 'succeeded') {
+        console.error(`Something went wrong while opening the dialog: ${JSON.stringify(result)}`);
+        return;
       }
-    );
+      const dialog = result.value;
+      dialog.addEventHandler(Office.EventType.DialogMessageReceived, arg => {
+        const { messageType } = JSON.parse(arg.message);
+        switch (messageType) {
+          case 'profileDeleted':
+            dialog.close();
+            this.handleProfileDeleted();
+            break;
+          case 'profileCreated':
+            dialog.close();
+            this.handleProfileCreated();
+            break;
+          case 'profileUpdated':
+            this.handleProfileUpdated();
+            break;
+          case 'close':
+            dialog.close();
+            break;
+          default:
+            console.error(`Received unhandled message from dialog: ${messageType}`);
+            break;
+        }
+      });
+    });
   };
 
   renderItemColumn = (item, index, column) => {
     const { fieldName } = column;
     switch (fieldName) {
-      case "formal_name":
+      case 'formal_name':
         return (
-          <Stack horizontal tokens={{ childrenGap: "9rem" }}>
-            <Text styles={{ root: { minWidth: "3.5rem" } }}>
-              {item.formal_name.substring(0, 20)}
-            </Text>
-            <ActionButton
-              iconProps={{ iconName: "ListMirrored" }}
-              onClick={() => this.openProfileDialog("view", item)}
-            >
+          <Stack horizontal tokens={{ childrenGap: '9rem' }}>
+            <Text styles={{ root: { minWidth: '3.5rem' } }}>{item.formal_name.substring(0, 20)}</Text>
+            <ActionButton iconProps={{ iconName: 'ListMirrored' }} onClick={() => this.openProfileDialog('view', item)}>
               Details
             </ActionButton>
           </Stack>
@@ -137,25 +116,18 @@ export default class Profiles extends React.Component {
     const { addonStore } = this.props;
     const profiles = addonStore.profiles;
     return (
-      <div style={{ padding: "0 .5rem" }}>
+      <div style={{ padding: '0 .5rem' }}>
         <Stack horizontal horizontalAlign="space-between">
-          <Text
-            styles={{ root: { marginTop: "10px", paddingLeft: ".3rem" } }}
-          >{`${profiles.length} ${
-            profiles.length === 1 ? "profiel" : "profielen"
+          <Text styles={{ root: { marginTop: '10px', paddingLeft: '.3rem' } }}>{`${profiles.length} ${
+            profiles.length === 1 ? 'profiel' : 'profielen'
           } gevonden`}</Text>
-          <ActionButton
-            iconProps={{ iconName: "AddFriend" }}
-            onClick={() => this.openProfileDialog("create")}
-          >
+          <ActionButton iconProps={{ iconName: 'AddFriend' }} onClick={() => this.openProfileDialog('create')}>
             Nieuw profiel
           </ActionButton>
         </Stack>
         <DetailsList
           items={profiles}
-          columns={[
-            { key: "profile", name: "Profielen", fieldName: "formal_name" }
-          ]}
+          columns={[{ key: 'profile', name: 'Profielen', fieldName: 'formal_name' }]}
           onRenderItemColumn={this.renderItemColumn}
           checkboxVisibility={2} // 2 = hidden
         />

@@ -57,7 +57,6 @@ export default class Form extends React.Component {
       action,
       whatsapp: '',
       working_days: '',
-      opening_hours: '',
       editing: false,
       showDeletePrompt: false,
       id,
@@ -176,7 +175,7 @@ export default class Form extends React.Component {
     const showHeaderButtons = action === 'view';
     return (
       <Stack horizontal horizontalAlign="space-between">
-        <Text variant="xLarge">Persoonlijke instellingen</Text>
+        <Text variant="xLarge">Profiel aanmaken</Text>
         {showHeaderButtons ? (
           <div>
             <ActionButton iconProps={{ iconName: 'Delete' }} onClick={this.showDeletePrompt}>
@@ -247,12 +246,6 @@ export default class Form extends React.Component {
           onChange={event => this.setState({ extra_text: event.target.value })}
           disabled={!enabled}
         />
-        <TextField
-          label="WhatsApp"
-          value={this.state.whatsapp}
-          onChange={event => this.setState({ whatsapp: event.target.value })}
-          disabled={!enabled}
-        />
       </Stack>
     );
   };
@@ -304,18 +297,6 @@ export default class Form extends React.Component {
           }))}
           disabled={!enabled}
         />
-        <TextField
-          label="Werkdagen"
-          value={this.state.working_days}
-          onChange={event => this.setState({ working_days: event.target.value })}
-          disabled={!enabled}
-        />
-        <TextField
-          label="Openingstijden"
-          value={this.state.opening_hours}
-          onChange={event => this.setState({ opening_hours: event.target.value })}
-          disabled={!enabled}
-        />
       </Stack>
     );
   };
@@ -329,7 +310,7 @@ export default class Form extends React.Component {
           <Stack.Item align="end">
             <Stack horizontal tokens={{ childrenGap: '8px' }}>
               {editing ? <PrimaryButton text="Aanpassingen opslaan" onClick={this.saveEdit} /> : null}
-              {action === 'create' ? <PrimaryButton text="Opslaan" onClick={this.createProfile} /> : null}
+              {action === 'create' ? <PrimaryButton text="Aanmaken" onClick={this.createProfile} /> : null}
               <DefaultButton text="Annuleren" onClick={this.closeDialog} styles={{ paddingLeft: '30px' }} />
             </Stack>
           </Stack.Item>
