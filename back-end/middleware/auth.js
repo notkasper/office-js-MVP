@@ -9,7 +9,7 @@ module.exports = asyncHandler(async (req, res, next) => {
   if (!accessToken && !refreshToken) {
     return new ErrorResponse(
       'Geen access token of refresh token meegestuurd. Autoriseer opnieuw of neem contact op met support.',
-      400
+      401
     );
   }
   if (!accessToken && refreshToken) {
