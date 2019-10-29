@@ -46,7 +46,7 @@ export default class Profiles extends React.Component {
   };
 
   openProfileDialog = (action, item) => {
-    const height = 45;
+    const height = 47;
     const width = 40;
 
     let url = `${window.location.origin}?action=${action}`;
