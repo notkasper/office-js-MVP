@@ -1,9 +1,14 @@
 import { observable, action } from 'mobx';
-import { getProfiles as getProfilesService, getAanheffen as getAanheffenService } from '../services/application';
+import {
+  getProfiles as getProfilesService,
+  getAanheffen as getAanheffenService,
+  getGroetOpties as getGroetOptiesService
+} from '../services/application';
 
 class LetterFormStore {
   @observable contacts = [];
   @observable aanheffen = [];
+  @observable groetOpties = [];
 
   @action getProfiles = (callback = () => {}) => {
     getProfilesService((error, response) => {
@@ -29,12 +34,17 @@ class LetterFormStore {
     });
   };
 
-  @observable greetings = [
-    { key: 'mvg', text: 'Met vriendelijke groet' },
-    { key: 'mvgn', text: 'Met vriendelijke groeten' },
-    { key: 'informal', text: 'Hartelijke groet' },
-    { key: 'formal', text: 'Hoogachtend' }
-  ];
+  @action getGroetOpties = (callback = () => {}) => {
+    getGroetOptiesService((error, response) => {
+      if (error) {
+        console.error(error);
+        callback(error, response);
+        return;
+      }
+      this.groetOpties = response.body.data;
+      callback(error, response);
+    });
+  };
 }
 
 const letterFormStore = new LetterFormStore();

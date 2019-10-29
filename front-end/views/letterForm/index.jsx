@@ -1,16 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import {
-  Stack,
-  Dropdown,
-  TextField,
-  Icon,
-  Separator,
-  DatePicker,
-  Text,
-  DefaultButton,
-  PrimaryButton
-} from 'office-ui-fabric-react';
+import { Stack, Dropdown, TextField, Icon, Separator, DatePicker, Text, DefaultButton, PrimaryButton } from 'office-ui-fabric-react';
 
 @inject('letterFormStore')
 @observer
@@ -23,7 +13,7 @@ export default class Form extends React.Component {
       aanhef: null,
       voornaam: '',
       achternaam: '',
-      groetregel: '',
+      groetOptie: '',
       postcode: '',
       straatnaam: '',
       huisnummer: null,
@@ -35,6 +25,7 @@ export default class Form extends React.Component {
     const { letterFormStore } = this.props;
     letterFormStore.getProfiles();
     letterFormStore.getAanheffen();
+    letterFormStore.getGroetOpties();
   }
 
   textFieldOnChange = event => {
@@ -62,7 +53,7 @@ export default class Form extends React.Component {
       aanhef: letterFormStore.aanheffen.find(aanhef => aanhef.id === this.state.aanhef).name,
       voornaam: this.state.voornaam,
       achternaam: this.state.achternaam,
-      groetregel: this.state.groetregel,
+      groetOptie: letterFormStore.groetOpties.find(groetOptie => groetOptie.id === this.state.groetOptie).name,
       postcode: this.state.postcode,
       straatnaam: this.state.straatnaam,
       huisnummer: this.state.huisnummer,
@@ -107,13 +98,7 @@ export default class Form extends React.Component {
             styles={{ root: { width: '50%' } }}
           />
         </Stack>
-        <DatePicker
-          value={this.state.datum}
-          placeholder="Selecteer datum"
-          label="Datum"
-          id="datum"
-          onSelectDate={this.dateOnSelect}
-        />
+        <DatePicker value={this.state.datum} placeholder="Selecteer datum" label="Datum" id="datum" onSelectDate={this.dateOnSelect} />
         <Stack horizontal tokens={{ childrenGap: '1em' }}>
           <Dropdown
             label="Aanhef"
@@ -143,9 +128,12 @@ export default class Form extends React.Component {
         </Stack>
         <Dropdown
           label="Groetregel"
-          id="groetregel"
-          placeholder={this.state.groetregel}
-          options={letterFormStore.greetings}
+          id="groetOptie"
+          placeholder="Selecteer groet optie"
+          options={letterFormStore.groetOpties.map(groetOptie => ({
+            key: groetOptie.id,
+            text: groetOptie.name
+          }))}
           onChange={this.dropDownOnChange}
         />
         <Dropdown

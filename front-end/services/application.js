@@ -39,6 +39,10 @@ export const getAanheffen = callback => {
   request.get('/api/aanheffen').end((error, response) => handleResponse(error, response, callback));
 };
 
+export const getGroetOpties = callback => {
+  request.get('/api/groetOpties').end((error, response) => handleResponse(error, response, callback));
+};
+
 export const getLetterTemplate = callback => {
   request.get('/api/letterTemplate').end((error, response) => handleResponse(error, response, callback));
 };
