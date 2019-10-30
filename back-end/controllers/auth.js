@@ -1,6 +1,5 @@
 const { AuthenticationContext } = require('adal-node');
 const crypto = require('crypto');
-const { getRedirectBaseUrl, getAppBaseUrl } = require('../../utils');
 
 const config = {
   tenant: '0abccceb-93ba-4767-9038-76722263a6ee',
@@ -10,7 +9,7 @@ const config = {
 };
 
 const authorityUrl = `${config.authorityHostUrl}/${config.tenant}`;
-const redirectUri = `${getRedirectBaseUrl()}/api/auth/token`;
+const redirectUri = `${process.env.REDIRECT_BASE_URL}/api/auth/token`;
 const resource = 'https://graph.microsoft.com/';
 
 const templateAuthzUrl = `https://login.windows.net/${config.tenant}/oauth2/authorize?response_type=code&client_id=<client_id>&redirect_uri=<redirect_uri>&state=<state>&resource=<resource>`;
@@ -53,7 +52,7 @@ exports.acquireTokenWithAuthorizationCode = (req, res) => {
         return;
       }
       const { accessToken, refreshToken, expiresIn } = response;
-      res.redirect(`${getAppBaseUrl()}#authorized/${accessToken}/${refreshToken}/${expiresIn}`);
+      res.redirect(`${process.env.APP_BASE_URL}#authorized/${accessToken}/${refreshToken}/${expiresIn}`);
     }
   );
 };

@@ -1,10 +1,15 @@
+if (!process.env.NODE_ENV) {
+  // If the NODE_ENV is not defined, we assume we are running in development mode, so we will need to use dotenv
+  // In staging and production the environment variables are defined in azure itself
+  require('dotenv').config();
+}
 const https = require('https');
 const http = require('http');
 const Umzug = require('umzug');
 const path = require('path');
 const db = require('./db');
 const app = require('./app');
-const { getSslCert, getSslKey, getEnv } = require('../utils');
+const { getSslCert, getSslKey } = require('../utils');
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
@@ -44,7 +49,6 @@ const onListening = server => {
 };
 
 const start = async () => {
-  const env = getEnv();
   const connection = await db.connect();
   // Run pending migrations
   const umzug = new Umzug({
@@ -67,7 +71,7 @@ const start = async () => {
   app.set('port', port);
 
   let server;
-  if (env === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     /* Https on localhost using office-dev-certs */
     server = https.createServer({ key: getSslKey(), cert: getSslCert() }, app);
   } else {

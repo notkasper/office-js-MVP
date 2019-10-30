@@ -6,9 +6,9 @@ let sequelize;
 
 const connect = async (force = false) => {
   try {
-    sequelize = new Sequelize(getDatabaseName(), getDatabaseUser(), getDatabasePassword(), {
-      host: getDatabaseUrl(),
-      port: getDatabasePort(),
+    sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
+      host: process.env.DATABASE_URL,
+      port: process.env.DATABASE_PORT,
       dialect: 'mssql',
       logging: false,
       dialectOptions: {
