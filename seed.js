@@ -5,7 +5,7 @@ const db = require('./back-end/db');
 
 const seed = async () => {
   try {
-    const connection = db.getConnection();
+    const connection = await db.connect();
 
     const establishments = JSON.parse(fs.readFileSync(path.join(__dirname, './_data/establishments.json')));
     const departments = JSON.parse(fs.readFileSync(path.join(__dirname, './_data/departments.json')));
@@ -40,4 +40,4 @@ const seed = async () => {
   }
 };
 
-module.exports = seed;
+seed();
