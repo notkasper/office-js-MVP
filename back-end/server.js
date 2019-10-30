@@ -1,8 +1,10 @@
-const https = require("https");
-const http = require("http");
-const db = require("./db");
-const app = require("./app");
-const { getSslCert, getSslKey, getEnv } = require("../utils");
+const https = require('https');
+const http = require('http');
+const Umzug = require('umzug');
+const path = require('path');
+const db = require('./db');
+const app = require('./app');
+const { getSslCert, getSslKey, getEnv } = require('../utils');
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
@@ -16,17 +18,17 @@ const normalizePort = val => {
 };
 
 const onError = error => {
-  if (error.syscall !== "listen") {
+  if (error.syscall !== 'listen') {
     throw error;
   }
 
-  const bind = typeof port === "string" ? `Pipe: ${port}` : `Port: ${port}`;
+  const bind = typeof port === 'string' ? `Pipe: ${port}` : `Port: ${port}`;
   switch (error.code) {
-    case "EACCES":
+    case 'EACCES':
       console.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
-    case "EADDRINUSE":
+    case 'EADDRINUSE':
       console.error(`${bind} is already in use`);
       process.exit(1);
       break;
@@ -37,26 +39,45 @@ const onError = error => {
 
 const onListening = server => {
   const addr = server.address();
-  const bind =
-    typeof addr === "string" ? `pipe: ${addr}` : `port: ${addr.port}`;
+  const bind = typeof addr === 'string' ? `pipe: ${addr}` : `port: ${addr.port}`;
   console.log(`Listening on: ${bind}`);
 };
 
-const port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
+const start = async () => {
+  const env = getEnv();
+  const connection = await db.connect();
+  // Run pending migrations
+  const umzug = new Umzug({
+    storage: 'sequelize',
+    storageOptions: {
+      sequelize: connection
+    },
+    migrations: {
+      params: [
+        connection.getQueryInterface(), // queryInterface
+        connection.constructor // DataTypes
+      ],
+      path: path.join(__dirname, './migrations'),
+      pattern: /\.js$/
+    }
+  });
+  await umzug.up();
 
-let server;
-const env = getEnv();
-if (env === "development") {
-  /* Https on localhost using office-dev-certs */
-  server = https.createServer({ key: getSslKey(), cert: getSslCert() }, app);
-} else {
-  /* Azure takes care of https on production, so this can run on http */
-  server = http.createServer(app);
-}
+  const port = normalizePort(process.env.PORT || '3000');
+  app.set('port', port);
 
-db.connect();
+  let server;
+  if (env === 'development') {
+    /* Https on localhost using office-dev-certs */
+    server = https.createServer({ key: getSslKey(), cert: getSslCert() }, app);
+  } else {
+    /* Azure takes care of https on production, so this can run on http */
+    server = http.createServer(app);
+  }
 
-server.listen(port);
-server.on("error", onError);
-server.on("listening", () => onListening(server));
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', () => onListening(server));
+};
+
+start();
