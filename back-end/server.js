@@ -1,7 +1,7 @@
 if (!process.env.NODE_ENV) {
   // If the NODE_ENV is not defined, we assume we are running in development mode, so we will need to use dotenv
   // In staging and production the environment variables are defined in azure itself
-  require('dotenv').config();
+  require('dotenv').config({ path: '.dev.env' });
 }
 const https = require('https');
 const http = require('http');
