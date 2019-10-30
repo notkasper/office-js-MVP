@@ -60,7 +60,12 @@ export default class Form extends React.Component {
       editing: false,
       showDeletePrompt: false,
       id,
-      originalProperties
+      originalProperties,
+      fieldErrors: {
+        phoneNumber: '',
+        email: '',
+        privatePhoneNumber: ''
+      }
     };
   }
 
@@ -74,6 +79,8 @@ export default class Form extends React.Component {
   enableEditing = () => {
     this.setState({ editing: true });
   };
+
+  isFormValid = () => !Object.values(this.state.fieldErrors).find(value => value.length);
 
   saveEdit = () => {
     const { profileFormStore } = this.props;
@@ -232,36 +239,39 @@ export default class Form extends React.Component {
         <TextField
           label="Persoonlijk telefoonnummer (10 cijfers)"
           value={this.state.phone_number}
-          onChange={event => this.setState({ phone_number: event.target.value })}
+          onChange={event => {
+            const value = event.target.value;
+            const isNumbers = /^\d+$/.test(value);
+            let error = '';
+            if (value.length && !isNumbers) {
+              error = 'Telefoon nummer mag alleen nummer bevatten.';
+            } else if (value.length && value.length !== 10) {
+              error = 'Telefoon nummer moet 10 cijfers bevatten.';
+            }
+            this.setState({ phone_number: value, fieldErrors: { ...this.state.fieldErrors, phoneNumber: error } });
+          }}
           disabled={!enabled}
           required
-          onGetErrorMessage={value => {
-            const isNumbers = /^\d+$/.test(value);
-            if (value.length && !isNumbers) {
-              return 'Telefoon nummer mag alleen nummer bevatten.';
-            }
-            if (value.length && value.length !== 10) {
-              return 'Telefoon nummer moet 10 cijfers bevatten.';
-            }
-            return '';
-          }}
+          errorMessage={this.state.fieldErrors.phoneNumber}
         />
         <TextField
           label="Persoonlijk mobielnummer (10 cijfers)"
           value={this.state.mobile_number}
           onChange={event => this.setState({ mobile_number: event.target.value })}
+          onChange={event => {
+            const value = event.target.value;
+            const isNumbers = /^\d+$/.test(value);
+            let error = '';
+            if (value.length && !isNumbers) {
+              error = 'Telefoon nummer mag alleen nummer bevatten.';
+            } else if (value.length && value.length !== 10) {
+              error = 'Telefoon nummer moet 10 cijfers bevatten.';
+            }
+            this.setState({ mobile_number: value, fieldErrors: { ...this.state.fieldErrors, privatePhoneNumber: error } });
+          }}
           disabled={!enabled}
           required
-          onGetErrorMessage={value => {
-            const isNumbers = /^\d+$/.test(value);
-            if (value.length && !isNumbers) {
-              return 'Telefoon nummer mag alleen nummer bevatten.';
-            }
-            if (value.length && value.length !== 10) {
-              return 'Telefoon nummer moet 10 cijfers bevatten.';
-            }
-            return '';
-          }}
+          errorMessage={this.state.fieldErrors.privatePhoneNumber}
         />
         <TextField
           label="Extra tekst (bijv. Vragen?)"
@@ -281,6 +291,14 @@ export default class Form extends React.Component {
           label="Persoonlijk e-mailadres"
           value={this.state.email}
           onChange={event => this.setState({ email: event.target.value })}
+          onChange={event => {
+            const value = event.target.value;
+            const isFormattedCorrectly = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+              value
+            );
+            const error = value.length && !isFormattedCorrectly ? 'e-mailadres heeft geen correct formaat.' : '';
+            this.setState({ email: value, fieldErrors: { ...this.state.fieldErrors, email: error } });
+          }}
           disabled={!enabled}
           required
           onGetErrorMessage={value => {
@@ -342,8 +360,8 @@ export default class Form extends React.Component {
         <Stack>
           <Stack.Item align="end">
             <Stack horizontal tokens={{ childrenGap: '8px' }}>
-              {editing ? <PrimaryButton text="Aanpassingen opslaan" onClick={this.saveEdit} /> : null}
-              {action === 'create' ? <PrimaryButton text="Aanmaken" onClick={this.createProfile} /> : null}
+              {editing ? <PrimaryButton text="Aanpassingen opslaan" onClick={this.saveEdit} disabled={!this.isFormValid()} /> : null}
+              {action === 'create' ? <PrimaryButton text="Aanmaken" onClick={this.createProfile} disabled={!this.isFormValid()} /> : null}
               <DefaultButton text="Annuleren" onClick={this.closeDialog} styles={{ paddingLeft: '30px' }} />
             </Stack>
           </Stack.Item>
