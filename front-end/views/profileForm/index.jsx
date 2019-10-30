@@ -216,29 +216,52 @@ export default class Form extends React.Component {
       <Stack vertical tokens={{ childrenGap: 5, padding: 5 }} styles={{ root: { width: '50%' } }}>
         <TextField
           label="Naam (formeel)"
-          required
           value={this.state.formal_name}
           onChange={event => this.setState({ formal_name: event.target.value })}
           disabled={!enabled}
           styles={{ root: { minWidth: '15rem' } }}
+          required
         />
         <TextField
           label="Naam (informeel)"
           value={this.state.informal_name}
           onChange={event => this.setState({ informal_name: event.target.value })}
           disabled={!enabled}
+          required
         />
         <TextField
           label="Persoonlijk telefoonnummer (10 cijfers)"
           value={this.state.phone_number}
           onChange={event => this.setState({ phone_number: event.target.value })}
           disabled={!enabled}
+          required
+          onGetErrorMessage={value => {
+            const isNumbers = /^\d+$/.test(value);
+            if (value.length && !isNumbers) {
+              return 'Telefoon nummer mag alleen nummer bevatten.';
+            }
+            if (value.length && value.length !== 10) {
+              return 'Telefoon nummer moet 10 cijfers bevatten.';
+            }
+            return '';
+          }}
         />
         <TextField
           label="Persoonlijk mobielnummer (10 cijfers)"
           value={this.state.mobile_number}
           onChange={event => this.setState({ mobile_number: event.target.value })}
           disabled={!enabled}
+          required
+          onGetErrorMessage={value => {
+            const isNumbers = /^\d+$/.test(value);
+            if (value.length && !isNumbers) {
+              return 'Telefoon nummer mag alleen nummer bevatten.';
+            }
+            if (value.length && value.length !== 10) {
+              return 'Telefoon nummer moet 10 cijfers bevatten.';
+            }
+            return '';
+          }}
         />
         <TextField
           label="Extra tekst (bijv. Vragen?)"
@@ -259,6 +282,13 @@ export default class Form extends React.Component {
           value={this.state.email}
           onChange={event => this.setState({ email: event.target.value })}
           disabled={!enabled}
+          required
+          onGetErrorMessage={value => {
+            const isFormattedCorrectly = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+              value
+            );
+            return value.length && !isFormattedCorrectly ? 'e-mailadres heeft geen correct formaat.' : '';
+          }}
         />
         <Dropdown
           placeholder="Selecteer een optie"
@@ -272,6 +302,7 @@ export default class Form extends React.Component {
             text: workFunction.name
           }))}
           disabled={!enabled}
+          required
         />
         <Dropdown
           placeholder="Selecteer een optie"
@@ -285,6 +316,7 @@ export default class Form extends React.Component {
             text: department.name
           }))}
           disabled={!enabled}
+          required
         />
         <Dropdown
           placeholder="Selecteer een optie"
@@ -296,6 +328,7 @@ export default class Form extends React.Component {
             text: establishment.name
           }))}
           disabled={!enabled}
+          required
         />
       </Stack>
     );
