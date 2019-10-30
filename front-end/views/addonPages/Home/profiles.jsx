@@ -1,6 +1,14 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { DetailsList, ShimmeredDetailsList, ActionButton, Text, Stack } from 'office-ui-fabric-react';
+import {
+  DetailsList,
+  ShimmeredDetailsList,
+  ActionButton,
+  Text,
+  Stack,
+  Spinner,
+  SpinnerSize
+} from 'office-ui-fabric-react';
 
 @inject('addonStore', 'notificationStore')
 @observer
@@ -113,6 +121,7 @@ export default class Profiles extends React.Component {
   };
 
   renderProfiles = () => {
+    const { loading } = this.state;
     const { addonStore } = this.props;
     const profiles = addonStore.profiles;
     return (
@@ -131,16 +140,16 @@ export default class Profiles extends React.Component {
           onRenderItemColumn={this.renderItemColumn}
           checkboxVisibility={2} // 2 = hidden
         />
+        {loading ? this.renderLoading() : null}
       </div>
     );
   };
 
   renderLoading = () => {
-    return <ShimmeredDetailsList items={[]} />;
+    return <Spinner size={SpinnerSize.large} styles={{ root: { marginTop: '.5rem' } }} />;
   };
 
   render() {
-    const { loading } = this.state;
-    return loading ? this.renderLoading() : this.renderProfiles();
+    return this.renderProfiles();
   }
 }
