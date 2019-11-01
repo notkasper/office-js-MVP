@@ -25,7 +25,7 @@ const createAuthorizationUrl = state => {
 exports.getAuthorizationUrl = (req, res) => {
   crypto.randomBytes(48, async (error, buffer) => {
     if (error) {
-      return next(new ErrorResponse('Could not generate authorization url', 500));
+      return next(error);
     }
     const token = buffer
       .toString('base64')
@@ -37,7 +37,7 @@ exports.getAuthorizationUrl = (req, res) => {
   });
 };
 
-exports.acquireTokenWithAuthorizationCode = (req, res) => {
+exports.acquireTokenWithAuthorizationCode = (req, res, next) => {
   const authenticationContext = new AuthenticationContext(authorityUrl);
   authenticationContext.acquireTokenWithAuthorizationCode(
     req.query.code,
@@ -47,9 +47,7 @@ exports.acquireTokenWithAuthorizationCode = (req, res) => {
     config.clientSecret,
     (error, response) => {
       if (error) {
-        const message = `Error: ${error.message}\nresponse: ${JSON.stringify(response)}`;
-        res.status(500).send(message);
-        return;
+        return next(error);
       }
       const { accessToken, refreshToken, expiresIn } = response;
       res.redirect(`${process.env.APP_BASE_URL}#authorized/${accessToken}/${refreshToken}/${expiresIn}`);
@@ -60,14 +58,18 @@ exports.acquireTokenWithAuthorizationCode = (req, res) => {
 exports.acquireTokenWithRefreshToken = refreshToken => {
   return new Promise((resolve, reject) => {
     const authenticationContext = new AuthenticationContext(authorityUrl);
-    authenticationContext.acquireTokenWithRefreshToken(refreshToken, config.clientId, config.clientSecret, resource, (error, response) => {
-      if (error) {
-        console.error(`Error while refreshing token: ${error}\nresponse: ${response}`);
-        reject(error);
-        return;
+    authenticationContext.acquireTokenWithRefreshToken(
+      refreshToken,
+      config.clientId,
+      config.clientSecret,
+      resource,
+      (error, response) => {
+        if (error) {
+          return reject(error);
+        }
+        resolve(response);
       }
-      resolve(response);
-    });
+    );
   });
 };
 
