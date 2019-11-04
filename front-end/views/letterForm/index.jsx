@@ -50,10 +50,10 @@ export default class Form extends React.Component {
     const data = {
       datum: this.state.datum,
       contactpersoon: this.state.contactpersoon,
-      aanhef: letterFormStore.aanhefs.find(aanhef => aanhef.id === this.state.aanhef).name,
+      aanhef: (letterFormStore.aanhefs.find(aanhef => aanhef.id === this.state.aanhef) || {}).name,
       voornaam: this.state.voornaam,
       achternaam: this.state.achternaam,
-      groetOptie: letterFormStore.groetOpties.find(groetOptie => groetOptie.id === this.state.groetOptie).name,
+      groetOptie: (letterFormStore.groetOpties.find(groetOptie => groetOptie.id === this.state.groetOptie) || {}).name,
       postcode: this.state.postcode,
       straatnaam: this.state.straatnaam,
       huisnummer: this.state.huisnummer,

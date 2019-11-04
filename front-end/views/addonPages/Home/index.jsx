@@ -24,14 +24,20 @@ export default class Home extends React.Component {
       if (error) {
         return;
       }
-      const letterTemplateBase64 = response.text;
+      const letterTemplateBase64 = response.body.data;
       Word.run(async context => {
         // define utility function
         const fillFieldWith = async (contentControlName, value, position = 'replace') => {
           const contentControls = context.document.contentControls;
+          contentControls.load('items');
+          await context.sync();
+          console.log(contentControls);
           const taggedCcs = contentControls.getByTag(contentControlName);
           taggedCcs.load('items');
           await context.sync();
+          if (!taggedCcs.items.length) {
+            throw new Error(`No content control found with tag ${contentControlName}`);
+          }
           for (const cc of taggedCcs.items) {
             cc.insertText(value, position);
             await context.sync();
@@ -41,22 +47,11 @@ export default class Home extends React.Component {
         context.document.body.clear();
         context.document.body.insertFileFromBase64(letterTemplateBase64, 'start');
         await context.sync();
-        await fillFieldWith('straat-afzender', data.straatnaam);
-        await fillFieldWith('huisnummer', data.huisnummer.toString());
-        await fillFieldWith('postcode-afzender', data.postcode);
-        await fillFieldWith('datum', data.datum.toString().substring(0, 10));
-        await fillFieldWith('aanhef-voornam', data.voornaam);
-        await fillFieldWith('aanhef-achternaam', data.achternaam);
-        await fillFieldWith('straat-aanhef', data.straatnaam);
-        await fillFieldWith('huisnummer-aanhef', data.huisnummer);
-        await fillFieldWith('postcode-aanhef', `${data.postcode}, ${data.plaatsnaam}`);
-        await fillFieldWith('groet1', data.aanhef);
-        await fillFieldWith('aanhef-achternaam', data.achternaam);
-        await fillFieldWith(
-          'inhoud',
-          "Lorem Ipsum is slechts een proeftekst uit het drukkerij- en zetterijwezen. Lorem Ipsum is de standaard proeftekst in deze bedrijfstak sinds de 16e eeuw, toen een onbekende drukker een zethaak met letters nam en ze door elkaar husselde om een font-catalogus te maken. Het heeft niet alleen vijf eeuwen overleefd maar is ook, vrijwel onveranderd, overgenomen in elektronische letterzetting. Het is in de jaren '60 populair geworden met de introductie van Letraset vellen met Lorem Ipsum passages en meer recentelijk door desktop publishing software zoals Aldus PageMaker die versies van Lorem Ipsum bevatten."
-        );
-        await fillFieldWith('groet', data.groetOptie);
+        // await fillFieldWith('Voer datum in:', data.datum.toString().substring(0, 10));
+        // await fillFieldWith('Voer naam van ontvanger in:', `${data.voornaam} ${data.achternaam}`);
+        // await fillFieldWith('Met vriendelijke groet,', data.groetOptie);
+        await fillFieldWith('Voer telefoonnummer in:', '23428479234');
+        // await fillFieldWith('Voer adres, postcode en plaats in:', 'choncker cow');
         dialog.close();
       });
     });
