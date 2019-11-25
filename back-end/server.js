@@ -1,5 +1,5 @@
-if (!process.env.NODE_ENV) {
-  // If the NODE_ENV is not defined, we assume we are running in development mode, so we will need to use dotenv
+if (process.env.ENV === 'development') {
+  // If the NODE_ENV is equal to development we will need to use dotenv
   // In staging and production the environment variables are defined in azure itself
   require('dotenv').config({ path: '.dev.env' });
 }
@@ -45,7 +45,7 @@ const onError = error => {
 const onListening = server => {
   const addr = server.address();
   const bind = typeof addr === 'string' ? `pipe: ${addr}` : `port: ${addr.port}`;
-  console.log(`Listening on: ${bind} with env: ${process.env}`);
+  console.log(`Listening on: ${bind}`);
 };
 
 const start = async () => {
@@ -71,7 +71,7 @@ const start = async () => {
   app.set('port', port);
 
   let server;
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.ENV === 'development') {
     /* Https on localhost using office-dev-certs */
     server = https.createServer({ key: getSslKey(), cert: getSslCert() }, app);
   } else {
