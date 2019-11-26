@@ -12,7 +12,7 @@ export default class Home extends React.Component {
     addonStore.getUserDetails();
   }
 
-  generateLetter = (dialog, data) => {
+  generateLetter = async (dialog, data) => {
     const { addonStore } = this.props;
     Object.keys(data).forEach(key => {
       if (!data[key]) {
@@ -20,39 +20,42 @@ export default class Home extends React.Component {
       }
     });
     console.log(data);
-    addonStore.generateLetter((error, response) => {
-      if (error) {
-        return;
-      }
-      const letterTemplateBase64 = response.body.data;
-      Word.run(async context => {
-        // define utility function
-        const fillFieldWith = async (contentControlName, value, position = "replace") => {
-          const contentControls = context.document.contentControls;
-          contentControls.load("items");
-          await context.sync();
-          console.log(contentControls);
-          const taggedCcs = contentControls.getByTag(contentControlName);
-          taggedCcs.load("items");
-          await context.sync();
-          if (!taggedCcs.items.length) {
-            throw new Error(`No content control found with tag ${contentControlName}`);
-          }
-          for (const cc of taggedCcs.items) {
-            cc.insertText(value, position);
+    addonStore.getProfiles((error, response) => {
+      const profile = addonStore.getProfile(data.contactpersoon);
+      addonStore.generateLetter((error, response) => {
+        if (error) {
+          return;
+        }
+        const letterTemplateBase64 = response.body.data;
+        Word.run(async context => {
+          // define utility function
+          const fillFieldWith = async (contentControlName, value, position = "replace") => {
+            const contentControls = context.document.contentControls;
+            contentControls.load("items");
             await context.sync();
-          }
-        };
+            const taggedCcs = contentControls.getByTag(contentControlName);
+            taggedCcs.load("items");
+            await context.sync();
+            if (!taggedCcs.items.length) {
+              throw new Error(`No content control found with tag ${contentControlName}`);
+            }
+            for (const cc of taggedCcs.items) {
+              cc.insertText(value, position);
+              await context.sync();
+            }
+          };
 
-        context.document.body.clear();
-        context.document.body.insertFileFromBase64(letterTemplateBase64, "start");
-        await context.sync();
-        // await fillFieldWith('Voer datum in:', data.datum.toString().substring(0, 10));
-        // await fillFieldWith('Voer naam van ontvanger in:', `${data.voornaam} ${data.achternaam}`);
-        // await fillFieldWith('Met vriendelijke groet,', data.groetOptie);
-        await fillFieldWith("Voer telefoonnummer in:", "23428479234");
-        // await fillFieldWith('Voer adres, postcode en plaats in:', 'choncker cow');
-        dialog.close();
+          context.document.body.clear();
+          context.document.body.insertFileFromBase64(letterTemplateBase64, "start");
+          await context.sync();
+          await fillFieldWith("straat_straatnummer", `${data.straatnaam} ${data.huisnummer}`);
+          await fillFieldWith("postcode_plaatsnaam", `${data.postcode} ${data.plaatsnaam}`);
+          await fillFieldWith("datum", data.datum.substring(0, 10));
+          await fillFieldWith("aanhef_naam", `${data.aanhef} ${data.voornaam} ${data.achternaam},`);
+          await fillFieldWith("groetregel", data.groetOptie);
+          await fillFieldWith("naam-ondertekenaar", profile.formal_name);
+          dialog.close();
+        });
       });
     });
   };
