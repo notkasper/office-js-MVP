@@ -1,6 +1,6 @@
-const uuidv4 = require('uuid/v4');
-const { getConnection } = require('../db');
-const asyncHandler = require('../middleware/async');
+const uuidv4 = require("uuid/v4");
+const { getConnection } = require("../db");
+const asyncHandler = require("../middleware/async");
 
 exports.getProfiles = asyncHandler(async (req, res) => {
   const profiles = await getConnection().models.profile.findAll({
@@ -14,14 +14,22 @@ exports.getProfiles = asyncHandler(async (req, res) => {
 
 exports.createProfile = asyncHandler(async (req, res) => {
   const id = uuidv4();
-  const { formal_name, informal_name, phone_number, mobile_number, email, work_function, department, establishment, extra_text } = req.body;
+  const {
+    formal_name,
+    informal_name,
+    phone_number,
+    email,
+    work_function,
+    department,
+    establishment,
+    extra_text
+  } = req.body;
   const profile = await getConnection().models.profile.create({
     id,
     creator: req.user.id,
     formal_name,
     informal_name,
     phone_number,
-    mobile_number,
     email,
     work_function,
     department,
@@ -33,7 +41,16 @@ exports.createProfile = asyncHandler(async (req, res) => {
 });
 
 exports.updateProfile = asyncHandler(async (req, res) => {
-  const { formal_name, informal_name, phone_number, mobile_number, email, work_function, department, establishment, extra_text } = req.body;
+  const {
+    formal_name,
+    informal_name,
+    phone_number,
+    email,
+    work_function,
+    department,
+    establishment,
+    extra_text
+  } = req.body;
   let profile = await getConnection().models.profile.findOne({
     where: {
       id: req.params.id,
@@ -41,13 +58,12 @@ exports.updateProfile = asyncHandler(async (req, res) => {
     }
   });
   if (!profile) {
-    return new ErrorResponse('Profile not found', 404);
+    return new ErrorResponse("Profile not found", 404);
   }
   profile = await profile.update({
     formal_name,
     informal_name,
-    phone_number,
-    mobile_number,
+    phone_number: phone_number,
     email,
     work_function,
     department,

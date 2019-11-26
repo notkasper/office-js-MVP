@@ -1,6 +1,6 @@
-require('dotenv').config({ path: '.dev.env' });
-require('colors');
-const Sequelize = require('sequelize');
+require("dotenv").config({ path: ".dev.env" });
+require("colors");
+const Sequelize = require("sequelize");
 
 let sequelize;
 
@@ -8,7 +8,7 @@ const connect = async (force = false) => {
   sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
     host: process.env.DATABASE_URL,
     port: process.env.DATABASE_PORT,
-    dialect: 'mssql',
+    dialect: "mssql",
     logging: false,
     dialectOptions: {
       options: {
@@ -19,7 +19,7 @@ const connect = async (force = false) => {
   await sequelize.authenticate();
 
   // define models
-  const Profile = sequelize.define('profile', {
+  const Profile = sequelize.define("profile", {
     id: {
       type: Sequelize.UUID,
       primaryKey: true
@@ -36,7 +36,7 @@ const connect = async (force = false) => {
     extra_text: Sequelize.STRING
   });
 
-  const Establishment = sequelize.define('establishments', {
+  const Establishment = sequelize.define("establishments", {
     id: {
       type: Sequelize.UUID,
       primaryKey: true
@@ -44,7 +44,7 @@ const connect = async (force = false) => {
     name: Sequelize.STRING
   });
 
-  const Department = sequelize.define('departments', {
+  const Department = sequelize.define("departments", {
     id: {
       type: Sequelize.UUID,
       primaryKey: true
@@ -52,7 +52,7 @@ const connect = async (force = false) => {
     name: Sequelize.STRING
   });
 
-  const WorkFunctions = sequelize.define('workFunctions', {
+  const WorkFunctions = sequelize.define("workFunctions", {
     id: {
       type: Sequelize.UUID,
       primaryKey: true
@@ -60,7 +60,7 @@ const connect = async (force = false) => {
     name: Sequelize.STRING
   });
 
-  const Aanhefs = sequelize.define('aanhefs', {
+  const Aanhefs = sequelize.define("aanhefs", {
     id: {
       type: Sequelize.UUID,
       primaryKey: true
@@ -68,7 +68,7 @@ const connect = async (force = false) => {
     name: Sequelize.STRING
   });
 
-  const GroetOpties = sequelize.define('groetOpties', {
+  const GroetOpties = sequelize.define("groetOpties", {
     id: {
       type: Sequelize.UUID,
       primaryKey: true
@@ -83,7 +83,7 @@ const connect = async (force = false) => {
   await WorkFunctions.sync({ force });
   await Aanhefs.sync({ force });
   await GroetOpties.sync({ force });
-  console.log('Connected to database'.green.bold);
+  console.log("Connected to database".green.bold);
   return sequelize;
 };
 
