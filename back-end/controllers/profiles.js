@@ -1,6 +1,7 @@
 const uuidv4 = require("uuid/v4");
 const { getConnection } = require("../db");
 const asyncHandler = require("../middleware/async");
+const ErrorResponse = require("../utils/errorResponse");
 
 exports.getProfiles = asyncHandler(async (req, res) => {
   const profiles = await getConnection().models.profile.findAll({
