@@ -1,5 +1,5 @@
-import React from 'react';
-import { inject, observer } from 'mobx-react';
+import React from "react";
+import { inject, observer } from "mobx-react";
 import {
   Text,
   Stack,
@@ -11,10 +11,10 @@ import {
   DialogFooter,
   DefaultButton,
   Separator
-} from 'office-ui-fabric-react';
-import queryString from 'query-string';
+} from "office-ui-fabric-react";
+import queryString from "query-string";
 
-@inject('profileFormStore')
+@inject("profileFormStore")
 @observer
 export default class Form extends React.Component {
   constructor(props) {
@@ -55,16 +55,16 @@ export default class Form extends React.Component {
       establishment,
       extra_text,
       action,
-      whatsapp: '',
-      working_days: '',
+      whatsapp: "",
+      working_days: "",
       editing: false,
       showDeletePrompt: false,
       id,
       originalProperties,
       fieldErrors: {
-        phoneNumber: '',
-        email: '',
-        privatePhoneNumber: ''
+        phoneNumber: "",
+        email: "",
+        privatePhoneNumber: ""
       }
     };
   }
@@ -115,7 +115,7 @@ export default class Form extends React.Component {
       if (error) {
         return;
       }
-      Office.context.ui.messageParent(JSON.stringify({ messageType: 'profileUpdated' }));
+      Office.context.ui.messageParent(JSON.stringify({ messageType: "profileUpdated" }));
     });
   };
 
@@ -133,7 +133,7 @@ export default class Form extends React.Component {
     const { id } = this.state;
     profileFormStore.deleteProfile(id, (error, response) => {
       this.closePrompt();
-      Office.context.ui.messageParent(JSON.stringify({ messageType: 'profileDeleted' }));
+      Office.context.ui.messageParent(JSON.stringify({ messageType: "profileDeleted" }));
     });
   };
 
@@ -165,7 +165,7 @@ export default class Form extends React.Component {
       if (error) {
         return;
       }
-      Office.context.ui.messageParent(JSON.stringify({ messageType: 'profileCreated' }));
+      Office.context.ui.messageParent(JSON.stringify({ messageType: "profileCreated" }));
     });
   };
 
@@ -174,25 +174,25 @@ export default class Form extends React.Component {
   };
 
   closeDialog = () => {
-    Office.context.ui.messageParent(JSON.stringify({ messageType: 'close' }));
+    Office.context.ui.messageParent(JSON.stringify({ messageType: "close" }));
   };
 
   renderHeader = () => {
     const { action, editing } = this.state;
-    const showHeaderButtons = action === 'view';
+    const showHeaderButtons = action === "view" && !editing;
     return (
       <Stack horizontal horizontalAlign="space-between">
         <Text variant="xLarge">Profiel aanmaken</Text>
         {showHeaderButtons ? (
           <div>
-            <ActionButton iconProps={{ iconName: 'Delete' }} onClick={this.showDeletePrompt}>
+            <ActionButton iconProps={{ iconName: "Delete" }} onClick={this.showDeletePrompt}>
               Verwijderen
             </ActionButton>
             <ActionButton
-              iconProps={{ iconName: editing ? 'UserRemove' : 'EditContact' }}
+              iconProps={{ iconName: editing ? "UserRemove" : "EditContact" }}
               onClick={editing ? this.cancelEdit : this.enableEditing}
             >
-              {editing ? 'Aanpassen stoppen' : 'Aanpassen'}
+              {editing ? "Aanpassen stoppen" : "Aanpassen"}
             </ActionButton>
           </div>
         ) : null}
@@ -206,8 +206,8 @@ export default class Form extends React.Component {
         hidden={false}
         onDismiss={this.closePrompt}
         dialogContentProps={{
-          title: 'Weet je zeker dat je dit profiel wilt verwijderen?',
-          subText: 'Dit is onomkeerbaar'
+          title: "Weet je zeker dat je dit profiel wilt verwijderen?",
+          subText: "Dit is onomkeerbaar"
         }}
       >
         <DialogFooter>
@@ -220,33 +220,23 @@ export default class Form extends React.Component {
 
   renderLeftPanel = enabled => {
     return (
-      <Stack vertical tokens={{ childrenGap: 5, padding: 5 }} styles={{ root: { width: '50%' } }}>
+      <Stack vertical tokens={{ childrenGap: 5, padding: 5 }} styles={{ root: { width: "50%" } }}>
         <TextField
-          label="Naam (formeel)"
+          label="Naam"
           value={this.state.formal_name}
           onChange={event => this.setState({ formal_name: event.target.value })}
           disabled={!enabled}
-          styles={{ root: { minWidth: '15rem' } }}
+          styles={{ root: { minWidth: "15rem" } }}
           required
         />
         <TextField
-          label="Naam (informeel)"
-          value={this.state.informal_name}
-          onChange={event => this.setState({ informal_name: event.target.value })}
-          disabled={!enabled}
-          required
-        />
-        <TextField
-          label="Persoonlijk telefoonnummer (10 cijfers)"
+          label="Telefoonnummer"
           value={this.state.phone_number}
           onChange={event => {
-            const value = event.target.value;
-            const isNumbers = /^\d+$/.test(value);
-            let error = '';
-            if (value.length && !isNumbers) {
-              error = 'Telefoon nummer mag alleen nummer bevatten.';
-            } else if (value.length && value.length !== 10) {
-              error = 'Telefoon nummer moet 10 cijfers bevatten.';
+            const value = Number.parseInt(event.target.value.substring(0, 10)) || "";
+            let error = "";
+            if (value.toString().length && value.toString().length !== 10) {
+              error = "Telefoon nummer moet 10 cijfers bevatten.";
             }
             this.setState({ phone_number: value, fieldErrors: { ...this.state.fieldErrors, phoneNumber: error } });
           }}
@@ -255,26 +245,9 @@ export default class Form extends React.Component {
           errorMessage={this.state.fieldErrors.phoneNumber}
         />
         <TextField
-          label="Persoonlijk mobielnummer (10 cijfers)"
-          value={this.state.mobile_number}
-          onChange={event => this.setState({ mobile_number: event.target.value })}
-          onChange={event => {
-            const value = event.target.value;
-            const isNumbers = /^\d+$/.test(value);
-            let error = '';
-            if (value.length && !isNumbers) {
-              error = 'Telefoon nummer mag alleen nummer bevatten.';
-            } else if (value.length && value.length !== 10) {
-              error = 'Telefoon nummer moet 10 cijfers bevatten.';
-            }
-            this.setState({ mobile_number: value, fieldErrors: { ...this.state.fieldErrors, privatePhoneNumber: error } });
-          }}
-          disabled={!enabled}
-          required
-          errorMessage={this.state.fieldErrors.privatePhoneNumber}
-        />
-        <TextField
-          label="Extra tekst (bijv. Vragen?)"
+          multiline
+          rows={5}
+          label="Notitie"
           value={this.state.extra_text}
           onChange={event => this.setState({ extra_text: event.target.value })}
           disabled={!enabled}
@@ -286,7 +259,7 @@ export default class Form extends React.Component {
   renderRightPanel = enabled => {
     const { profileFormStore } = this.props;
     return (
-      <Stack vertical tokens={{ childrenGap: 5, padding: 5 }} styles={{ root: { width: '50%' } }}>
+      <Stack vertical tokens={{ childrenGap: 5, padding: 5 }} styles={{ root: { width: "50%" } }}>
         <TextField
           label="Persoonlijk e-mailadres"
           value={this.state.email}
@@ -296,7 +269,7 @@ export default class Form extends React.Component {
             const isFormattedCorrectly = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
               value
             );
-            const error = value.length && !isFormattedCorrectly ? 'e-mailadres heeft geen correct formaat.' : '';
+            const error = value.length && !isFormattedCorrectly ? "e-mailadres heeft geen correct formaat." : "";
             this.setState({ email: value, fieldErrors: { ...this.state.fieldErrors, email: error } });
           }}
           disabled={!enabled}
@@ -305,7 +278,7 @@ export default class Form extends React.Component {
             const isFormattedCorrectly = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
               value
             );
-            return value.length && !isFormattedCorrectly ? 'e-mailadres heeft geen correct formaat.' : '';
+            return value.length && !isFormattedCorrectly ? "e-mailadres heeft geen correct formaat." : "";
           }}
         />
         <Dropdown
@@ -355,14 +328,18 @@ export default class Form extends React.Component {
   renderFooter = () => {
     const { action, editing } = this.state;
     return (
-      <Stack vertical tokens={{ childrenGap: '.3em' }}>
+      <Stack vertical tokens={{ childrenGap: ".3em" }}>
         <Separator />
         <Stack>
           <Stack.Item align="end">
-            <Stack horizontal tokens={{ childrenGap: '8px' }}>
-              {editing ? <PrimaryButton text="Aanpassingen opslaan" onClick={this.saveEdit} disabled={!this.isFormValid()} /> : null}
-              {action === 'create' ? <PrimaryButton text="Aanmaken" onClick={this.createProfile} disabled={!this.isFormValid()} /> : null}
-              <DefaultButton text="Annuleren" onClick={this.closeDialog} styles={{ paddingLeft: '30px' }} />
+            <Stack horizontal tokens={{ childrenGap: "8px" }}>
+              {editing ? (
+                <PrimaryButton text="Aanpassingen opslaan" onClick={this.saveEdit} disabled={!this.isFormValid()} />
+              ) : null}
+              {action === "create" ? (
+                <PrimaryButton text="Aanmaken" onClick={this.createProfile} disabled={!this.isFormValid()} />
+              ) : null}
+              <DefaultButton text="Annuleren" onClick={this.closeDialog} styles={{ paddingLeft: "30px" }} />
             </Stack>
           </Stack.Item>
         </Stack>
@@ -372,7 +349,7 @@ export default class Form extends React.Component {
 
   render() {
     const { showDeletePrompt, action, editing } = this.state;
-    const enabled = editing || action === 'create';
+    const enabled = editing || action === "create";
     return (
       <React.Fragment>
         {showDeletePrompt ? this.renderDeleteDialog() : null}
