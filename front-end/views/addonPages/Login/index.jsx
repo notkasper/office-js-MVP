@@ -1,7 +1,8 @@
 import React from "react";
 import { setLocation } from "../../../utils";
-import { PrimaryButton, Text, Stack } from "office-ui-fabric-react";
+import { PrimaryButton, Text, Stack, Image } from "office-ui-fabric-react";
 import { inject, observer } from "mobx-react";
+import mslogo from "../../../assets/mslogo.png";
 
 @inject("addonStore")
 @observer
@@ -34,15 +35,15 @@ export default class Login extends React.Component {
   render() {
     const { loading } = this.state;
     return (
-      <Stack tokens={{ childrenGap: "16px" }}>
-        <Text vertical>Log in om de addon te gebruiken</Text>
+      <div style={{ marginLeft: "60px", marginTop: "300px" }}>
         <PrimaryButton
-          styles={{ root: { height: "3em" } }}
-          text="Autoriseren"
+          iconProps={{ iconName: "WindowsLogo" }}
+          styles={{ root: { height: "40px", width: "200px" } }}
+          text="Inloggen"
           onClick={this.handleClick}
           disabled={loading}
         />
-      </Stack>
+      </div>
     );
   }
 }
